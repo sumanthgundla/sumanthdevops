@@ -1,0 +1,597 @@
+we can repregent the data many formats
+like table format,xml format,yml format,java format,json format
+
+repregent their own style formats
+
+all are using now yaml
+extenstion is .yml
+spaces imporatant 
+
+is important docker-compose,k8s,cloudformation
+
+json/yml  is important in it.
+
+somany softwares accepting yml/json.
+
+string/number---field=value;
+in json
+
+{
+"field":"value"
+"field":[abc,bbc]--------thsi type field we can understand list variable 
+"field":{------------------this type we can understand list object
+          "filed":"value"
+          "filed":"value"
+
+           }
+}
+
+in yaml format
+field: value -------------------thsi is variable
+filed: value
+filed:----------------------------thsi is list type variable
+- abc
+- bbc
+field:-------------------------------------------list object
+ field: value
+ field: value
+ 
+===================================================================
+3 main understand
+variable
+list/array---------its having this type of multiple field's
+object--object is colection of multiple fileds
+list-objects---it having multiple objects.
+
+ex:
+information=
+
+
+list string
+
+==========================================================
+name="sumanth";
+
+a=10;
+
+==================================
+ 
+data repregented in table format
+
+name     course       fee     duration
+sheshi    aws         10k     2 months
+harsha   devops       12k     1month
+raghu   aws,devops    13k     3 months
+==================================
+in json object repregnt
+"record1"
+{
+ "name":"sheshi"
+  "course":"aws"
+  "fee":"10k"
+  "duration":"2months"
+}
+
+=========================================================
+simple yml format reprgent key value 
+Name: sheshi
+Course: AWS
+Fee: 10k
+Duration: 2months
+================================================================
+one field having multiple values that is clled list variable
+one field having multiple field and values we can call as list object
+
+=====================================================================
+name=harsha -variable
+course=aws,devops----list variable
+fee=20k---varaible
+duration=3 months---------variable
+
+==============================================================
+in json format
+"record1"
+{
+"name":"harsha",
+"fee":"10k",
+"course":["aws","devops"],
+"duration":"3months"
+
+}
+==========================================================================
+in yml format repregented
+
+name: harsha
+fee: 10k
+course:
+- aws
+- devops
+duration: 3months
+============================================================
+repergnted in key-value format
+name: sheshivardhan
+fee: 10k
+course: [aws]
+details:{
+       "dob":28-sep-2021
+        "loc": "hyd"
+        "qul": "mca"
+        "exp": "2 years"
+
+
+}
+========================================================================
+repregnted in yml format
+
+name: sheshivardhn
+fee: 10k
+course:
+- aws
+details:
+ dob: 28-sep-2021
+ loc: hyd
+ qul: mca
+ exp: 2 yrs
+
+
+========================================================================
+{
+"ver": "2012-10-17",
+"statement":
+  {
+            "effect": "allow",
+             "action": "ex2:*"
+              "resource": "abc"
+
+
+   }
+}
+===============================================================
+yml format
+
+ver: 2012-10-17
+statement:
+ effect: allow
+ action: ex2:*
+ resourse: abc
+=============================================================
+key:value-------------variable
+key:[v1,v2]---list variable
+key:
+{
+
+
+key1:value
+key2:valu2-----------------list objecr
+
+}
+
+=========================================
+resourcess:
+ v1: 
+   type: aws:ec2::volume2
+   prop:
+     size: 10
+     aval: ap-s
+     volumetype: gp2
+
+  myeip:
+    type: aws::ec2::eip
+===============================
+variablr--key:value
+objector list obje or record
+
+var1 having multiple var values
+list vari --[,]
+
+
+===================
+resourcess:
+  sg1:
+    type: aws::ec2::sg
+    prop: 
+      vpcid: vpc-9188
+      securitygroup: 
+        - ipprotoal: tcp
+          cidip: 0.0.0.0/0
+        - ipprotocol: tcp
+          cidip: 0.0.0.0/0
+
+{
+  "resourcess": {
+    "sg1": {
+      "type": "aws::ec2::sg",
+      "prop": {
+        "vpcid": "vpc-9188",
+        "securitygroup": [
+          {
+            "ipprotoal": "tcp",
+            "cidip": "0.0.0.0/0"
+          },
+          {
+            "ipprotocol": "tcp",
+            "cidip": "0.0.0.0/0"
+          }
+        ]
+      }
+    }
+  }
+}
+==========================================
+{
+  "resourcess": {
+    "sg1": {
+      "type": "aws::ec2::sg",
+      "properties": {
+        "vpcid": "vpc-91",
+        "sggroupids": [
+          "sg1",
+          "sg2",
+          "sg3"
+        ]
+      }
+    }
+  },
+  "outputs": {
+    "myval": "value:shseshivardhan",
+    "myip": {
+      "value": "10.0.0.24/32",
+      "expose": {
+        "ename": "abc"
+      }
+    }
+  }
+}
+
+
+json conert to yaml script
+
+
+resourcess:
+  sg1: 
+    type: aws::ec2::sg
+    properties:
+      vpcid: vpc-91
+      sggroupids:
+      - sg1
+      - sg2
+      - sg3
+
+outputs:
+  myval:
+    value:shseshivardhan
+  myip:
+     value: 10.0.0.24/32
+     expose:
+       ename: abc
+=======================================
+{
+  "resourcess": {
+    "sg1": {
+      "type": "aws::ec2::sg",
+      "properties": {
+        "vpcid": "vpc-292929",
+        "sggroup": [
+          "sg1",
+          "sg2",
+          "sg3"
+        ],
+        "roles": [
+          {
+            "rolename": "abc1",
+            "createby": "shsshivardhan"
+          },
+          {
+            "rolename": "bbc",
+            "crediants": "10-july-2021",
+            "owner": "harsha"
+          }
+        ]
+      }
+    }
+  }
+}
+
+json conerted to yaml
+
+1) varibale
+2) record=list object=object
+3)list variabale
+4) list variabale=list variable onject
+
+========================================================================
+{
+"awstemplateformatversion":"2010-09-09",
+"descrttion":"a smaple teplate",
+"parameters":
+{
+   "fileparth":
+       {
+         "description":"the path of the file",
+         "type":"string",
+         "default":/home/ec2-user/userdata
+
+        }
+}
+}
+======================================================
+"resuorce":
+}
+   "myec2instance":
+       {
+        "type":"aws:ec2:instance",
+         "properties":
+
+              {
+                 "imgid":"ami-c48",
+                 "instancetype":"t2-micro"
+                  "keyname":"2ndwatch-sample-keypair"              
+                  "tags":[
+                            {
+                             "key":"role"
+                              "value":"testinstance"
+                             },
+
+                           {
+                             "key":"owner"
+                              "value":"testinstance"
+                             },
+
+                           ]
+                        
+                     
+
+
+
+
+
+
+              }
+
+
+
+
+
+
+       }
+}
+}
+===================================================
+awstemplateformatversion: '2010-09-09'
+descrttion: a smaple teplate
+parameters:
+  fileparth:
+    description: the path of the file
+    type: string
+    default: /home/ec2-user/userdata
+
+{
+
+
+"awstemplateformatversion":"2010-09-09",
+"descrttion":"a smaple teplate",
+"parameters":
+       {
+         "fileparth":
+        {
+         "description":"the path of the file",
+         "type":"string",
+         "default":"/home/ec2-user/userdata"
+
+        }
+      }
+}
+===========================================
+{
+"resourcess":
+  "myinstacnce":
+       {
+           "type":"aws::ec2::instance",
+            "prop":
+                   {
+                    "imageid":"ami-c11",
+                    "instancetype":"t2.micro",
+                    "keyname:2ndwatch",
+                    "tags":[
+                              {
+                                   "key":"role"
+                                   "value:test instance"
+                              },
+                              {
+                                      "key":"role"
+                                      "value":"test instance"
+
+
+                              }
+
+                         ]
+               
+ 
+}
+
+
+
+        }
+
+
+
+
+}
+}
+
+
+resourcess:
+  sg1:
+    type: aws::ec2::sg
+    properties:
+      vpcid: vpc-292929
+      sggroup: 
+      - sg1
+      - sg2
+      - sg3
+      roles:
+      - rolename: abc1
+        createby: shsshivardhan
+      - rolename: bbc
+        crediants: "10-july-2021"
+        owner: harsha
+
+=======================
+1) list var==list var object 
+2) - stating from starting ony
+
+=================================
+{
+"resourcess": {
+   "myinstacnce":
+       {
+           "type":"aws::ec2::instance",
+           "prop": {
+                    "imageid":"ami-c11",
+                    "instancetype":"t2.micro",
+                    "keyname":"2ndwatch",
+                     "tags": [
+                              {
+                                  
+                      "key":"role", 
+                      "value":"testinstance"
+                              },
+                              {
+                      "key":"role",                                   
+                      "value":"testinstance"
+                              }
+
+                             ]
+                    
+}
+}
+}
+}
+
+resourcess:
+  myinstacnce:
+    type: 'aws::ec2::instance'
+    prop:
+      imageid: ami-c11
+      instancetype: t2.micro
+      keyname: 2ndwatch
+      tags:
+        - key: role
+          value: testinstance
+        - key: role
+          value: testinstance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

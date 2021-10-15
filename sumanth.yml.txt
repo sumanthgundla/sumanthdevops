@@ -1,0 +1,39 @@
+json
+
+{
+"version":"2012-10-17",
+"statement":
+{
+"efect":"allow",
+"action":"ec2" ,       -------------------object
+"reource":"abc",
+}
+
+}
+
+yaml
+=============
+version: 2012-10-17
+statement:
+ efect: allow
+ action: ec2
+ resource: abc
+
+json
+====================
+{
+
+"name":"sumanth",
+"course":["aws","devops"],
+"fee":"10k",
+"duration":"3 moonths"
+}
+
+yaml 
+===============
+name: sumanth
+course:
+- aws
+- devops
+fee: 10k
+duration: 3 months

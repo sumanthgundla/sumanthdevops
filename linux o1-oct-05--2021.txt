@@ -1,0 +1,2725 @@
+                                                       
+                      LINUX-01-OCT-5TH-2021--any linux command u excute linux command ask where.
+PATH
+PERMISIONS
+USER
+=================================================================
+PATH:
+
+WINDOWS STARTS DIRCTORY C:
+ENTIRE LINUX STARTS WITH DIR /
+                                 /
+ ETC                 VAR              BIN          SBIN         LIB   XYZ
+                                                                        MYDIR
+                                                                           F1.TXT
+
+I WANT COMPLTE PATH OF F1.TXT
+ /XYZ/MYDIR/F1.TXY----FIRST / IS ROOT AND NETX / ALL ARE SAPARATOR OF PARENT AND CHILD.
+ FIRST ROOT MEANS IT GO TO / DIRECTORY.
+ 
+XYZ/MYDIR/F1.TXT------IT LINUX LOOKS IN CURRENT DIRCTORY.
+ we are allways located in dir
+checking for pwd.
+==============================
+touch: will create empty file
+touch f1 -inside curent dir it will created
+ls--dicplay list of files
+cat- to dispaly the file content
+ls ---we are not saying--that command it will display on current directory.
+ls /etc--it display the files from etc dirctory.
+cat abc--it will look for current dir
+cat /tmp/f1.txt--it look for /tmp dirctoty.
+mkdir abc--it will crete dir in current directory
+mkdir /etc/abc
+cd /etc--it go to inside root there is a dir call etc it will go
+cd ubuntu--it will look for ubuntu dir in curent directory
+cd xyz/--it will look for xyz in curent dirctory.
+4 paths
+1) curent dir()
+2) full path(starts from/)
+3) parent dir(curnt parent)
+4) parent parent(curent parent to parent)
+5) whoami--it will display user who is excuting commands
+6) who--it will display how many users are in ec2
+===================================
+symboals
+.   -current
+..    --parent
+../..   grande parent of current
+
+
+===============================================================
+1)pwd
+2) touch
+3) ls
+4) cat
+5) mkdir
+6) cd .
+7) whoami--based on whic crediatns i login
+8) who
+9) cat > abc---it will write data on abc
+10) cat >> abc--it append with existing
+=====================================
+touch xyz/f1
+touch /xyz/f1
+touch ../xyz
+touch ../../sumanth1
+-====================================
+ls xyz
+ls 
+ls /xyz
+ls ..
+ls ../..
+=====================================
+ls -l it will show  file or dircetory
+ls -l  xyz --- it will show it is dir cal xyz that xyz insde shows files and dir.
+ls -l
+ls  -l /xyz
+ls -l ..
+ls -l ../..
+=====================
+ls -r it will show  file rev order
+
+ls -r  xyz
+ls -r
+ls  -r /xyz
+ls -lr ..
+ls -lr ../..
+==================================
+mkdir xyz
+mkdir /xyz/zzz--it will create dirinside xyz
+mkdir -p /abc/bbc------it will create bbc in abc abc not there it will create abc inside abc bbc will create
+mkdir {test1,test2,test3}
+mkdir {1..3}
+mkdir {a..c}
+==================================
+cat f1
+cat /xyz/f1
+=======================
+cat > abc
+hai
+cat > /xyz/abc
+hai
+======================
+cd==it change dir to current user home dir
+cd /==it will go to inside root
+cd abc -- it will look abc in  current dir
+cd ..--curent dir to it will go to parent
+cd ../..--curent dir to it will go grand parent.
+cd
+cd ~
+cd $HOME
+===============================
+cat >> xyz
+cat >> /tmp/xyz
+===============================
+wc filename ---it will show all lines words charaters
+wc -l---it show only lines 
+wc -w---it shows words
+wc -c---it show charecter's
+================================
+tasks:
+1) swith / dir
+2) display list files from /etc
+3) display list of files from current dir
+4) cd
+5) create abc dir
+6) create dir with your name "/tmp"
+7) cd -  ------switch to privious dir
+==============================
+root user diff
+(/) dir diif
+==============================
+*--0 charater or  any charater(anything)
+a* --means i st character 'a' then anything or 0 character.
+a*b--1 st charter a last charter b in between  any thing any number of charters or 0 charater.
+
+ahahahahab,ahahahahb,abbbbb,ab.
+
+a*b
+a*b* --a anything b anything
+axxxbxxxxx
+============================================
+?--means only one character
+
+a?--possible values
+
+a1
+aa
+ab
+
+abb-not possible
+
+=====================
+a?b----a1b,aab....
+inbetween a and b must only one charater
+==========================
+a?b*----azbkakakaka
+in between a and b must only one charter after b anything or 0 charater.
+================================
+list of files stating with f and a 
+
+ls f*
+ls f* a*
+===========================
+remove first two char files
+
+rm ??
+list of files 2 charter files
+
+rm -r ??-dirctory also deleted
+
+ls ??
+=============================== 
+rm *---delete ALL FILES
+rm -r * ---delete dir also
+==========================
+[]=indicates group of charaters
+[abc]
+a b c
+[acb]
+a b c
+[abc]*
+a* or  b* or c*
+ls [abc]*
+starting with a stating with b stating with c files it will display
+
+ls a*
+ls b*
+ls c*
+
+ls [^abc]*--not starting with a not starting with b not starting with c. it will show the files
+
+ls ^a or ls ^b or ls ^c
+
+SHOW LIST OF FILES STARTING WITH F 
+ls f*
+show list of files not starting with f
+ls [^f]*
+ls ^f*
+ls [^abc]*
+^a* ^b* ^c*
+!=^
+
+ls a?--it will shown starting with a next only one value.
+ls [b]--it will shown only particular file.
+ ls [f]*--stating with files
+ls [a]*--starting with a files.
+
+
+
+ls [af]---it will shown only a and f file
+ls [ab]--it will shown only a and b file
+ls [ab]*---show files starting with a and stating with b
+
+display files not starting with a.
+ls [^a]* 
+display files not starting with a.and not starting with.
+ls [^ab]*
+ls [^abc]*--display files not starting with a.and not starting with.not stating with c
+ls [f]*--stating with f 
+===============================================
+rm [a12b]
+
+rm a  
+rm 1  
+rm 2  
+rm b
+
+mkdir [abc]--not working wrong command
+============================================
+mv: rename : it will accpt 2 arguments
+    cut and paste:last is dir.
+
+mv a1 a2 --rename a1 as a2---
+
+mv [abc]* sheshi--
+mv a* sheshi
+mv b* sheshi
+mv c* sheshi
+
+stats a b c cut and past to sheshi
+mv [ab]* a1
+mv [^ab]* a1
+
+mv {char,byte} variable.
+
+rm *[c]-remove file last charter c
+
+remove multiple files
+rm f1 f2 f3 f4.
+==================================================
+.
+..
+*
+?
+[xyz]
+{^xyz}
+{!xyz}
+
+====================================================
+
+touch f{1..3}.txt
+mkdir{a..d}
+
+mv --rename and cut and paste operation
+rename operation s take 2 arguments
+
+cut and paste operation taken argument many.
+
+
+
+tasks:
+
+
+
+1) create 10 files
+ touch f{1..10}.txt
+
+ls -l | grep ^- | wc -l
+
+2) create d1 d2
+mkdir d{1..2}
+3) inside d2 create "mydir"
+mkdir d2/mydir
+
+4) mv f1 to f3 into d1 dirctory
+
+mv f1 f2 d1
+ mv a/ /var/log/log/
+
+
+5) mv d1 into d2/mydir
+mv d1 d2/mydir
+
+6) create file with your name /tmp
+
+mkdir /tmp/sumanth
+
+7)display list of file from /tmp dir
+
+ls /tmp
+
+
+8)delete your file from /tmp
+
+rm -r /tmp/sumanth 
+
+9) rename d2 to your name
+mv d2 sumanth
+
+10) move all file not starting with "f" into /tmp/yournam dir
+
+mv [^f]* /tmp/yourname
+==========================================
+when we are creating new we can give filename 
+when we are remove  file  we can give filename
+====================================================================
+mv whichfile whre loc
+============================================
+
+pwd---presenrt working dir
+it it will shown current dir
+
+ls -list of files 
+we can give dir
+
+ls -l
+ls -r
+ls -lr
+cd
+cd ..
+cd ---it will show privious where your loacted
+mv---2 actions
+1) rename--it will 2 arguments
+2) cut and paste operations ----it will actcpt multiple arguments last dir must
+
+rm-remove files
+rm -r===remove dir also in dir files there delete files
+
+wc -- words charater count
+wc --- 
+wc -l
+wc -w
+
+touch --create empty files 
+note: give location and filename
+
+cat read the file data
+note: give location filename
+
+mkdir--create dirctories
+note: give location and dir name
+whoami--who is login dor who is excuting commands
+==================================================================
+.--curent dir
+..--parent dir
+../..--parent parent
+{..}--create multiple files give range
+[]---group things
+[^]--------not particular files dont want
+*--anything
+?---one character
+mkdir -p
+====================================
+
+=============================================================
+touch d1/f1
+touch ./f1
+touch f2
+mkdir d1/d11---parent is not avalible child is not created
+mkdir -p d1/d11---parent is not there it will create parent inside parent child is created
+ls
+cat > f1
+hai
+cat f1
+cat f1 f2 f3
+it will try to reaf f1 
+it will try to reaf f2
+it will try to reaf f3
+f3 not ther error will come
+=================================================
+in linux comes sucessful or erroror both.
+
+redirection:commnd out put or error we can store we are using redirect concept
+
+1) output---------- >---this symbol output redirection symboal
+
+when ever excute a cmd that output is sucessful that output i want to store in one file 
+that symboal is only identify the sucessful outpout
+
+error will display on console
+
+2) error------------2>--this symboal output is error redirection
+when ever excute a cmd that output is failure that output i want to store in one file 
+that symboal is only identify the error outpou
+sucessful output will display on console
+
+3) &>----both output & error redirect to  file
+
+1) output---------- >>---append exsting data to new data.
+
+when ever excute a cmd that output is sucessful that output i want to store in one file 
+that symboal is only identify the sucessful outpout
+
+error will display on console
+
+2) error------------2>--this symboal output is error redirection
+when ever excute a cmd that output is failure that output i want to store in one file 
+that symboal is only identify the error outpou
+sucessful output will display on console
+
+3) &>----both output & error redirect to  file
+
+
+========================================================
+how redirection is excute process
+
+cmd1 > filename
+
+1) rigtside file is not exists it will create a file
+  or
+if file is alrady exists, it will delete all the data from the file
+
+2) cmd will get excuted 
+========================================================
+cat shsshi > test1
+ this symboal does't identified failures.
+=========================
+>test2
+test2 will create 
+left side no cmd no excuting process done
+but here no error
+===============================================
+cat f1 2> test4
+1) test4 created
+2) command is excuted if sucessful output placed in screen 
+or error placed in test4 file
+=========================================================
+ls -l /root > test4
+==========================
+2> test6
+test6 will created only
+=============================
+cat f1 shsshi f2 /etc/passwd
+sucessful and error
+cat f1 shsshi f2 /etc/passwd 2> test7
+i want both sucess and eror placed in one filr
+
+cat f1 shsshi f2 /etc/passwd &> test9
+==============================================================
+cat f2 f2 /etc/passwd > o1 2> o2
+
+cat f2 f2 /etc/passwd &> o3
+===========================================
+cmd > file1
+1) file is not exit file created or file exist it will delete all data from that file
+
+2) excute command it sucessful that output keep that file
+=============================================
+>> output redirection with append.
+
+cmd >>  file1
+1) file is not exit file created or file exist it will not delete  data it will append cmd output is sucessfulfrom that file
+
+2) excute command it sucessful that output keep that file
+===============================================
+2> output error redirection with append.
+
+cmd 2>> file1
+1) file is not exit file created or file exist it will not delete  data it will append cmd output is error from that file
+
+2) excute command it error that output keep that file
+
+=====================================
+
+2> output error redirection with append.
+
+cmd &>> file1
+1) file is not exit file created or file exist it will not delete  data it will append cmd output is error or sucessful from that file
+
+2) excute command it error that output keep that file
+============================================
+rm -rf * --all files deleted
+==================================
+sheshi > myfile
+
+file created file no data---intervies question
+==========================
+cat f1
+1
+2
+3
+
+i want to delete from f1 data
+
+cat f1 2> f1
+>f1
+============================================
+how to copy files. and copy dirctories
+copy tha one file data to another file.
+
+cp : copy data from one file 2 another file it will accpt 2 arguments
+     cut and paste: last argument is directory.
+
+cp
+cp -i
+cp -r
+
+copy and paste operations
+
+cp:
+
+cp file1 d1
+
+copy file1 curent dir to d1 dir
+
+cp /etc/passwd d1
+
+cp passwd file from /etc to d1 dir
+
+cp f1 /etc/passwd d1
+
+copy f1 and passwd file into d1 dir
+
+cp f* d1
+stating with f files copied into d1
+
+cp /etc/passwd .
+
+
+cp d1 d2
+cp command not copied dir
+
+we can use cp -r
+=====================================================================================
+  cp -r---this command copied into files as well as directory.
+
+cp -r d1 d2
+===================================================
+
+cp -r f* d1 d2
+f* and d1 copied into d2 dir
+=========================================
+cp [^fd]* ...
+==============================
+cp f1 ./d1/xyz-------xyz not there
+
+f1 file copied into d1 dir with name of xyz
+ both are files so f1 file copied into d1 dir as a name of xyz
+
+cp f1 ./d1/d2/xyz
+
+f1 is copied as name of xyz if d2 in d1 
+otherwise error or xyz created f1 data is copied into xyz file
+ 
+cp f1 ./d1/sumanth
+
+cp /etc/passwd d1/secret
+
+passwd file is copied into d1 dir as a name of secreat
+
+cp /etc/passwd d1/
+
+passwd file is copied into d1 dir
+
+cp f1 f2
+--f1 dat copied into f2 f2 dat is gone
+ cur dir
+ 
+cp f1 sheshi
+
+cp /etc/passwd abc
+================================================
+cp -r d1/* d2
+cp -r d1 d2
+when it is posible to overide it will give indication
+when that commnd lose data it will give indication
+==============================================
+CP COMMAND COPY AND PASTE THE FILES AND DIR 
+COPY COMMAND IT WILL ACEPT MULTIPLE FILES BUT
+MULTIPLE FILES WE WILL GIVE LAST ARGUMENT MUST BE DIR THEN ONLY IT WILL COPY ALL FILESINTODIR
+MULTIPLE FILES WE WILL GIVE LAST ARGUMENT MUST BE DIR other wise it goes error.
+OTHER WISE IT WILL ACEPT 2 FILES ONLY.
+
+cp f1 f2
+cp f1 f2 f3 d1
+cp f1 d1 d2
+=====================================================================================================================
+cat f1
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+12
+.
+.
+.
+
+cat disply entire data from file
+
+i want to dicplay top(first) 10 lies
+
+head filename--it will diplay first 10 lines
+
+i want 1st 10 lines
+head f1
+
+i want to see top 5 lines
+head -n +5 f1
+
+i want to see leave last 5 lines 
+
+head -n -5 f1
+
+
+=================================================
+i want to dicplay last(first) 10 lies
+
+tail filename--it will diplay last 10 lines
+
+i want to see last 5 lines 
+tail -n 5 f1
+
+i want to see between 10 to 15
+
+head -n 15 f1 | tail -n 5 f1
+
+===========================================================
+starting from where (head)
+from last where(tail)
+in between lines(head | tail)
+i want display lines except last 3 lines.
+head -n -3 f1
+i want to display all lines except first 3 
+tail -n +4 f1
+
+i want to display last 5 lines
+
+tail -n -5 f1
+
+tail -n +5 f1
+
+tail -n +5 f1 | head -n 5
+first display from five lines then display first five lines.
+ head -n 10 f1 | tail -n -5
+===============================================
+head ---top 10 lines
+head +--------from stating to how many lines
+head - ---------from last how many -
+=========================================
+tail -----------last 10 lines 
+tail +---------from particular line
+tail - ----------- how many lines from last
+===============================================
+between lines |
+head | tail------
+======================================================
+
+i want from 3rd line to 10th line 
+
+tail -n +3 f1 | head -n 8
+
+line no 8 to 12
+tail -n +8 f1 | head -n 5
+
+=====================================
+cmd | cmd2 | cmd3 | cmd4
+cmd1 output 
+
+==============================================
+i want to display line no .8
+
+ tail -n  +8 f1 | head -n 1
+=============================================
+i want to display hidden files
+ls -a
+all files shown
+=================================
+touch .abc
+touch .bbc
+
+.aab .bbc files created
+===============================
+cmd space very important
+====================================
+i want to see time also with  files
+ls -t
+ls -l
+ls -a
+ls -r
+ls -al
+ls -lt
+ls -la
+ls -lr
+ls -rt
+=====================================
+mkdir -p d1/d2
+
+d1 create first next in d1 d2 create
+===============================
+rm -r---dir also remove
+mv 
+mv -i
+cp
+cp -i-when posible it will give indication
+cp -r---copy dir also
+============================
+cp f1 b1 f2-------error
+===========================
+cp -r a b d
+i want to copy multiple files last will dir
+==============================
+ls -l f* | wc -l
+first 
+==============================
+
+pwd
+whoami
+touch
+ls -->-l -r -t -a
+mkdir--> -p
+rm -->-r -i
+rmdir
+mv--> -i
+cp--> -r -i
+head===> -n
+head -n -5
+head -n 5
+head -n +6
+
+tail -n 5---last 5
+tail -n -5 last 5
+tail -n +5 from line 5 onward to last
+
+wc--> -l -w -c
+
+=========================================
+touch a/b1/f{1..2}
+create multiple files 
+
+============================================ 
+
+i want to display starting with file's /etc
+i am in .home/ubuntu.
+==========================================
+====================================================================================================================================================================
+tail -f---thia command will used to the moving logs
+=====================================================
+id
+whoami
+both are give curent user
+==============================
+echo --- it is printint purpose we are using
+
+echo hai sumanth--hai sumanth printing
+echo $a--10 it wil print vaue of a
+=======================================
+$USER -- it will created by linux only 
+it will give curent user we cal as env variable
+
+echo 	$USER--ubuntu
+==========================
+$USER
+$HOME
+$SHELL
+
+
+
+=============================================
+$USER
+id
+whoami-----------these all are will give curent user name only
+===============================================
+cd + enter ------
+it will go curent user home dir
+=====================================
+$HOME---it will show curent user home dir
+~-CURENT USER HOME DIRECTOTY
+echo $HOME
+CD $HOME
+LS $HOME
+touch $HOME/f1
+mkdir $HOME/a1 a2
+cp f1 $HOME/
+==============================
+~
+
+echo $HOME
+CD ~
+LS ~
+touch ~/f1
+mkdir ~
+cp f1 ~
+touch ./-rm---rm file created
+
+================================================
+sucessful negotiation esstianal stastragtegios and skills
+technical creative thinking tecniques and tools for sucess.
+===========================================================
+cd + enter--go to curent user home dir
+cd ~ 
+cd $HOME
+cd -
+cd ..
+ls ~
+================================
+tee--it will store and redirect
+ tail -n +3 f1 | tee x | head -n 3
+
+cmd1 excute cmd1 pipe is out put givent to right side tee command
+tee cmd taken it store in x then tee command send input to right side command
+
+tee command when we are using pipe only otherwise we cannot use
+==================================================
+echo tody date is $date
+===================================
+ echo tody date is $date | tee x
+store in x and print in screen
+===================================
+ls -l | tee z
+
+ls -l output store z and redirc to the right side and o right side cmd
+then print in screen
+
+==============
+
+ls -l f* | tee myfile | wc -l
+
+========================================
+grep --it will search for a word in a file
+======================================
+find -it will search where file is location
+it will give path where that file is exist
+======================================
+
+syntax:
+grep searchword file1 file2 file3
+========================================
+
+grep sheshi /etc/passwd
+
+grep aws devops file1 --aws word search in devops and file1
+============================================================
+ubuntu@ip-10-0-0-19:~$ grep hi f2
+this
+sheshi
+=========================================
+i want to display exact word
+grep -w 
+
+grep -w hi f1
+hi
+==============================================
+i want to see searchword line number also
+grep -wn hai f2
+
+-n---it will show line number of search word
+=====================================================
+i want to ignore case 
+-i --it will ignore the case
+
+grep -wni hai f1
+=================================
+
+how many lines of containing hi word 
+
+-c --it will show search word lines count
+============================== 
+i want to display all the  lines stating with searchword
+
+^searchword
+grep -win ^hai f1
+
+=========================================
+i want to display all the  lines ending with searchword
+
+searchword$
+
+grep -w iam$ f1
+=================================
+i want to display all the lines not containg this keyword
+ -v --thae search word not containg search word
+grep -wv from f1
+=============================
+grep searchword f1 f2
+-i
+-w
+-n
+-v
+-c
+^searchword
+seachword$
+====================================
+i want to search one word in one file and multiple files
+i want to search multiple word in one file and multiple files
+
+grep aws f1 f2
+
+grep -e sumanth -e ubuntu f1 
+
+grep -e sumanth -e ubuntu /etc/passwd
+====================================================
+i want to search 10 keywords in one file
+
+all 10 keyword keep into one file 
+cat > a
+sumanth
+ubuntu
+dinesh 
+vamsi
+
+
+
+grep -f a filename 1
+grep -f a filename1 filename2
+all in a files key words search in filename
+==============================================
+
+-e: egrep
+-f--this is file inside file words ther
+-i-----ingnorecase
+w--exact word
+-n----with line number
+-c-- cout thae how many lines it having
+-v--not conating that word
+^searchword
+searchword$
+===============================================
+i want to display only directories in curent dir
+
+ls -la | grep ^d 
+i want to display only files in curent dir
+
+ls -la | grep ^-
+==================================================================
+ i want to display only directories in curent dir
+ and 
+i want to count of lines
+ls -la | grep ^- | wc -l
+=======================================
+i want to display only directories in curent dir
+ and 
+i want to count of lines
+ls -la | grep ^d | wc -	l
+========================================
+ls -la | grep ^d |tee mylist | wc -l
+====================================
+/dev/null-this is special firl in linux 
+what ever data store in that file that is ignore and that data deleted
+
+ls -la | grep ^d |tee mylist > /dev/null
+==============================================
+$USER
+$HOME
+id
+whoami
+~
+~username
+tee
+grep word f1 f2 
+-e
+-f
+-i
+-w
+-c
+-n
+^hai
+^searchword
+serachword$
+==================================
+i want to list of files starting with digit
+
+111 12 123 1 2
+
+ls [[:digit:]]*
+
+111 12 12
+
+i want to list of files starting with digit
+
+111 12 123 1 2
+
+ls [[:digit:]]
+
+1 2
+=======================================
+stating wit upper case 
+
+ls [[:upper:]]*
+
+stating wit upper case 
+
+ls [[:lower:]]*
+============================================
+i want to excute 2 comands 
+
+ls -l;touch a
+ls -l;mkdir a1
+first ls -l excurte then touch a
+
+;--cmd saparation
+====================================
+echo {a..c}.txt
+echo {sumanth,dinesh}.txt
+sumanth.txt 
+dinesh.txt
+it will print
+===================================
+mkdir {a,b,c}
+a b c  dir created
+====================================
+mkdir {a,b,c} {1,2}
+
+a1 a2 b1 b2 c1 c2
+==================================================
+$()---command subsution
+in brackets we can subsuite varaible then it will display value
+a=10
+echo $(a)
+==================================
+date +%A---it will show 
+ubuntu@ip-10-0-0-19:~$ date +%A
+Saturday
+ubuntu@ip-10-0-0-19:~$ date +%a
+Sat
+
+echo today day is  $(date +%a  )
+today day is Sat
+
+echo today day is  $(date +%A )
+today day is Saturady
+
+ echo today month is  $(date +%m  )
+today  is 10
+
+echo today month is  $(date +%M  )
+today  is 10 min
+
+ubuntu@ip-10-0-0-19:~$ date +%l%P
+12pm
+
+ubuntu@ip-10-0-0-19:~$ date +%l%A
+12Saturday
+==================================================
+
+ENV VARIABEL
+HOME
+USER
+SHELL
+
+variable printing we use $
+===
+
+WE WANT TO PRINT THE VALUE INSIDE VARIABLE USING echo $VARIABLE
+echo $HOME
+echo $USER
+echo    $SHELL
+
+echo ${HOME}
+echo ${USER}
+echo    ${SHELL}
+===========================================
+
+command subsution
+date ---command
+i want to print today date is to daydate
+
+i want to excute date command first----$(date)or `date`
+first excute date command then echo command
+ubuntu@ip-10-0-0-19:~$ echo TODAY DATE IS $(date)
+TODAY DATE IS Wed Oct 13 05:02:29 UTC 2021
+
+
+
+command subsution means where $()  where $ is there that command first excute. then another command excuted.
+
+a=$(echo today date is $(date))--first date command is escuted then echo command 
+command is sudsute means $ where that command id ecuted
+echo $a
+
+$(command)---command subsution first comd distubution
+$HOME---variable .
+both are differnt
+a=$(echo today date is $(date) $HOME)
+
+
+
+
+
+
+
+
+
+
+
+===========================================================================================================================
+users: user is belongs to one group or multiple group 
+user created a file's and that user give permisions to hisself , group and others
+
+user     group    others
+
+user means hisself group means in that group peopels  others means not hisself and not in that group all are we can call as others.
+
+user does  have home directories
+user have permisions on files and dir
+user allways excuts commands
+whoami--it will give who is excuting commands
+ubuntu user create a file in particular dir permision denied 
+
+user allways want permission
+
+========================================================
+read
+write
+excute
+
+---sheshi
+cat /etc/passwd--it is read permision
+
+head f1 --read permision
+
+any command doing some changes in system that is called write permision
+
+cat > f1 --- write permision
+mkdir a ------write permision --this cmd doing some changes in system
+
+rm---write permision
+mv--write permison
+cp --read,write
+echo-printf
+touch -----write
+===================================================
+read(r)-4
+write(w)==2
+excute(x)==1
+
+linux give some weightage to prmisons
+
+7 means -r,w x permision
+6 read, write
+5---read excute
+2 write
+1 excute
+0 no permisions
+
+this pemisons give on files and directories who gives users
+system means files and directories
+
+============================================================
+
+owner-user
+group
+others
+
+when ever create a file that file have a owner(user)
+========================================
+why we are create a users in system
+
+multipe users works in system every user having their own roles&resposiblities
+ 
+in system dev team and server teams working only oneserver
+
+if we give all permsions to all dev team it might be delete server configuration files
+
+server teams it might be delte java files etc..
+
+that's why we create users for dev and server team as a roles and resonsiblities
+we can give permisions on files and dir.
+
+=========================================================
+
+in any system bydefault one user created.
+root
+as per requirment i am creating 
+sheshi
+as per requirment i am creating 
+ubuntu
+as per requirment i am creating 
+ec2-user
+as per requirment i am creating 
+ec2-user1
+
+=============================================================
+root-user having un-resticted permisons on any file and dir by default
+
+===============================================================
+
+in linux system user having some properites
+
+
+user(owner)--user must have  in group
+
+dev--------user1,user2,user3,user4
+admin-------user5,user6
+webusers----------->user8,ubuntu,sheshi,harsh
+admin colegues user5,user6.
+
+sheshi point of user8,ubuntu,harsha all are colgues means one group
+sheshi point of user1,user2,user3,user4,user5,user6 --are others
+
+when we are create files and dir they have owners
+files and dir have owners. means who created that file.
+
+
+group means cobnation of users.
+
+when we create a user that user entry created in /etc/passwd.
+
+/etc/passwd -this file having users  lines for one line one user
+
+user can have multiple groups
+
+/etc/group ------having groups(id) each line is differnt grouop
+ 
+ubuntu belongs to which group
+check using id
+ubuntu belongs multiple groups
+one user belongs to mutliple groups
+
+-rw-r--r-- 1 root         root    0 Oct  7 06:07 abc
+              owner      groupowner.
+
+
+ubuntu in user of multiple groups.
+ubuntu@ip-10-0-0-19:~$ id
+uid=1000(ubuntu)----user gid=1000(ubuntu)---user is belongs to ubuntu group groups=1000(ubuntu),4(adm),20(dialout),-------------ubuntu belings to multiple group24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),117(netdev),118(lxd)
+
+
+1 st charecter this is file or dir
+owner---->234
+group---->567
+others---->8910
+===============================================================
+
+-rw-(owner premisiion)
+r--(group permison)
+r--(other permisopn) ----------permision on file or dir
+drwxr-xr-x 2 root      root    4096 Oct  9 06:08 b1
+             --owner    -ther is a group on that group owner
+
+
+-rw-r--r--  1 root   root      0 Oct 11 05:04 f1
+owner-root
+group owner --rott
+other having only read permison
+
+ubuntu@ip-10-0-0-19:~/b1$ cat f1
+ubuntu@ip-10-0-0-19:~/b1$ cat > f1
+-bash: f1: Permission denied
+ubuntu@ip-10-0-0-19:~/b1$
+
+ubuntu others here not write permsion on that grouop
+
+we have to perform any oparasion we want permisions on the file
+=======================================================================
+excuting permsion: i craeted file on that file some programe is ther
+that file do some operation on system.
+we have excute permison on that file we can excute that file .
+that file some changes in system.
+ 
+group having one owner
+
+what is excuting permisions on file
+file ecuting permsions means that file having code we can posible to  excute 
+file code that is call file excution permsion
+
+what is excuting permisions on dir
+
+we can able to swith that dir
+we have permsion to go that dir
+===============================================================
+we want to display inside dir files or dir we want read permision on that dir\
+======================================
+
+user having excution permisiion on that file
+user not having excuting permision on the dir that user not posible to swith 
+that dir
+
+user having read permisiion on that file it read on that dir
+user not having read permision on the dir that user not posible to swith 
+read on that dir
+
+user having write permisiion on that file
+user not having write permision on the dir that user not posible to write 
+that dir
+
+
+=======================================================================
+1) where i located
+2) who is perfoem oeration
+3) which permisions in perform
+====================================================================
+chmod --cmd is change or given permison to file or dir
+owner is excuting that cmd
+===========================================================
+while giving permision we can use 3 digits.
+ 
+3(1st belongs to owner) 4(2nd digit belong to group) 1(3rd digit belongs to others)
+
+341
+
+3-----owner having ---               2+1----(-wx)
+4------group havin permison          4------(r--)
+1----other having persmison           1------(--x)
+===========================================================
+
+touch f1
+
+chmod 700 f1
+
+full permison to owner
+no permisons to group and others
+
+chmod 77 f1
+
+77------means       077
+7-----------means 007
+ dont perfoem this type of permsion
+
+=============================================================
+i want to add excute permiss to others
+add some permision to add to exiting . i dont want to change existing
+-rw-rw-rw-
+
+u--user
+g---group
+o--others
+a---all
+
+chmod u+x f1
+
+i want to add user to read peer
+
+chmod u+r f1
+
+chmod a+x f1
+
+
+chmod u-x f1
+
+i want to remove user to read peer
+
+chmod u-r f1
+
+chmod a-x f1
+
+i am removing  exsting all permsions and add new permisions.
+
+u=rw
+o=rx
+g=rwx
+ug=r
+ugo=wx
+ug+rw
+uo-x
+wgo-rwx
+uo-x,g=rwx
+
+chmod +x f1---it every one getting excuting permisons
+chmod -x f1---it every removing excuting persions
+
+
+
+
+(+) -- iam not touch changing exsting permisons but i add permsions to exsting
+(-) ---i am not touch changintg exsting permsions but i remove exsting permsions
+(=)--i am touching exsting permsions replacing exsting and adding new.
+
+====================================================
+
+when ever user creating by defualt permsions get new file or dir
+
+how to controal default permsions
+how to chane defualt permsions
+at time of file creation and dir creation i want to change default permsions
+ 
+umask value is 002 what default permsions i get it
+umask value do diff for file and dir
+umask is related on default permisions
+chmod is related to exsting permisions
+
+root having pemsions that person admin
+
+we are doing only exsting thing.
+==========================================================
+umask is related to default permsions
+
+we can give umask value
+umask 002
+
+when ever giving umask 002
+
+it inside (-) operation with 666
+
+666
+002-
+=====
+6                                6                       4
+user                            group                  others
+4+2=rw for owner               4+2=rw for group        read for others
+
+
+umask 321
+
+666
+321-
+=====
+345
+
+owner get excute permisions on file so by default file didnt get excute permsions so
+linux that value add (1) --that file changes in system that is called file excuting
+345
+101+
+=======
+446
+
+
+
+4                                4                       6
+user                            group                  others
+4+2=rw for owner               4=r for group        6=4+2=rw for others
+*
+
+for checking umask value 
+umask
+for changing umask value
+umask value
+
+
+
+chmod -R  we change permsion on dir and in that dir all files and dir
+only owner can chane permsions
+
+===========================================
+$user=curent user name
+
+  mkdir /tmp/$USER
+
+
+head -n 4 /etc/passwd | tee myself
+
+
+
+cp source having read   des write
+
+==============================================================================================================================
+
+PWD---IT WIL SHOEN CURENT DIR WHERE YOU LOCATED
+TOUCH---CREATE EMPY FILE WHEN FILE IS EXIST IT WILL CHANGE THE TIME STAMP
+MKDIR IT WILL CREATE  DIR
+MKDIR -P   IT WILL CREATE DIR IF PARENT IS NOT EXIST OT WILL CREATE PARENT THEN CREATE CHILD
+WHOAMI       -------------CURENTLY YOU ARE IN WHICH USER
+ID       -------IT WILL GIVE CURENY USER INFO
+ECHO IT IS ACT AS A PRINT
+$USER---IT IS ENV VARIABLE IT CONTAINES CURENT USER NAME
+$HOME-----IT IS ENV VARIABLE IT CONTAINES CURENT USER HOME DIRECTORY
+ECHO $HOME ---IT WILL PRINT HOME VALUE HOME VALUE IS CUR USER HOME DIR
+ECHO $USER ----------IT WILL PRINT USER VALUE USER VALUE IS CUR USER NAME
+touch $USER ------------IT WILL CREATE curent user name
+cd $USER
+cd $HOME
+ 
+when i wnt to print use echo or i want use that value it will directly give that variable.
+
+wc --word charter lines it will give on file
+wc -l
+wc -c
+wc -w
+
+grep --it will search word in file
+grep searchword file1 file2 ....
+grep hi f1 f2---it will search hi in any where in files
+grep -w aws --it will search particular aws word lines it will search not combination of  aws not search
+grep -v --------it  will search not that word's lines
+grep -nw ------------it will give particular word line numbers also
+grep -e it will search multiple words in ultiple files
+grep -f  it will search of words in file in multiple files
+grep -i ---ingnore case
+grep ^word ------starting with particurlar word
+grep searchword$ ending with that word
+
+ls--it will show not giving information
+ls -l --it will show files and dir information
+
+ls -a --it show hidden files
+ls -tl --time stamp shown
+ls -r --reverse order
+
+
+cp
+ cp f1 f2
+mv
+
+mv d1 d2 ---rename d1 dir to d2
+mv f1 f2
+
+
+
+rm
+
+rm -r
+rm -i
+
+tail
+head
+tee
+cat
+=================================
+{..}
+[]
+.
+..
+../..
+*
+?
+^
+|
+$
+
+===============================================
+changing permsions chmod
+rwx
+u g o
+421
+
+chmod 432 f1 or dir
+
+chmod u+x,g+r,o+w f1
+chmod +x f1
+======================================================
+/etc/passwd
+/etc/groups
+=================================
+spilt --cmd used for spilt one file date into 2 files.
+cmd used for larger files into smaller files.
+
+split d 
+split d -l 3 
+split d -l 3 --verbose
+======================================
+what is diff between
+chmod------------it will changing exsting permsions
+umask-----it will changes default permisions
+==========================================================
+umask value work for diff on files and dir
+
+1) on file 
+umask value subtracte from 666
+if default value get excuting per on files it will that value add 1
+umask 342
+
+666
+342-
+========
+324
+100+
+=====
+424
+
+
+3------2+1(w+x)
+bydefault didnt get ex per on files by it will get add that number to 1
+2---------2
+4---------4
+
+424
+4-r
+2-w
+4-r
+
+
+
+2) dir
+umask value subtracte from 777
+
+777
+324-
+====
+453
+
+4-r
+5-r x
+3-w x
+it id bydefault posible to get ex pr on dir.
+
+
+==============================
+how to display persmsions on specific dir
+(-d)
+
+ls -ld ----(-d) it will stop the expansion on specific directory.
+
+ls -ld  /  it will shown / permsions
+============================================
+chmod a+w * -- giving 
+chmod a+rwx *
+======================================
+rm -r *
+================================
+file not having owner write premsion
+when it will delete the file 
+
+it will asking the owner you want to delete this file.
+
+-r--rw-r-- 1 ubuntu ubuntu 0 Oct 13 02:20 f12
+ubuntu@ip-10-0-0-19:~$ rm f12
+rm: remove write-protected regular empty file 'f12'? yes
+
+how to avoid this type of secnario
+using -f.
+owner not having write permsion on file when delete it will ask remove write-protected regular empty file
+
+using -f that msg not asking
+
+rm file -deleted
+rm -r dir also deleted
+em -f -forcble deleted without asking msg
+
+
+owner is deleting file without w premions also
+but we are not owner for that file we dont have w premision it is give not pemsion
+================================================
+
+tikybit cocept
+
+others delete in dir files that user have w permsion writ permsione.
+===============================================
+
+when ever luanch ec2 instance default user is root.
+===================================================================
+
+user properities:
+username
+userid
+groupid
+user private dir
+passwd 
+comments
+shell
+
+
+when ever create a user entry will placed in /etc/passwd
+/etc/shadow
+
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+===================================================
+
+how to check curent user information   --id
+
+how to check curent user information   --id root
+============================================================
+one-user to another user swith we are using command su
+su ---- swith user
+===========================================
+root user can perfoem user creation
+that is cmnd
+useradd user1-----ubuntu not having creating per to user creation
+user belongs to group 
+when ever not mention group name system will allways create a group name with username.
+useradd -g ubuntu user --- i am creating user2 and adding into ubuntu group ubuntu groupallready exist.
+existing group iam adding user.
+
+when ever created user it  that user have one private dir that dir we want to create manually 
+in linux automatically create user home dir.
+
+how to aviod that thing using -m we can mention at time of user creation it automatically user home dir will create.inside /home by default.
+
+i dont want to create my home dir with name of user 
+how to avoid using (-d) 
+useradd -g ubuntu -m -d /home/abcbbc user6
+
+useradd -u 2000 -g ubuntu -m -d /home/abcbbc user6
+============================================
+useradd
+-g - add in exsting group
+-m---tell to system create user home dir
+-d -- we dont wnat to default home dir i want to change home dir name we can use -d option
+
+=====================================================
+1) luanch ubuntu ec2-machine
+2) login into ec2-machine
+3) check curnt user
+4) create new dir d1
+5) create 10 files
+6) change parent dir
+7) display d1 dir permison
+8) display / permision
+9) change d1 dir permsions 777
+10) remove write permsions fromm all on d1 dir ,and files
+
+chmod a-w d1/*
+11)add write pemsions to all for "/etc/passwd"
+
+sudo chmod a+w /etc/passwd
+
+12)identify current user group names
+
+id 
+
+13) create a dir in /tmp with curent username
+
+MKDIR /TMP/$USER
+
+14) CREATE A FILE,NAME IT AS TODAYS DAY
+
+comand subsution 
+ touch $(date +%A)
+15) change to user home dir
+cd ~
+cd $HOME
+16) COPY /ETC/PASSWD /ETC/SHADOW FILE TO USER HOME DIR
+
+ONLY PASSWD WILL COPIED THAT FILE HAVING OTHERS READ PERMSION AND DESTINATION DIR HAVING WRITE PERMSION
+
+CP /ETC/PASSWD /ETC/SHADOW ~
+
+ONLY shadow WILL COPIED THAT FILE HAVING OTHERS not  READ PERMSION AND DESTINATION DIR HAVING WRITE PERMSION
+
+copy first 4 lines from /etc/passd to text.txt file
+ head -n 4 /etc/passwd > test1.txt
+
+18) swith /root dir--/root have read and  excute permsion to others
+19) print root user home dir
+ echo ~root
+20) copy all files from root user dir to /tmp----/root not having read permsion to others ignore errors
+cp /root/* /tmp
+ ls -l /root 2> /dev/null
+cp -r  ~/* /tmp/
+21)
+===============================================================================================
+
+ubuntu@ip-10-0-0-19:~$ mv tv_season1_episode{1..6}.ogg  videos/season1
+ubuntu@ip-10-0-0-19:~$ ls videos/season1
+tv_season1_episode1.ogg  tv_season1_episode3.ogg  tv_season1_episode5.ogg
+tv_season1_episode2.ogg  tv_season1_episode4.ogg  tv_season1_episode6.ogg
+ubuntu@ip-10-0-0-19:~$ mv tv_season2_episode{1..6}.ogg  videos/season2
+ubuntu@ip-10-0-0-19:~$ ls videos/season2
+tv_season2_episode1.ogg  tv_season2_episode3.ogg  tv_season2_episode5.ogg
+tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
+
+===========================================================================
+%D – Display date as mm/dd/yy
+%Y – Year (e.g., 2020)
+%m – Month (01-12)
+%B – Long month name (e.g., November)
+%b – Short month name (e.g., Nov)
+%d – Day of month (e.g., 01)
+%j – Day of year (001-366)
+%u – Day of week (1-7)
+%A – Full weekday name (e.g., Friday)
+%a – Short weekday name (e.g., Fri)
+%H – Hour (00-23)
+%I – Hour (01-12)
+%M – Minute (00-59)
+%S – Second (00-60)
+==========================================================
+chapter-1 complted
+
+
+user properties
+usename
+uid
+groupname--user allways in group(-g)
+home directoty(-m)
+passwd
+coments
+shell
+==================================================================================================================
+
+linux os we are calling as kernal
+lot of people are taking linux os there are implemnted rheir own style
+
+
+kernal is intracted with hardware devicess lt might be cpu,ram,storage.
+as a user it canot connect with kernal
+you want comnicate with kernal another software is shell/
+shell means piece of software
+
+      touch f1 ----->shell------->kernal------->
+we are allways submiting our commands to shell .
+uname--your os and 
+uname -r --shown version of kernal
+
+
+diff flavours of shell 
+
+there is sheel flavour sh,bash,ksh,zsh
+latest linux ,ubuntu all linux systems it containes bash.
+that files are in /bih/bash bin dir
+
+by default shell(sh) is when create associtaed with users
+
+
+i dont want to that efault shell 
+adduser -s /bin/bash user1
+bash are latest when tab will type it will take that new features have.
+HOW TO SEE SHEELL OF USER ECHO $SHELL
+bash is more comfortable.
+============================================
+server1-----> 34.20.36.21
+  bydefault when we are creating bydefault user root
+---------->root
+---------->ubuntu
+---------->sheshi
+-----------.harsha
+----------->abc
+in server 1 having 5 users
+
+whit in server swith one user to another user we are using command
+su---swith user 
+when ever i am swithing ubuntu user to another user it will ask passwd
+expectroot user any one swith ask password
+root user swith user no ask passwd
+
+
+
+
+
+
+
+server2-----> 42.21.06.21
+  bydefault when we are creating bydefault user root
+---------->root
+---------->ubuntu
+---------->sheshi
+-----------.harsha
+----------->dummy
+in server 2 having 5 users
+
+
+when ever one machine wants to login another server(remote) want destination only destination 
+username,passwd,ip,ssh service(command) these 4 are requird
+
+
+one machine to another machine userwant ssh
+with in one machine go to user su
+
+===============================================
+user passwd linux will store /etc/shadow file
+passwd s are stored in shadow file at the format as encrypted format
+
+to rest passwd using this command
+root user responsible for reset the user 
+when ever root user rest passwd it does't ask privious passwd
+normal user reset the passwd ask privous passwd
+====================================================
+only passwd comnad we will excute it will think curent user passwd resting
+normal user not permision to change another user passwd
+
+grep ^ubuntu /etc/shadow
+
+! --means passwd is not avalibale as of now root can reset passwd
+
+i want search multiple words in one file.
+
+usere have passwd himself that user can rest passwd using with privous passwd
+============================================================
+passwd cmd bydefault change curentuser passwd
+normal user not possible to reset any user passwd
+only admistor reset all users passwd
+passwd are stored in shadow file in the format encrypted format
+there no posiblt to retrive we forget passwd it is another way we can 
+reset the passwd.
+
+=================================================================
+su --when ever we are not menstion any user name it will ask passwd 
+then passwd word given it will goto bydefault root user
+but we dont know passwd we can take sudo privilizers
+=============================================================
+sudo ---not a command that is privilige
+normal user wants to perform admistror activity i wnt privilize that privili is sudo
+==============================
+in real-time no one give root user passwd
+so any one normal user wants to perform admistor activity you want 
+admin privilize that privilize is sudo
+====================================================================
+ubuntu having root privilize
+but ubuntu wants to use admin privilize
+we need to use sudo. 
+ubuntu want to excute a cmd using admin privilize(power)
+ubuntu user excuting cmd s but internally created by admin only
+==================================
+su + enter it will goto root user asking passwd
+but without passwd got to root user we are using cmd
+sudo su ----running su command with sudo privilizes
+===================================
+sudo is not a command it is privilize
+========================================
+
+user properties
+username
+userid
+gid
+homedir
+passwd
+shell
+coments
+/etc/passwd --containes all user info
+/etc/shadow -containes users passwd's
+how to change passwd using cmd---passwd
+only adnminstors change the passwd of users
+how to switch to user using ---su command
+sudo--is not a command it is privilliage
+
+==================================================
+using putty for connecting to the remote machine linux
+
+ssh --ssh is a command to ligin into remote linux machines
+
+there are 2 ways login into remote linux machins
+
+1) with  passwd 
+2) passwordless login
+
+i am login without passwd that is calle passwd less comnds
+
+=================================================
+when ever i login in remote linux machine server pre-req
+ ipadress username passwd mandatory
+
+i1--------------34.60.90.90-------------------linux os
+
+                    ------root
+                    ------sheshi
+                   -------abc
+                   --------xyz
+
+syntax of you want to login from local to remote machine
+ ssh sheshi@34.60.90.90
+
+we are login into  34.60.90.90 machine using of sheshi crediansls
+
+ssh we can call it as peice of service(software)
+ssh service by default it's run on port 22 by default
+we are send a req to 22 port numbers
+
+====================================================================
+
+we are install any service on linux machine that serviceconfiguration files are located in 
+/etc folder.
+
+like java software,phython.apache2,tomcat etc...
+
+/etc/apache2
+/etc/tomcat
+/etc/ssh
+
+confguration files means : that service which port number it running etc.. information
+
+ssh allready install all machines.
+
+ssh configuration files stored in 
+
+/etc
+/etc/ssh
+inside ssh their are multiple files it related to that config files
+/etc/sshd_config ----file
+in sshd_config file ----i dont to run 22 port number ssh i want to change you can change in sshd_config
+
+in sshd_config file having
+passwdauthication value yes means passwd will be asking(authicateed)
+passwdauthication value no means passwd will be not-asking(passwd will not be authicateed)
+
+when req to that machine in machine ssh service taken that req and it check sshd_config file
+in that passwdautication yes means it will prompt for passwd--means it will ask passwd so we can login using of passwd
+no means it does not prompt for passwd ---doesnot ask passwd means we will not login that user using of passwd
+
+===========================================================
+without username we canot login into machine
+
+how to check ssh dir avaliable or not
+
+ls -ld ssh
+=================================================
+-d ---stopt the expansion of dir
+========================
+publickey-----lock it having linux
+privatekey---------key----it's want to who login that machine that machine having private key
+
+=======================
+source machine required private-key
+remote machine required public key
+========================================
+when ever we luanch a machine aws create 2 key's 
+1) public key 
+2) private key
+
+private key given to us source machine dowloaded
+public key aws given to remote machine . 
+=================================================
+we are also create a key pairs using of ssh-keygen command
+by using gitbash tool i can create using of ssh-keygen command in our local machine.
+that command allways created 2 files
+public file extension .pub
+ private keyfiles .ppk,.pem
+public key and private key both are in sink
+======================================
+
+remote machine having public key right 
+in machine that public key location
+~/.ssh/authorized_key
+=============================================
+32.19.90.22
+--root--/root
+---sheshi---/home/sheshi
+abc------/home/abc
+-----------ubuntu--->/home/ubuntu
+
+laptop:
+
+  i want to login into linux machine without passwd
+ssh sheshi@32.19.90.22 ----it req go to that machine
+that machine check user home dir  authorized_key(public key) is avaliable
+but wants to login that machine public key and private key sink
+but we are not providing private key --it will thorw error
+
+ssh sheshi@32.19.90.22--look for public key in /sheshi/.ssh/aut_key
+ssh abc@32.19.90.22--look for public key in /abc/.ssh/aut_key
+============================================================
+which private key i want to use asking ssh commnd to us
+we are telling to ssh command using of (-i) option
+ssh -i "abc.pem" abc@32.19.90.22
+that is meaning that command using that file we are login into machine
+
+ssh(command we using for that command login into remote linux machines) -i(we are tells to cmd command use this file for login) abc.pem username(using user crediantls)
+@ip(machine unique ip adress) ----this is meaning of that full command for login into remote linux machine when we are loging username is must
+=====================================================================
+authorized_pubkeys having all publik keys data
+key means that is file that file having some information
+========================================
+how many authorized_keys having in your machine ---it's posible to have multiple
+l.e ---sheshi user having auth_keys
+abc user having ~/abc/auth_keys
+ubuntu user having ~/ubuntu/auth_keys
+harsh user having ~/harsha/auth_keys
+==================================================================================
+most are peoples are thinking one auth_keys in machine--it is inncorect
+every user having one auth_keys 
+
+=============================================================================
+it is possible to have one auth_keys in multiple public keys--yes
+===================================================================
+
+production-server
+90.90.90.87
+------user(ubuntu)
+
+
+4 elompies  joind
+
+emp1-------pk1
+emp2----------pk2--
+emp3-------pk3
+emp4----------pk4
+
+each and every emp give saparete pkey
+i want to give ubuntu acess for every emp
+in this case in ~/.ssh/auth_keys having 4(pubk1,pubk2,pubk3.pubkey4) publick keys data.
+========================================
+ssh--loging into remote server user
+you want to ligin user is mandatory
+=====================================
+
+ssh---passwdkey
+    --passwdless auth
+
+ssh con files are avaliable in /etc/ssh/
+
+i want to deny passwd authication to remote users
+1) in /etc/ssh/sshd_config-------keep passwdauthication value=no
+
+passwdauth=no means we want to login into server user with private-key 
+
+using private -key login is called passwd less auth
+
+
+i want to allow passwd authication to remote users
+1) in /etc/ssh/sshd_config-------keep passwdauthication value=yes
+===================================================
+how to generate keys
+ssh-keygen--it will do only 2 keypair 1.pub 2) pri 
+===============================
+all pub keys are stored loc
+~/.ssh/auth_key file
+==================
+mu public key data stored in auth_keys ~/.ssh/auth_keys
+using cmd ssh-copy-id
+=================================================
+how to edit files---vim it is not userfriendly
+vim f1 --it will shown new thsi new file to vim , vi
+not showing new file it is exsting file
+
+maintly need vim comand option
+
+insert
+save
+delete line
+quit
+
+
+in vi have modes
+
+1) commnd mode
+2) insert mode
+3) excution mode
+
+
+you want to go to file using vi
+
+
+you want to inser a data using inser mode you want to go tp insert mode type (I)
+YOU WANT TO SAVE U NEED TO COME OUT INSER MODE ---ESC
+:W--FOR SAVING
+ESC+:W
+YOU WANT TO QUIT THAT FILE USEING :q
+:Wq
+:WQ!
+BOTH ARE DIFFERNT
+
+yy-meany yanky copy the part line
+p-paste where you want
+dd-delete curent line
+3dd-i want to delete 3 lines from curent line
+5dd-delete 5 lines from curent line
+100dd -- delete 100 lines from curent line
+===================
+vim
+i/a
+esc
+:w
+:q
+:q!
+:wq!
+dd
+2dd
+100dd
+yy
+3yy
+p
+===============================
+when ec2 luanch aws download 2 key pair one assin to our local machine private key and pub key placed in by default /home/ubuntu/.ssh/auth_keys
+
+we can create 2 key paires and we can copy pub data in auth_keys and we can use our private key -it is possibly
+that pub data copy purpose we are using ssh-copy-id command.
+
+==========================================
+ssh-copy-id copy the .pub file data from local machine to remote machine
+when ever ssh-copy-id copy .pu file req 1).pub file 2) user 3)ip 4) passwd
+by default ssh-copy-id copy the .pub file in locaton ~/.ssh/auth_keys in that file saved
+================================
+syntax 
+ 
+ssh-copy-id -i filename.pub user@ip 
+============================================
+here,
+ssh-copy-id login and copy .pub data in auth_keys ssh-copy-id using passwd authication
+here,
+by default using passwd authication in system /etc/ssh/sshd_config file having passwdauth value = no
+when passwdauth=no system doesnot ask passwd system need passwdless auth only.
+so we want to talk with collegu. then coluequ go to and change that value of passwdauth = yes
+then only system accepting passwd authication.
+========================================================================================
+now,
+we can use ssh-copy-id we are copy data of .pub file to remote machine .
+when .pub data copied in remote machine again colegu change value yes to no.
+=============================================================================================
+we are not giving key-paires name id_rsa
+by default store ~/.ssh/id_rsa.pub is_rsa 
+====================
+ssh-copy-id user@ip we can give like that it will lookfor id_rsa
+==============================
+we cant login with root user this is not recomnded.
+
+=========================================================
+1) passwdauth----------means 
+we can login using passwd -----this need passwdauth=yes
+syntax
+  ssh username@ip
+
+2) passwdless auth
+ we can loginusing private key
+ syntax
+ssh -i privatekey username@ip
+
+3) we are using our key and login intothe machine
+ ssh-keygrn -generate 2 files
+ssh-copyid -i .pu username@ip
+
+ssh -i our privatekey username@ip
+
+su--with in machine
+ssh --locat to remote --means wewant that comd login into machine all auth done then that screen connect to us
+
+when ever login into machine wants user.
+we login into server user with ssh .
+====================================================
+
+copy files from local machine to remote machine (or) from one machine to another machine
+
+syntax
+scp -i "privatefile" filename ubuntu@ip:/home/ubuntu
+
+scp internally using ssh connection
+
+ssh -i "privatekey" ubuntu@ip 
+
+cp : with in machine copy the files
+
+cp file1 /abc/bbc
+cp /self/f1 /bbc
+
+scp -i "privatefile"  ubuntu@ip:/home/ubunt/f1.txt .
+
+scp command login into passlessauth means it will check pub and private authication it sucess 
+then thal local file copy into remotemachine location whet ever we give
+when ever we are using scp command internally it will use ssh conn 
+means
+ssh login into that machone using private key local file copy into remote machine loaction
+
+scp command login into passlessauth means it will check pub and private authication it sucess 
+then thal local file copy into remotemachine location whet ever we give
+====================================================================================
+copy file we required
+1) ip
+2) login means(user)
+3) passwdless so private key
+4)dest location
+5) what do you want to copy that file
+
+=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

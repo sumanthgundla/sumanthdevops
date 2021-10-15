@@ -1,0 +1,38 @@
+                                           linux
+paths
+permisions
+users
+========================================
+1) pwd
+2) cd
+3) touch
+4) ls
+       -l
+       -r
+5) whoami
+6) cat 
+7) cat >
+8) cat >>
+9) wc 
+      -w
+      -l   
+      -c
+10)mkdir 
+11) mkdir -p
+11)mv
+       -i
+12) cp
+13) .. 
+14) ../..
+15) {..}
+
+
+
+
+
+
+
+
+
+
+

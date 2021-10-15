@@ -1,0 +1,16 @@
+Dockerfile
+FROM nginx
+WORKDIR /usr/share/nginx/image/
+COPY index.html /usr/share/nginx/image/
+
+
+docker build -t webimage -f Dockerfile1
+
+
+1.sh
+echo welcome to docker world
+echo my name is $(hostname)
+echp **************bye********
+Dockerfile3
+FROM ubuntu
+copy 1.sh 

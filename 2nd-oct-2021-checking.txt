@@ -1,0 +1,331 @@
+
+
+
+
+ec2:
+vpc: creating our won network in aws
+cidr: size of your network
+subnets
+1) public
+2) private
+igw
+nat
+peering
+==========================
+vpc1:
+sub1(public): i1,i2
+subet2(private+NAT):i3,i4
+
+LAPTOP---->I1(P)
+I1---> GOOGLE.COM(P)
+I1---->I3(P)
+I3------> GOOGLE.COM(NP)
+PRIVATE SUBNET MACHINES WANTS TO COMMNICATE OUTSIDE-WORLD USING CONCEPT CALLED NATGATEWAY
+NATGATEWAY: USING OF NATGATWAY PRIVATE SUBNET INSTANCESS SEND WITH OUTSIDE WORLD.
+ONLY ONE WAY.
+ONE NETWORK SERVERS WANTS TO COMNICATE WITH OUT SIDE NETWORK SERVERS WANTS PUBLIC NETWORK.
+SAME NTWORK SERVERS WANTS TO COMMNICATE WITH USING PRIVATE IP.
+CREATE NATGATWAY TWO RULES:
+1) NATGATWAY NEED TO BE CREATE IN PUBLIC SUBNET  IN VPC.
+2)NAT ALWAYS HAVE EIP.
+3) NAT IS ATTACHED TO PRIVATE SUBNET : MEANS ROUTE TABLE HAVING NAT THAT ROUTE CONNECT WITH PRIVATE SUBNET
+===========================================================
+VPC2:
+SN3(PUBLIC)---I5,I6
+SN4(PRIVATE--I7,I8
+
+
+
+LAPTOP--I1(P)
+I1---> GOOGLE.COM(P)
+I1---->I2(P)
+I2--->I5(P)
+I2-->I4(P)
+I4---> GOOGLE.COM(P)
+I4--.I5(P)
+I4--I7(NP)
+I5-->I1(P)
+I5--->I3(NP)
+======================================
+1) PUBLIC SUBNET: SUBNET ASSOCIATED ROUTE TABLE THAT ROUT TABLE HAVING IGW IT CALLED .
+PUBLIC SUBNET 
+
+PUBLIC SUBNET INSTANCESS ACESS FROM OUT SIDE WORLD.AND IT WILL SEND REQ TO OUTSIDE WORLD
+
+2) PRIVATE SUBNET:SUBNET ASSOCIATED ROUTE TABLE THAT ROUT TABLE NOT HAVING IGW IT CALLED .
+PRIVATE  SUBNET
+
+PRIVATE SUBNET INSTANCESS NOT ACESS FROM OUT SIDE WORLD.
+AND IT WILL NOT SEND REQ TO OUTSIDE WORLD
+
+AND 
+
+PRIVATE SUBNET INSTANCESS ASSOCIATE ROUTE TABLE HAVING NATGATWAY PRIVATE  SUBNET INSTANCESS 
+ARE SEND A REQ TO OUT SIDE WORLD BUT NOT TAKE OUT-SIDE WORLD COMMNICATE WITH PRIVATE SUBNAT INSTANCESS.
+
+3) PRIVATE INSTANCE
+
+1)MEANS INSTANCE RESIDE PRIVATE SUBNET
+
+OR
+
+2)IT IS NOT HAVEING PUBLIC IP
+
+IT SATISIFIED ONE THING IT IS PUBLIC INSTANCE
+
+
+
+
+4) PUBLIC INSTANCE: PUBLIC INSTANCE SATIFIED 2 THINGS
+1) IT NEED BE A PUBLIC SUBNET
+AND
+2) IT NEED TO HAVE PUBLIC IP
+ 
+BOTH SATIFIED ONLY THAT IS PUBLIC INSTANCE OTHER WISE NOT PUBLIC INSTANCE
+
+
+=============================================================================
+vpc1----10.0.0.0/24
+sn1(public)(10.0.0.0/25): I1 ------10.0.0.23
+                          I2-------10.0.0.34-------------PUBLIC IP=54.23.23.12
+
+SN2(PRIVATE) (10.0.0.128/25)
+             I3------10.0.0.191
+             I4=======10.0.0.134
+
+
+VPC2: 10.0.0.0/24
+SN3(PUBLIC)==========10.0.0.0/24
+
+              I5------->10.0.0.34-----------PUBLIC IP=23.25.65.65
+              I6-------10.0.0.134
+
+
+
+I WANT TO GIVE REQ TO 
+I1------10.0.0.34
+THIS REQ GOES TO I2 ONLY BUT MY INTENCTION IS CONNECT WITH I5 HOW TO SLOVE THIS SECNARIOS
+
+
+
+======================================================================================
+IN WORLD WE ARE HAVING 
+1) PUBLIC IP: IP ARE WE NEED TO PURCHAGE PUBLIC IP S ARE UNIQUE ACROSS THE WORLD
+ONE NETWORK MACHINE WE NEED TO COMICATE WITH ANOTHER NETWORK MACHINE WE NEED PUBLIC IP
+2) PRIVATE IP: WHEN EVER MACHINE ATTACHED TO NETWORK MACHINE GET PRIVATE IP
+WITH IN A NETWORK WE NEED PRIVATE IP.
+
+I WANT TO COMMNICATE WITH VPC1 NETWORK TO VPC2 NETWORK NEED PUBLIC IP
+WITH IN VPC NEED PRIVATE IP
+
+VPC1 AND VPC2 BOTH ARE DIFFENT NETWORK
+=================================================================
+VPC1:
+SN1(PUB): I1,I2
+SN2(PRI): I3,I4
+
+VPC2:
+
+SN1(PUB): I5,I6
+SN2(PRI) : I7,I8
+
+
+I1----I5
+I3-----I5(NP)
+I3-----I7(NP)
+I5-----I4(NP): IT MAKES AS A POSSIBLE USING OF VPC PEERING
+
+
+
+
+VPC PEERING IT IS AWS CONCEPT
+NAT IT IS NOT AWS 
+IGW NOT AWS
+================================================
+VPC PEERING: TO CONNECT TO ANOTHER VPC NETWORK PRIVATE MACHINES USING VPC-PEERING
+TO CREATE VPC PEERING FALLOW 1 RULE
+1) BOTH VPC ARE MUST NOT HAVING SAME CIDR THEN ONLY WE CAN CREATE 
+VPC PEERING
+VPC1---10.0.0.0/24
+VPC2---192.168.0.0/24OR(10.0.1.0/24)
+=======================================================
+TASKS:
+NAT : MEANS PRIVATE SUBNET MACHINES ARE COMMINATE WITH 
+OUTSIDE
+outside network wants to comnicate with private subnet instancess 
+it will stop.
+
+nat also inside aws ec2 only so it having public ip
+
+
+
+
+NAT RULES:
+1) CREATED IN PUBLIC SUBNET
+2) ATTACHED TO PRIVATE SUBNET
+
+VPC---192.168.0.0/24----MUMBAI
+
+create igw and attache to vpc now you have internet
+
+ when vpc created 
+by default
+1) created sg(yes)
+2) routetable(yes)
+3)nacl(yes)
+
+SN1(PUBLIC)-----128---1A
+1)CIDR=192.168.0.0/25
+192.168.0.0
+192.168.0.127
+2) creatr new routtable RT1----LOCAL
+3) add igw to rt
+rt1---local+igw
+4) map(associate) rt to sn1
+5) create nat in sn1
+6) in every subnet aws taking 1st 4 and last one . total 5
+7) create nat in sn1 that taken private ip by aws.
+128-5=123
+but it showing 122
+it allocate one ip automatically to nat(internally ec2)
+that way it showing 122 only.
+8) you want to luanch ec2 then that ec2 automatically assign public ip 
+you want to do one task 
+in subnet action---autoasign---enable then only auto assign public ip
+
+SN2(PRIVATE+NAT)-----64--1B
+
+CIDR=192.168.0.128/26
+192.168.0.128
+192.168.0.191
+2) creatr new routtable RT2----LOCAL
+3) add nat to rt2
+rt1---local+nat
+4) map(associate) rt2 to sn2
+RT2---LOCAL+
+      natgatway
+5) in every subnet aws taking 1st 4 and last one . total 5
+
+
+SN3(PRIVATE)-----64----1C
+1)CIDR=192.168.0.192/26
+192.168.0.192
+192.168.0.255
+2) creatr new routtable RT3----LOCAL
+rt3---local
+3) map(associate) rt3 to sn3
+4) in every subnet aws taking 1st 4 and last one . total 5
+5) we are not assign pub ip to private subnet instances.
+=====================================================
+route table contains
+public route like
+1) dest cidr                  target
+   10.0.0.0/24                  local
+   0.0.0.0/0                    igw(it is not use private it will always use public ip)
+   192.168.0.0                   peering connection
+   
+vpc cidr means local connection
+
+================================================
+private subnet+nat like 
+1) dest cidr                  target
+   10.0.0.0/24                  local
+   0.0.0.0/0                     natgatway
+   192.168.0.0                   peering connection
+
+
+
+ 
+10.0.0.0/24 having 255 ips that two 255 ips req comes to route table
+route table send with in vpc
+other ips means except that 255 ips route table send target what is having.
+it might be igw or nat anything send target.
+================================================================================ 
+
+ tasks:
+vpc1:
+
+sub1(public)
+i1 luanch 
+i2 luanch
+
+sub2(private+nat)--i3
+
+laptop---->i1(p)=using public ip
+laptop-----i3(np)=using public ip also
+ but here some people are saying it possible to connect
+some people are saying not posible
+we want to connect with private subnat instancess do 2 tasks
+1) first connect to public subnet instancess 
+2) from public subnet instance connect to private subnet instancess
+3) public instance wants .pem file so your laptop having file copy paste it
+4) and change the permisions on that file chmod 700 sep30.pem
+5) done
+ping ---allicmp4
+with in vpc commnicate any machine	
+
+i1----------i3(p)==using private ip
+i3---------->i2(p)=using private ip
+i1---i4(p)--using pubip
+i4---googl.com(np)
+laptop---i4(np)
+===================================================================
+vpc:
+10.0.0.0/24
+mumbai region
+1a,1b,1c,
+
+1) public subnet(1a)=128
+cidr=10.0.0.0/25
+10.0.0.0
+10.0.0.127
+rt1=local+igw
+i1=10.0.0.5
+i2=10.0.0.126
+2) private subnet(private+nat)(1b)=64
+cidr=10.0.0.128/26
+10.0.0.128
+10.0.0.191
+rt2=lcal+nat
+i3=10.0.0.134
+3) private subnet(private)(1c)
+10.0.0.192/255
+10.0.0.192
+10.0.0.255
+rt3=local
+i4=10.0.0.199
+==============================================
+
+i1---i3()
+i1---14
+laptop----->i1
+laptop----i2
+laptop----->i3
+laptop----i4
+
+i1-i2(possible using private ip)
+i2-i1(possible using private ip)
+laptop---i1(possible using public ip)
+laptot-i2(possible using public ip)
+i1-laptop(possible using pubip)
+i1-laptop(possible using pubip)
+i2-i3()
+i1-i4
+i3-i1
+i3-i1
+i3-i2
+i3-i4
+i4-i1
+i4-i2
+i4-i3
+
+
+============================================================
+with in vpc i1 i2 servers commnicate using private ip
+i1 i2 servers taken req from outside and send res to outsid
+
+
+
+
+
+
