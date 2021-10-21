@@ -2157,6 +2157,12 @@ by default ssh-copy-id copy the .pub file in locaton ~/.ssh/auth_keys in that fi
 syntax 
  
 ssh-copy-id -i filename.pub user@ip 
+
+useradd -m -s /bin/bash sheshi
+we are changing port number ssh to 2222 we are telling to git ssh using  -p 2222
+
+ssh-copy-id -i filename.pub user@ip
+
 ============================================
 here,
 ssh-copy-id login and copy .pub data in auth_keys ssh-copy-id using passwd authication
@@ -2190,7 +2196,7 @@ ssh -i privatekey username@ip
 
 3) we are using our key and login intothe machine
  ssh-keygrn -generate 2 files
-ssh-copyid -i .pu username@ip
+ssh-copyid -i .pu -p 2222 username@ip
 
 ssh -i our privatekey username@ip
 
@@ -2200,11 +2206,22 @@ ssh --locat to remote --means wewant that comd login into machine all auth done 
 when ever login into machine wants user.
 we login into server user with ssh .
 ====================================================
+ sudo yum install openssh-server
 
 copy files from local machine to remote machine (or) from one machine to another machine
 
 syntax
+scp also intranally using ssh cmd only
+i want to copy files from one machine to remote machine using private-key
 scp -i "privatefile" filename ubuntu@ip:/home/ubuntu
+
+syntax
+scp also intranally using ssh cmd only
+i want to copy files from one machine to remote machine using using passwdauthication
+scp  filename ubuntu@ip:/home/ubuntu
+asking passwd.
+it asking psw we can do /etc/ssh/sshd_config file change passwdauthication no to yes
+
 
 scp internally using ssh connection
 
@@ -2216,6 +2233,9 @@ cp file1 /abc/bbc
 cp /self/f1 /bbc
 
 scp -i "privatefile"  ubuntu@ip:/home/ubunt/f1.txt .
+
+using of passwd
+syntax: scp ubuntu@ip:/home/ubuntu/f1 .
 
 scp command login into passlessauth means it will check pub and private authication it sucess 
 then thal local file copy into remotemachine location whet ever we give
@@ -2234,6 +2254,392 @@ copy file we required
 5) what do you want to copy that file
 
 =================================================
+connect to aws ec2-1 to ec2-2
+step 1) luanch ec2 instancess
+    2) login
+     3) from ec2-instance-1 to connect ec2-2
+4) i want to connect to ec2-2 using two ways 1) passwd 2) passwdless
+5)using passwd----change passwdauth no to yes  
+syntax 
+ssh user@ip
+6) using passwdless auth i want private key but that private in my local machine 
+i want to private key file sent to ec2-1 then using of that login into server user
+syntax for copy private file to ec2-1
+scp privatefile user@ip:/home/
+syntax: 
+for connect to ec2-2 
+ssh -i privatekey user@ip--asking passwd
+why means we are using su also it is asking passwd so we use sudo su
+sudo ssh -i privatekey user@ip--asking passwd
+========================================================================
+ssh-keygen --downlaod 2 keypairs
+ssh-copy-id -i ----------it is using internal ssh 
+scp ---it is using internally ssh
+su---swithch user with in server
+ssh -i ----it login into your server using of username+ip ---keypair or passed that output connect to on gitbash
+=================================================================================
+SSH
+scp
+su
+/etc/ssh/sshd_config
+ssh-copy-id
+ssh-keygen: default name of key-pair is id_rsa.pub,id_rsa
+default loc of key-pairs is   ~/.ssh/auth_keys
+=================================================================
+vi 
+i/a
+esc
+:w
+:q
+=================================================================
+1) create new dir in your local machine
+2) create public key and private key
+3) luanch ubuntu ec2-insance
+4) create sheshi
+5) reset sheshi user passwd and notedown
+6) change the passwd auth no to yes
+7)change ssh port number 2222
+8)restart ssh service
+9) exit from instance
+10) copy local publick key into sheshi user
+11) try to login to server using sheshi user, using private key
+
+-p 2222
+
+
+ssh-keygen------oct20.pem,oct20.pub
+ssh-copy-id -i oct20.pub -p 2222 sheshi@ip
+passwd: -------
+ssh -p 2222 sheshi@ip-----login
+create user an reset passwd done by only admin only
+create user: useradd -m -s /shell/bash sheshi
+rest passw: passwd sheshi
+===============================================================
+ scp -P 2222 oct20.pub sheshi@44.193.16.147:/home/
+sheshi@44.193.16.147's password:
+oct20.pub 
+in scp we are using captial P -P
+
+.ssh file created in userhome dir we dont have userhome dir that .ssh file
+is not created 
+.ssh file created we are trying copy .pub data
+==========================================
+first we giving .pem file that is 1st preferance it is not match it will
+ask passwd
+
+ssh-copy-id -i key1.pub -p 2222 sheshi@ip
+
+ssh-copy-id -i key2.pub -p 2222 sheshi@ip
+
+ssh -i key1.pem -p 2222  sheshi@ip --- it does not prompt passwd if 
+passwdauth yes also. it trying to login using private key
+
+private key having 400 permision other wise all are excuting private key
+so persmsions must 400 on private-key.
+
+============================
+login into server user required
+ip
+user
+privatekey or passwd
+port
+
+==========================================================
+
+1) luanch ubuntu ec2-instance name it as i1
+
+2) luanch ubuntu ec2-instance name it as i2
+3) login into i2
+4) create user sheshi
+5)create sheshi user passwd and note down
+6) allow passwd auth no to yes on i2
+7) exit from i2
+8) create new sshkeys in your local machine
+9) copy public key file into ec2-2 sheshi user
+10) copy private key file into i1
+11) from i1 connect to i2 in sheshi user by using private key
+12) exit from i2
+13) create new keys inside i1
+14) create copy public key into i2 sheshi user
+15) delete public key from i1
+16)  login into i2 sheshi user using step13 privatekey
+17) exit from i2
+18) create dir, name it as mydir
+19) create files inside f1,f2,f3
+20)copy mydir into i2/home/ubuntu using sheshi user private
+ scp -r mydir  sheshi4@44.193.16.147:/home/ubuntu
+-r we want to use recursive and on ubuntu dir having write permsion to sheshi user 
+other wise it will throws error permsion denied
+21) download /etc/passwd from i2 to i1 /tmp dir
+
+scp sheshi@ip:/etc/passwd /tmp
+==============================================
+useradd---->/etc/passwd /etc/group ---when ever we create users that 2 files some chsnges done
+passwd-----/etc/shadow ----when ever create userpasswd this file some changes
+id--it will give curent user info
+is sheshi
+ssh-copy-id & scp-both are copy files from one machine  to another machine
+ssh-keygen----generate our own key-pairs
+ssh----using this command we can login into remote machine user by default port 22
+config files are located in /etc/ssh
+when ssh config files chang need to restart using service ssh restart
+su -- with in a server one user to another user passwd mandatort
+su we not mention it will go to root user
+
+passwd cmd by default change passwd of curent user
+sudo passwd --it changing passwd to root user because intenally using that cmnd root only
+so root user curent user so that cmnd changes root user passwd.
+=============================================
+how do you know passwd is locked or unlock
+
+passwd file /etc/shadow file that user having !dhjdshjdshjdh starting with (!) 
+so that user is passwd locked but passwd is avaliable
+
+how to lock passwd
+passwd -l ubuntu - -- iam lock the passwd of ubuntu
+ubuntu passwd info starting with !
+
+
+how to lock passwd
+passwd -u ubuntu
+
+grep ^ubuntu /etc/shadow
+=============================
+webserver
+ps
+=============================================
+what is web server and how to make a server as web server"
+
+webserver: means it responds to the web req and it will give response .
+web server we can acess from browser
+how to make a server as web-server:
+when i am giving ip adress i am not getting any-page.
+by default web browser send a req to 80 port numberof the server.
+ssh send req to 22 port number of server.
+https --- send a req 443.
+when ever we give req to server it not responding when responds that server 
+we want to install a piece of software.
+when we install web-server service it occupy tha one port number.
+
+so many web servers softwares are thers
+
+1) apache2/httpd
+2) tomact
+3) nginx
+
+what is the main purpose of this softwares: thare are responds to thae web-requests.
+these softwares are we can install linux machines and windows machines.
+=======================================================================
+how to install software to our machines.
+
+in ubuntu we can use apt-get or apt
+only adminstaroes install the softwares.
+
+apt-get update --each linux machines maintaine repositories in repositories 
+maintain free softwares files.
+when we excute apt-get update ------linux install updates files from repositories.
+when it fresh machine we can excute command .
+============================================================
+when ever we install any software into server we can depend documentations.
+
+to install softwares we can use 
+apt install software name 
+or we can check documentaions.
+  
+
+how to install java in ubuntu
+
+sudo apt update
+java -version
+sudo apt install default-jre
+java -version
+sudo apt install default-jdk
+javac -version
+================================================================
+in redhat we need subcription.
+i want to install awscli
+apt-get install awscli
+
+check version awscli --version
+
+i want to install phython
+
+apt install phthon.
+
+how to know python instal
+python --version.
+
+in linux we can use package or software.
+
+sudo cat f1----- means --non root user excuting cmd . but internally excutoing root user only
+
+that software ready to excute java programs when we install java software
+
+
+that software ready to excute awscli  cmds when we install awscli software
+
+
+that software ready to excute docker cmds when we install docker  software
+========================================================================
+
+i want to my server is make a web-server:
+we install webserver software in that server that server is called wed-server
+web server internally occupy one port number 
+
+apt-get install apache2: now this this software is act as a web-server
+this apache2 by default run's on 80 port number.
+all apache2 software config files are stored in /etc/ dir
+config means: port number related files .config files etc...
+how to check service running or not
+service apache2 status.
+http://ec2-3-239-170-95.compute-1.amazonaws.com:8100/ --apche runs on apache2 
+
+===================================================
+when we giving req to web server files is getting that file is phsically where 
+is located.
+that physical page path we can call it as application path.
+
+for apache2=== by default loc is /var/www/html.
+in this loc it will check index.html
+/var/www/html/index.html - -----when we browse the ip:80 by default apache2 excute index.html from /var/www/html
+
+
+http://ec2-54-221-55-61.compute-1.amazonaws.com/sumanth.html
+
+i created sumanth.html in /var/www/html
+by default we are not mention any page name it will automatically excute index.html
+i mention any page number it will search that file name in the /var/www/html.
+http://ec2-54-221-55-61.compute-1.amazonaws.com/dinesh.html
+it will check dinesh.html in /var/www/html/
+
+as per req we change page names.
+================================================================
+on port 80 process is running that processer taken req and excuting files on /var/www/html/
+how to change apache2 port number vim apache2.conf. 
+i change port number 80 to 8080. 
+
+http://ec2-54-221-55-61.compute-1.amazonaws.com:8080/index.html
+http://ec2-54-221-55-61.compute-1.amazonaws.com:8080/sumanth.html
+http://ec2-54-221-55-61.compute-1.amazonaws.com:8080/sumanth/sumanth.html  -- we can mention full path
+
+ip -- it goto machine os then we give port number what ever port number running that server 
+taken then it goto to config files it check which dir i want to go thaen it excute by default index.html
+other wise we give any page name it excute the that page.page is not their it will thorows error.
+
+https://www.airtel.in/prepaid-recharge
+http://ec2-54-221-55-61.compute-1.amazonaws.com/prepaid-recharge
+
+===================================================================
+
+by default tomcat server runs on 8080 
+we can change port in web.xml
+when we give tomact req it will try to excute file index.html from  /var/lib/tomcat9/webapps/ROOT/
+
+ /var/lib/tomcat9/webapps/ROOT/index.html
+
+http://ec2-54-221-55-61.compute-1.amazonaws.com:8000/shoaib
+
+we can change default loc of docement root in sites-enabled
+
+==============================
+in real-time we dont dnow that default path so we want to ask team mebers.
+
+==========================================================================
+
+tasks
+1) luanch ubuntu ec2-instance
+2) install mginx webserver software
+3) change page content
+4) install jenkins software-------8080
+5) install docker softwsre
+6) install ansible software
+=====================================================================
+apt-get update
+apt install nginx
+nginx -v
+nginx by default runs on 80 port number
+we are trying to send req to nginx server it is not acepting req means 
+first check running con or not then check security group inbound rule 80 open or not
+
+/usr/share/nginx/html     canging to /var/www/html/index.nginx-debian.html
+
+this files having owner root
+
+this ip adress there are mapped to our domain name.
+========================================================
+docker install on ubuntu follow steps on doc
+docker --version
+======================
+service will ocupy port number -- we can acess from out-side
+software not ocupy port number - it is not possible to acess from outside
+java is software we can acess go into server only
+-----------------------------------------------------------------------
+ansible installion check on doc install ansible on ubuntu
+if ansible installed check ansible --version
+============================================
+we are giving req to another macgine it is mandatory ip adress along with port number.
+
+it might be login req,it might be database req.
+==============================================================================
+
+we can login into remote machine
+username@ip:22+passwd or private and command ssh
+
+
+=========================================================
+end user send a req to server need ip:port
+end user giving req to server server is not responding 
+we can check
+1) service is installed or not
+2) service is running or not
+3) it might be sg problem
+=====================================================
+we can type some commandes how system knows that commnd .
+our point of you that is command but system point of that is file.
+that file is stored in any one location .
+so system will go and that loc that file is excuting.
+
+but
+how system will know file location.
+it will search all paths locations.
+we can check that all path locations.
+env virable PATH
+WE CAN print value echo $PATH
+echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH is env var it will give all system searching locations
+every cmd is a piece of software. a piece of software we run that runs as a processer 
+that processer have pid unique id
+how to check process runnin in system using ps command.
+every processer excuting it will do some activity and it will died.
+bash is one processer it will have pid
+ps -aux --it will show all processers in system.
+processer occupy cpu,memory from where is started commnd info
+ps -u --it will show process running along with username.
+every cmd is a processar.
+
+ps -u    -- it will show curent user runs processer swowing
+ps
+ps -aux
+kill pid ---kill the process
+
+nginx processer running i want to kill process using kill pid(processer id of nginx)
+once cmd excuting that processer is started when rocesser task completed that processer id die
+
+every processer having utilizies cpu memory
+processer started by one user.
+who started processer that user only kill that process
+and root user will kill tha any user processer.
+kill -9 pid ---forcebully deleted .
+
+
+
+
+
+
+
+
+=================================================================================================
 
 
 
@@ -2276,6 +2682,27 @@ copy file we required
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================
+wed server
 
 
 
@@ -2719,7 +3146,4 @@ copy file we required
 
 
 
-
-
-
-
+        
