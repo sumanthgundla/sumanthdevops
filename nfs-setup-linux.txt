@@ -1,0 +1,45 @@
+sudo apt-get update
+
+sudo apt install nfs-kernel-server
+
+yum -y install nfs-utils
+
+apt-get install nfs-kernel-server
+
+sudo mkdir /mnt/myshareddir
+
+sudo chown nobody:nogroup /mnt/myshareddir #no-one is owner
+
+sudo chmod 777 /mnt/myshareddir #everyone can modify files
+
+sudo vim/etc/exports
+
+/home/ubuntu/abc    10.0.0.52((ro,no_root_squash,no_subtree_check))
+
+
+sudo exportfs -a #making the file share available
+
+sudo systemctl restart nfs-kernel-server #restarting the NFS kernel
+==============================================
+
+client
+sudo apt update
+
+sudo apt install nfs-common
+
+sudo yum install nfs-utils
+
+sudo mkdir /var/locally-mounted
+
+sudo mount -t nfs 192.168.20.100:/myshareddir /var/locally-mounted
+=================================================================
+
+
+sudo umount /home/ubuntu/app
+
+
+
+
+
+
+

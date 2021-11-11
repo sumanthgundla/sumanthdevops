@@ -1,0 +1,175 @@
+============================alb(based on condition which req send to which group path doesnot containg anything 
+it will send to default group))
+elb---are 2 types
+1) internet facing 
+2) internal facing
+=========================
+elb 's are 4 types
+1) clasic elb
+2) application elb
+3) network elb
+4) gateway elb
+
+all elb's are fucnalitys are same req's are taking and distubuted to the 
+multuple servers(targets)
+
+clasic load balancer send req all servers we are not posible to configure condition in classic
+aws recomnded to the not use clasic elb
+90 to 95% used in real-time---------aelb
+
+based on application
+based on your condition we can crete target group's and the tg attached alb
+
+===================================
+we maintaine application in that 2 servicess are there
+1) prepaid
+2) postpaid
+
+so for prepaid we maintaine 4 server's
+so for postpaid we maintaine 2 server's
+
+
+1)we want to distubuted req to servers
+2) distubuted req to servers when it is prepaid req so want to send req to prepaid 4 servers
+3) distubuted req to servers when it is postpaid req so want to send req to postpaid 4 servers
+
+but we are using clasic elb every req forwarded every machine 
+i want to req send particular postpaid prepaid servers differnt
+
+this solution is application elb
+
+when ever we maintaine 2 servicess for 6 server's like above
+1) we create target groups for prepaid sevice servers and postpaid service servers
+2) we want to creTE ALB AND ATTACHED TO TARGET GROUP'S BECAUSE OF CONDITON 
+3) LUANCH SERVERS FOR PREPAID AND POSTPAID 
+4) PREPAID SERVERS TO CONNECT PREPAID TARGET GROUP AND POSTPAID SERVERS CONNECT TO POSTPAID TARGET GROUP
+5) EVERY TARGET GROUP WE CAN ATTACHE MULTIPLE SERVER'S BUT TARGET GROUP WE CAN ATTACHED INSTANCE PORT ONLY ONE
+=============================================================================================
+NOTE: 
+1) ALB WE CAN LISTING PORTS WE CAN CONFIGURE MULTIPLE
+2) ALB WE CAN ATTACH TO MULTIPLE TARGET GROUP'S
+3) ALB LEVEL WE CAN CONFIGURE CONDITION'S
+4) IN TAGET GROUP WE CAN CONFIGURE ONLY ONE INSTANCE PORT
+5) TARGET GROUP WE CAN ATTACHED TO ULTIPLE INSTANCESS
+6) BASED ON CONDITION ALB SEND REQ TO TARGET GROUP'S 
+7) TARGET GROUP'S TAKE REQ AND SEND TO THE ATTACHED SERVER'S
+=====================================================
+IN REAL-TIME WE CONFIGURE 
+
+ALB LISTING PORT ONLY ONE 
+
+-------80--------ALB---based on condition it req send to -----TG1---(i1,i2,i3,i4)
+                                                              Tg2----(i5,i6)
+                                                               tg3--(default)---i5,i6
+
+
+=============================================================
+default group: it mandotary in alb 
+default target group means in path not satsifying condition then the req go to default thing
+=============================
+
+targetgrouplevel:=================1) application port
+                                  2) health info
+
+alb========================1) lb port
+                           2) default group
+                            3) condition
+
+
+
+
+
+====================================================
+tasks:
+1) luanch ubuntu server's for prepaid application(service)
+
+#!bin/bash
+apt-get update
+apt-get install apache2 -y
+cd /var/www/html
+mkdir prepaid && cd prepaid
+echo this is prepaid server $(hostname) > test.html
+
+2) luanch 2 ubuntu for postpaid 
+
+
+#!bin/bash
+apt-get update
+apt-get install apache2 -y
+cd /var/www/html
+mkdir prepaid && cd prepaid
+echo this is prepaid server $(hostname) > test.html
+
+3) create two tg's for
+1) prepaid application (80) runs on 80 port on 3 ubuntu instancess
+2) postpaid application(80)---runs on 80 on 2 ubuntu instancess
+
+4) create application lb attache to 2 target groups to alb
+5) try to acess "test.html" page from aelb dnx name
+=========================================================
+tasks: 
+sing
+1)create vpc1 ------10.0.0.0/16
+2) create 3 public subnets
+sn1----10.0.0.0/24
+sn2----10.0.1.0/24
+sn3----10.0.2.0/24
+
+3) crete 3 private subnets attach nat gatway 
+sn1----10.0.3.0/24
+sn2----10.0.4.0/24
+sn3----10.0.5.0/24
+
+4) create sg for elb allow below rules
+ib--------90
+ob--all trafic
+5) create sg for prepaiod app , allow below rules
+ib---80'
+ob----all
+6) create sg for postpaid app , allow below rules
+ib---8080
+ob----all
+
+6) create prepaID TG(APPLICATION RUNNING ON 80)
+7) create pOSTPAID TG(APPLICATION RUNNING ON 8080)
+8) CREATE APPLICATION ELB (IN PUBLIC SUBNETS), ATTACH PREPAIDTG AS DEFAULT
+9) CREATE RULES, TO FORWARD REQ POSTPAIDTG
+  IF PATH CONTAINNG "POSTPAID"
+
+10) CREATE RULES, TO FORWARD REQ PREPAIDTG
+  IF PATH CONTAINNG "PREPAID"
+
+11) CREATE UBUNTU EC2-MACHINE IN SN1
+12) INSTALL NFS SERVER SOFTWARE
+13) CREATE TWO DIR
+   /home/ubuntu/prepaid
+   /home/ubuntu/prepaid
+14) luanch two instancess for prepaid application & install apache2
+15) mount step11 instance dir /var/www/html/prepaid to step 14 instance /home/ubuntu/prepaid
+16) luanch one instancess for postpaid application & install tomcat
+17)  mount step11 instance dir /var/www/html/prepaid to step 16 instance /home/ubuntu/prepaid
+
+=====================================================================
+what stykybit in linux
+what is hard-link
+what is softlink
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

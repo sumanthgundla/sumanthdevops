@@ -1,0 +1,71 @@
+AMI-------AMAZON MACHINE IMAGE
+
+IT CONTAINS OS FILES.
+THAT OS FILES STORED AWS IN S3 BUCKET
+WHEN EVER WE LUANCH EC2 -INSTANCE OS IS MANDOTORY
+THAT AMI CONTAINES LINUX OS THEN THAT OS FILES STORED IN OUR
+EC2 IN VOLUME WHEN EC2 INSTANCE LANCH THA OS IS RUNS CPU AND MEMORY FROM VOLUME
+EC2 - INSTANCE IS RUNNING .
+THAT OS FILES AND CONFIG FILES PLACED IN /ETC DIR
+VOLUME MEANS STORAGE VOLUME CONTAINES ALL OS FILES AND SOFTWARE FILES SERVICE FILES 
+WITH OUT AMI,CPU,MEMORY,VOLUME,SG,KEYPAIR, WE ARE NOT ALLOWDED TO LAUNCH INSTANCE
+=============================================
+WE CREATE CUSTOM AMI MEANS THAT CUSTOM AMI ATTACHED TO THAT ROOT VOLUME OF EC2-INSTANCE
+WHEN WE LUANCH CUSTOMAMI FROM EC2. THAT AMI LUANCH WITH ATTACHED VOLUME 
+SO CUSTOM AMI FILES LUNACH IN VOLUME OF ROOT OF PRVIOUS EC2.SO
+PERIVOUS EC2. CUSTOM AMI EC2 ARE TWINS.
+WHAT EVER PRIVIOUS EC2 HAVING ALL OS,SOFTWARES,SERVICESS,USERDATA,USERS GETTING CUSTOM AMI MACHINE ALSO
+===========================================
+WHEN WE CREATED CUSTOM AMI . 
+1) CREATED CUSTOM AMI
+2) CREATED THAT EC2-INSTANCE VOLUME SNAPSHOT
+3) WE LUANCH EC2 FROM CUSTOM AMI . VOLUME TAKEN FROM THAT SNAPSHOT ONLY.
+THAT CUSTOM OS PLACED IN VOLUME AND WHEN LUANCH EC2 THAT OS FILES EXCUTING.
+THAT VOLUME HAVING SAME EXACT DATA OF THAT VOLUME BECAUSE WE TAKEN VOLUME FROM THAT VOLUME SNAPSHOT
+ONLY
+=========================================================================
+we taken from instance to custom ami - both are twins
+====================================================
+private-key having permisions 400.
+ssh -command means send that req to ssh serverice on particular port
+by default port 22
+
+when ever we login into machine we want 
+1)username
+2)ipadress
+3) passwd or private key(private key we tell to ssh -i this file you taken)
+4) send req for that server ssh service we want command ssh.
+============================================================================
+when ever we luanch a machine we need
+1) ami
+2)instance type
+3) volume--volume taken from one snpshot only
+4) security group
+5) keypairs
+=====================================================
+ec2-instance states---start,stop,terminate,reboot.
+==================================================
+when we luanch ec2 we take storage in that storage we can attach root device
+then again we attach aditional device to /dev/sfd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

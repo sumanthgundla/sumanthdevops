@@ -4,7 +4,7 @@ like table format,xml format,yml format,java format,json format
 repregent their own style formats
 
 all are using now yaml
-extenstion is .yml
+extenstion is .yml or yaml
 spaces imporatant 
 
 is important docker-compose,k8s,cloudformation
@@ -18,7 +18,7 @@ in json
 
 {
 "field":"value"
-"field":[abc,bbc]--------thsi type field we can understand list variable 
+"field":[abc,bbc]--------thsi type field we can understand  variable object
 "field":{------------------this type we can understand list object
           "filed":"value"
           "filed":"value"
@@ -61,13 +61,13 @@ data repregented in table format
 name     course       fee     duration
 sheshi    aws         10k     2 months
 harsha   devops       12k     1month
-raghu   aws,devops    13k     3 months
+raghu   aws,devops    13k     3 months---here key having 2 values--that means that varilable object
 ==================================
 in json object repregnt
 "record1"
 {
  "name":"sheshi"
-  "course":"aws"
+  "course":["aws","devops"]
   "fee":"10k"
   "duration":"2months"
 }
@@ -109,6 +109,7 @@ course:
 duration: 3months
 ============================================================
 repergnted in key-value format
+
 name: sheshivardhan
 fee: 10k
 course: [aws]
@@ -146,6 +147,14 @@ details:
 
    }
 }
+
+============================
+list object not having (-) only give space
+list variable add (-) + space value 
+
+
+
+
 ===============================================================
 yml format
 
@@ -297,7 +306,7 @@ json conerted to yaml
 1) varibale
 2) record=list object=object
 3)list variabale
-4) list variabale=list variable onject
+4) list variabale=list variable object
 
 ========================================================================
 {

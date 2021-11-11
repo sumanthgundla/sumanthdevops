@@ -1,0 +1,123 @@
+what is vpc: vpc means we are creating owr own network in aws cloud
+cidr indicates size of network
+subnet: vpc we can divided into small group of network
+subnets are 2 types 
+1) public subnet
+2) private subnet
+how many we can create subnets in vpc maximum 200
+what is maximum size of vpc /16 minimum size is /28
+/29--not created 
+
+subnet mask: means how many bits we are allocated
+===========================================================
+how will identified subnet is public
+public subnet associated routetable having igw
+private subnet associated route table not having igw we can call that subnet private subnet
+================================
+igw: means we can give internet to our vpc using igw
+=========================
+what is nat: nat used for private machines wants to connect to out side 
+using with nat only and it creation in public subnet and attached to private subnet associated route table
+=============================================================
+peering means: we can establish the vpc peering between 2 vpc's
+that 2 vpc server's commnicate with private ip 
+and we establish the vpc peering  rule vpc's not overlapping cidr's
+we can add vpc's cidrs in all subnets route tables
+===========================================================
+nacl: it act as firewall to subnet's 
+==========================================
+sg: it act as firewall to instance
+===============================================
+rt: it determines the trafic
+=============================================
+when ever we create private network this series are allocated to private networks
+
+class-a   10.0.0.0---------10.255.255.255
+class---b   192.168.0.0------192.168.255.255
+class c       172.16.0.0---------172.31.255.255
+
+in this series we never get public ip's
+this series only private ip's
+
+127.0.0.1--------
+127.0. 0.1 is the loopback Internet protocol (IP) address also referred to as the localhost. The address is used to establish an IP connection to the same machine or computer being used by the end-user. The same convention is defined
+ for computers that support IPv6 addressing using the connotation of ::1.
+
+localhost:where cmd is excuted that machine calles localhost
+==================================================
+we can allow and deny rules we can mention in nacl
+but in sg only we can allow rules only we can mention
+==============================================================
+100   22    0.0.0.0/0  allow
+200   22      0.0.0.0/0   deny
+50    allports  0.0.0.0/0---deny----in this higest prority
+
+this least rule number having height prority
+not possible to give same rule number
+=================================================
+vpcendpoits
+vpcflowlogs
+=====================================================
+tasks:
+1) VPC1:SING:   10.0.0.0/24
+	1) SN1(PUBLIC)-------I1	
+	2) SN2(PRIVATE+NAT)--I2
+
+2) VPC2(MUMBAI): 192.168.0.0/24
+	SN3(PUBLIC):	I3
+	SN4(PRIVATE):	I4
+3) CREATE A VPC PEEING CON BETWEEN VPC1 & VPC2
+4) INSTALL APACHE2 IN I2 INSTANCE
+5) TRY TO ACESS I2 WEB PAGE FROM 1 AND I3 INSTANCESS
+WGET  PIVATEIP I2 INSTANCE 
+
+======================================
+efs
+
+
+
+
+
+
+--------------------------sucessful---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

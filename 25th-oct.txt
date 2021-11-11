@@ -1,0 +1,192 @@
+vpc:
+public subnet:
+private  subnet:
+======================================
+what is public subnet:public subnet machines are acessbile from outside 
+andpublic subnet machines are sendreq tooutside network machines
+
+how will implement public subnet in aws:public subnet associated routetable
+having with igw 
+it is identifiedthat is public subnet.
+
+in aws subnet allways associated with route table
+==================================================
+what is private subnet:private  subnet machines are not acessbile from outside 
+and private  subnet machines are not posible send req to utside network machines
+
+how will implement private subnet in aws:private subnet associated not having with
+igw
+it is identified that is private subnet.
+
+in aws subnet allways associated with route table
+======================================================================
+
+what is public instance: public instance statified 2 rules
+1) public instance need to be in public subnet
+and
+2) public instance need to have public ip
+
+public instance are acessble from outside
+======================================================
+what is private instance: private instance statified one rule 
+1) private instance need to be in private subnet
+or 
+2) private instance need to have private ip
+
+private instnce machines are acessble with  in network
+========================================================
+
+vpc1:
+ sn1(public)
+i1--10.0.0.45-------67.23.32.15
+i2--10.0.0.44-------
+
+sn1(public)
+i3--10.0.0.145-------67.23.32.151
+i4--10.0.0.146-------
+
+lapto(other n/w)------i1(posible)(o/n)---using public
+
+lapto------i2(notposible)---using public
+
+
+lap---i3(np)
+lap--i4(np)
+
+i1--i2(p)(using private ip)
+i1--i4(p)(using private ip)--with in vpc we can connect using private ip
+i3--i1(p)
+
+with in vpc servers connect posible using private ip
+
+
+with in vpc connect public ip posible but we can not use because req is rotate world and comes to vpc
+------------------===========================================================
+mumbai region
+------------
+1) create a vpc 10.0.0.0/24
+2) create subnets 
+    sn1(public)-------10.0.0.0/25
+    a) create igw
+    b) create rt
+     c) add igw to rt
+    d) map rt to sn1
+  
+ sn2(private)----10.0.0.128/25
+
+
+sn1-------i1  i2
+sn2-------i3
+
+
+laptop----i1
+laptop----i1(private ip)----->np
+laptop----i3(np)
+i1--i3(posible)--using i3 .pem present in i1 machine
+i3---google.com----(np)
+i1---google
+i2-google
+i4-google(np)
+===============================================================
+we are create custom ami that ami prompt passwd
+
+how to check user having passwd or not 
+go to /etc/shadow file not having(!)
+======================================================
+when ever we luanch instance using ubuntu ami or custom ami by default
+aws lock the passwd of ubuntu user.
+
+vim /etc/cloud/cloud.cfg
+
+chnage lock_passwd true to false
+
+we done in changes in 
+1) /etc/shadow
+2) /etc/cloud/cloud.cfg
+3)/etc/ssh/sshd_config
+
+from instance create ami and launch instancess procedd with key the instance prompt passwd
+=======================================================================
+natgatway(broker)----it is having eip--and it connect  to the igw
+
+i1(private ip)-send req to amazon----------natgatway----------------igw(p)----amazon
+i2(private ip)-send req to flipkart----------natgatway----------------igw(p)---flip
+i3-send req to google----------natgatway----------------igw(p)----google
+i4-send req to hsbc----------natgatway----------------igw(p)---------hsbc
+
+amazon ,flipkart,googl,hsbc---send req to again nat and nat send req to properly to instancess
+
+nat is one device this it allow req to private machine req to outside
+again that res send back to instancess
+nat is one device this it not allow out-side req to private machines 
+nat we can created in public subnet and attached to private subnet associated route table
+
+
+i1(10)--amazon----nat(92)-----amazon(92+amazonip)
+-----amzonip+nat----nat--------i1(10)/
+==========================================
+mumbai region
+------------
+1) create a vpc 10.0.0.0/24
+2) create subnets 
+    sn1(public)-------10.0.0.0/25
+    a) create igw
+    b) create rt
+     c) add igw to rt
+    d) map rt to sn1
+  
+ sn2(private+natgatway)----10.0.0.128/25
+
+
+sn1-------i1  i2
+sn2-------i3
+
+
+laptop----i1
+laptop----i1(private ip)----->np
+laptop----i3(np)
+i1--i3(posible)--using i3 .pem present in i1 machine
+i3---google.com----(p)
+i1---google
+i2-google
+i4-google(p)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

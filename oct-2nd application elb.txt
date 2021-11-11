@@ -1,0 +1,119 @@
+types of elb:
+1) clasic loadbalancing
+2) application load balancer
+3) network load balancer
+4) gateway loadbalancer
+
+here all load balancer functonality is same distubuted load b/w multiple servers
+what ever req taking the it forwarded to the instance that instance called target 
+===============================================
+i have application airtel.in
+in that 2 servicess are there 
+1) prepaid application
+2) postpaid application
+here lot of customers for prepaid application ------4 servers for prepaid
+here less number of for postpaid app---------2 servers for postapaid
+==================================================================
+4+2=6 servers this 6 servers are attached to the elb 
+
+
+here 600 req come from 400 for prepaid req anf 400 for postpaid req
+
+400-----prepaid
+200---postpaid req
+
+that 400 req land on prepaid servers
+200 req land on postpaid req server's
+====================
+1) we dont have a write option for condition in clasic load balancers
+=============================
+2) in application level possible to write condition on application load balancer
+
+condition 1: in path containng prepaid keyword send that req to prepaidtargetgroup
+condition 2: in path containng postpaid keyword send that req to postpaidtargetgroup
+
+that facility is there in application load balancer
+
+here prepaid servers connect with prepaidtarget-group{i1 i2 i3 i4}
+here postpaid servers connect with postpaidtarget-group{i5  i6}
+
+application load balancer i want to attached to the targetgroups---------------instancess
+clasic lb attached to directly ---instancess
+
+alb we can connecting to multiple group our resposiblity to tell to alb which req forwarded to which group.
+default---that path's not satisfying that req land on default thing
+
+in-realtime 10 to 15 groups are there.
+
+
+
+condition we can write in elb level
+
+========================================================================
+alb-------90---------grp1----80->i1 i2 i3 i4
+                     grp2----8080----i5 i6
+
+
+
+=============================================================
+grp------targetgroup
+at time of target creation i resposible to create
+1)application port
+2) health check information
+3) configure instancess
+
+at time of creation alb i responsible for configure
+
+1) default group(mandotry)
+2) elb port
+3) condition
+
+======================================
+WWW.AIRTEL.COM
+WWW.AIRTEL.COM/PREPAID/ABC
+WWW.AIRTEL.COM/PREPAID/BILL
+WWW.AIRTEL.COM/PREPOST/SHESHI--THIS FILR EXCUTING WHEN PREPOST PATH CONTAINING DEVLOPES DO THAT TASK
+==================================================
+
+1) luanch 3 ubuntu servers fro prepaid app
+
+#!/bin/bash
+apt update
+apt-get install apache2 -y
+cd /var/www/html
+mkdir prepaid && cd prepaid
+echo prepaid server > test.html
+
+2) luanch 3 ubuntu servers fro postpaid app
+
+#!/bin/bash
+apt update
+apt-get install apache2 -y
+cd /var/www/html
+mkdir postpaid && cd postpaid
+echo postpaid server > test.html
+
+
+3) create 2 tg groups
+a) postpaid group
+b) prepaid group
+
+4) create app elb attache prepaid grp default
+5) try to acess test.html page using aelb dns name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

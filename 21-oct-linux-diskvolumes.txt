@@ -1,0 +1,259 @@
+A Linux file system is a structured collection of files on a disk drive or a
+ partition. ... It stores 
+the data on hard disks (HDD) or some equivalent storage type.
+ There may be below reasons for maintaining the file system:
+ Primarily the computer saves data to the RAM storage; 
+it may lose the data if it gets turned off.
+
+==========================================
+hera disk is a one file in linux but that disk we need to tell which type of file to linux 
+so we using mkfs -type ext4 disk path. ---linux understand this is disk 
+then we want to mount that disk to dir of os files.
+
+1) create a volume and attached to i1
+2) that volume called editonla volume 
+3) that editonal volume is attached to os file dir
+we need 1) we have to tell that editonal volume to linux using cmd
+                 mkfs -t ext4 diskpath
+        2) we want to check that file systemappliying or not that disk using
+          blkid /dev/xvdf
+         3) mount /dev/xvdt /home/ubuntu/d1
+when we modify volume that file system not expand in in server  ---so we check df -h total gb created file system or not 
+then not showing we can resize that disk using cmd     resize 2fs /dev/xvdf 
+ 
+ now we store in d1 dir files stored in editonal volme
+ 4) now we want to see how much storage is used that disk's how much avalible
+using with   df -h
+lsblk lists information about all available or the specified block devices
+
+5) df -h(disk free human redable folemat)---- it will give information about disk usages how much used how much fess all those things
+
+6) Command	Option
+du -a	List all files and directories size
+du -h	Display in human readable format
+du -c	Display grand total in the output
+du -s	Display only total
+Command du stands for Disk Usage. It is used to 
+check the information of curent dir  usage of files and directories on a system.
+To verify the file system for each volume, use the df -hT command.
+
+The ext4 journaling file system or fourth extended filesystem is a journaling file system for Linux, 
+developed as the successor to ext3.
+Supported operating systems
+
+mkfs means make a file system: means drive you can make a file system
+file system stores multiple files 
+that file system we can attached to os dir
+so waht ever files we can store in that dir that files stored in thak diskor that file system.
+=========================================================
+we taken root volume os created that volume to file system 
+that file system attached to the / dir.
+resize2fs /dev/xvdf
+
+
+
+=======================================================================
+root volume attached (/) -this tasj done by os only
+editonal volume we can manually attached to that os dir.
+root-volume means ---os files are stored in that volume
+root volume stating from /
+===========================================================================
+we take editonal volume to connect to instancse
+but server dont know that harddisk for storing for files
+system only understand filesystem
+we want to convert to disk to file sytem
+1)to using ------mkfs -t ext4 /dev/xvdf
+server now understand that disk we can store files
+2) so we that filesytem attached to os dir
+using
+mount /dev/xvdf /home/ubuntu/d1
+when we store in d1 files that files stores in the editional volume
+3) lsblk ---it shows how many dires are there and what mount point it will show
+4) df -h---it will show disk usage human redable format 
+6) du --it will show in curent dir files how much ocupy storege info
+7) blkid ----it will show file system created or not on disk volume
+8) df -th--it will show disk usage and file system type
+9) when ever unmout that disk to os dir umount /dev/xvdf
+10) when ever we modify volume server does not know anout aditonal storage becase we can apply filesystem on aditonla volume
+so we want to resize the file sytem on that disk volume using
+resize2fs /dev/xvdf
+11) when ever we stop and start the instance that disk is identified by default but mount point doesnot identified
+so when we start that disk is free not attached any dir
+12) server start then it will understand of mountpoint we mention on /etc/fstab then it will understand that disk mounted to the 
+dir
+
+uuid=""  /dir     default   0,1
+===========================================================
+1)lsblk
+2)mkfs -t ext4 /dev/xvdf
+3)blkid /dev/xvdf
+4)mount /dev/xvdf /home/ubuntu/d1
+5)df -h
+6)df -Th
+7)du
+8)resize2fs /dev/xvdf
+9)/etc/fstab
+10)rootvolume,ebs volume
+
+=====================================================================
+20-oct-2021
+
+what is diff between ami/snapshot
+snapshot is the backup of server we not posible to attach the machine using snapshot
+ami is it containes os files it posible to luanch ec2-instance
+============================
+ec2---it is spcific to region
+1) ami
+2) storage
+3) system type
+4)instance purchase type
+on demend
+spot
+reserv
+5) ebs volume
+6)ami
+7)snapshot
+8)sg
+9) keypair
+10)userdata----boot strapting
+11) instance have ip adress: 
+  private ip
+  public ip is chargable teher are 2 types
+     a) tempory public ip
+      b) static ip adress
+
+12) instante state
+=================================
+instance allways have hard disk
+1)volums
+    a) root volume - in which device containes os files
+with out root volume we can not luanch server    
+b) ram/memory/harddisk-----ram is temp memory and memory ram both are same
+hd --persistantant storage
+================================
+ami
+instance type
+volume
+===========================
+sg --who wants to give acess to your machine
+sg act as a fire wall to your instance
+in sg we can mention   port   sourch
+ib
+ob
+===============================================
+what mean by network interface.
+multiple ip assign to server
+because ip assign to nic card
+we can put 2 or 3 cpu to server.
+============================================
+network interface card 
+
+==========================================
+
+tasks:
+1) create your own ssh keys
+2) upload the key
+3) create sg,allow below rules
+ib  22 --froyour machine
+    80---from all ips
+ob 
+   80,443 to all ips
+4) luanch ubuntu ec2-instance attach step3 sg & step 1 keypair
+5) login into that instance
+6) install apache2
+7) create a user sheshi
+8) reset userpasswd and note down
+9)create custom ami
+10) luanch ec2 new instance from step 9 ami
+custom ami means we can luanch server using 
+our ami(os)+root volume we can luanch server
+that root volume attached to the / one
+11) login into step 10 instance and check apache2 is installed or not
+12) give permision on step 10 ami to 950829519464 aws account
+=================================================
+13) luanch ec2 ubuntu useing userdata install linux
+14) check nginx is acessable from browser or not
+
+#!/bin/bash
+apt-get update 
+apt-get install nginx -y
+
+all userdata excuted by root user
+
+userdata---means bootstaping
+bootstaping--when ever server is luanching that user data is 
+excuting.
+
+=========================================================
+=========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

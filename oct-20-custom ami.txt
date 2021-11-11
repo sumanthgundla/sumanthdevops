@@ -1,0 +1,153 @@
+region: every regions containes multiple avavalabilty zones
+>=2
+avalabilityzone:
+avalability zone is called datacenter where your infrsture is avalabile
+infrsture menas 
+1) server
+2) hard-disk
+3) network related things
+======================================================
+ec2- is a region specfic not a global
+ec2-means server managemnt: 
+creating instance
+luanch instance
+login instance
+attach storage to instance
+tack a back of instance
+upgrade and down grade instances
+changing conf files
+installing and updating instancess
+delete instace 
+all are called the server management
+==================================================
+aws:
+     ec2:   
+          a) instance/vm/server
+           b) instance type: which con macine you want
+            c) instance purchase option
+                ---------> on demand
+               ------------> spot
+                ---> reserv
+            d) ebs volume
+                 e) bares metal: without os is called plane machine
+
+
+e) we want to installon bare metal we can use the ami
+this ami also specfic to region only 
+this ami are not allowd in another region code is diff image having unique id
+f) snapshotbacjup of storage
+
+what is diff b/w ami and snapshot:
+using of ami we can istall os in bare metal and we can luanch insrance
+using of snapshot not possible to luanch ec2.
+g) sg
+h) keypairs
+
+public key in aws private key we are having
+g) userdata:
+what is booting: loding os(installing the os) 
+we can write any script that script excute  after installing the os 
+that is called userdata
+we can give in userdata option.
+that script excute when ec2-iuanch
+h) ip's
+private ip
+public ip: temporary ip
+eip: static ip
+i) instante state
+=====================================
+your script write userdata field  that script excuting when ec2-instance luanch
+===============================================
+volumes
+a) root volume : means where your os is avavlible
+when we stop the instance and start how system knows which disk i want to luanch os 
+xvda
+all are editional volme
+ram/memory/hd
+ram: means temp memory
+hd: perment memory
+========================================
+our keypair give to instance 
+using of impoty key
+============================
+internally ip afress is attached to nic
+technically speke we can attache multiple ips to machine
+machine having 2 slotes ram we can create 2 ip's to that machine
+----------------------
+in nic card we can called network interface
+=============================
+tag: we can give multiple name 
+this server is having which app
+this server belongs to
+=========================================================
+
+tasks:
+1) create your own ssh keys
+2) create a sg, allow below rules
+   IB: 22 ----> FROM YOUR MACHIONE
+   IB : 80     FROM ALL IPS
+   OB :  80,443  TO ALL IPS
+3) LUANCH UBUNTU EC2-INSTANCE ATTACH STEP3 SG AND STEP1 KEY PAIR
+4) LOGIN INTO THAT INSTANCE
+5) INSTALL APACHE2
+6) CREATE USER "SHESHI"
+7) RESERT PASSWD AND NOTE DOWN
+8) CREATE CUSTOM AMI
+9) LUANCH EC2-INSTANCE FROM AMI
+10) LOGIN INTO STEP10 INSTANCE AND CHECK APACHE2 IS INSTALLED OR NOT
+12) GIVR PERMISIONS ON STEP10 AMI TO "45555"
+13) LOGIN INTO STEP4 MACHINE SHESHI USER FROM STEP10 INSTANCE UBUNTU USER
+
+==================================
+LUANCH EC2-INSTANCE UBUNTU INSTANCE, USING USSERDATA INSTALL NGINX
+CHECK NGINX INSTALL OR NOT
+#!/BIN/BASH
+apt-get update 
+apt-get install nginx -y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

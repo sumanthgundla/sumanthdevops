@@ -1,0 +1,356 @@
+our application we maintaine high avalabity
+we are not achivinging high-avalabity because of 4 things
+1) server-failure
+2) site-failure
+3) higg load
+4) soft-failure
+we can over-come this problem these 4things we use asg+elb
+
+asg+elb: we can achive high avalabity our application 
+
+
+=========================================================
+1)asg: for to achiveing high avalabity of our application
+2)asg: will do horizontal scalling
+horizontalscalling means: incresing or decresing the servers
+3)horizontal 2 types
+a) scale-out
+b) scale-in
+4)asg having 2 default feauters
+1) replace failure instancess:
+means ec2 not running condition terminate then reluanch
+2) rebalanching
+ event distubution of instancess into multiple avalabity-zones
+or
+equal distubution of instancess into multiple avalabity zones
+
+5) as is having 3-policies
+1) manual based auto-scalling
+2) shedule based auto scalling
+3) event  based auto-scalling
+======================================
+when we want to work with autoscalling group we can do 2 tasks
+1) luanch configuration
+2) autoscalling group
+===============================
+1) create luanch-configuration
+in luanch configuration we provide
+a) ami
+b) instancetype
+c) volumesize
+d) sg
+e) keypair
+f) tags
+===============================
+auto-scalling group:
+1) min
+2) desire
+3) max
+4) vpc
+5) subnets where server's want to create 
+6) policies means it depend on desire
+===========================================
+all-auto scalling group machines are automatically registred with load-balncer
+that means 
+what ever auto-scalling luanching server's that servers automatically attched to the elb
+=============================================
+elb server's not automatically registerd with asg
+we want to register with elb servers into asg we do maually
+============================================================
+in-real-time all machines are working with only one application only
+==============================================
+how to upgrade auto-scalling machines
+when we want to upgrade servers process
+stop instance------> upgrade----------------start
+auto-scalling group machines are when we stop then asg terminated that machines and relaunch machine in place of failuire machine
+
+when we want to upgrade auto-scalling machines we wnat to keep that servers in standbymode
+when standbymode apply in machines asg not doing health-checks on that machine
+standbymode: means asg not doing health-checks
+=================================================
+task1:
+i want to upgrade auto-scalling machines 
+instance1-----standbymode-----stop-------changeinstancetype------start------inservice
+ASG NOW DESIRE DECRESS WHEN SERVER IN STANDBY MODE SO ONLY IT DO HEALTHCHECKS DO ON DESIRE NO.OF INSTANCESS
+FROM INSERVICE TO STANDBYMODE----ASG NOT DOING HEALTH-CHECKS
+FROM STANDBYMODE-INSERIE ---ASG DOING HEALTH CHECK'S
+======================================================================
+NOW AUTOSCALLING GROUP MACHINE I CHANGE INSTANCE-TYPE T2.ICRO TO SMALL THEN THAT SERVER FAILURE
+NOW
+ASG IS THE AGAIN LUANCH T2.MICRO MACHINE ONLY NOW PROBLEM NOT FULLFILL HERE
+BUT I WANT T2.SMALL 
+
+SO
+SOLUTION:
+WHEN WE WANT T2.SMALL SO CREATE LC2--IN AMI+T2.SMALL---ATTACHED TO ASG
+NOW ONWARED LUANCHING SERVER'S FROM LC2 ONLY SO LC2 HAVE T2.SMALL---PROBLEM SOLVED
+=============================
+ create luanch-configuration -LC2
+in luanch configuration we provide
+a) ami
+b) instancetype--T2.SMALL
+c) volumesize
+d) sg
+e) keypair
+f) tags
+==================================================
+WHEN ASG GROUP LUANCH INSTANCESS THEN ONLY IT LOOK FOR LC OTHERWISE NOT REQUIRED  LC
+====================================
+WE USED IN REAL-TIME ALL SAME CONFIGURATION MACHINES ONLY
+================
+1)THERE ARE NO POSSIBLE ASG COONECT WITH 2 LC'S
+2) THERE AERE NOT POSSIBLE EDIT LC'S
+3) AG CONNECT WITH ONLY ONE LC ONLY
+4) WE CAN EDIT AG
+================================================
+STANDBYMODE WE CAN DONE EXSTING OR CURRENT THING THING
+LUANCHCONFIGURATION-2---FOR FUTURE THING
+======================================
+IN-REAL-TIME 2 YERS 3 YRS MACHINES ARE THER THAY WANT TO RESTART
+THEN
+WE KEEP INSTANCES IN STANDBY-MODE THEN ONLY RESTART
+
+=============================================================
+TASK3:
+HOW MANY MACHINES WE CAN KEEP STANDBY-MODE
+
+FORMULA
+
+DESIR-MIN
+DESIRE=5
+MIN=3
+MAX=7
+
+DESIRE-MIN
+5-3=2 WE CAN KEEP STAND-BYMODE 2 SERVER'S ONLY
+==========================================
+DESIRE MEANS : HOW MANY INSERVICE MACHINES
+AS: ENSURE THAT MAINTAINE DESIRE NOOF INSERVICE MACHINES
+======================================================
+WHAT IS REBALNCHIN ACTIVITY: MEANS EVENT DISTUBUTION OF INSERVICE MACHINE INTO MULTIPLE AVALABILITY-ZONES
+
+WHEN AS DONE REBALANCHING ACTIVITY
+ANS) WHEN IMBALCED THEN AS DOING REBALNCHING-ACTIVITY
+==========================================
+WHEN INSTANCE ADDING/REMOVING TO/FROM ASG DESIR WILL CAHNGE
+SAME AVALABITY ZONES SERVERS ONLY WE CAN ADDED TO ASG
+
+===========================
+WHEN REBALNCHING
+REGIONS FOR INBALANCING
+
+1) ADDING/REMOVING INSTANCESS TO/FROM  ASG
+XINSTANCE----> AP-SOUTH-1A
+ASG1->AP-SOUTH-1A,ASG1->AP-SOUTH-1B,
+MIN=1  DESIRE=3 MAX=3
+
+I1----AP-SOUTH-1A
+I2---AP-SOUTH-1B
+I3---AP-SOUTH-1B
+
+
+
+2) ADDING/REMOVING AZ'S TO/FROM ASG
+
+MIN=1   DESIR2E-3 MAX=5
+
+ASG1->AP-SOUTH-1A-1,
+     ->AP-SOUTH-1B-2,
+
+NOW I ADDING NOW AS IMBALNCES SO DOING BALANCHING 
+
+
+    ASG1->AP-SOUTH-1C-1
+        ->AP-SOUTH-1A-1,
+        ->AP-SOUTH-1B-1,
+
+
+3)PUTTING INSTANCESS IN STANDBYMODE
+MIN=1   DESIRE=2 MAX=5   INSTANCE=3
+
+IN ASG HAVING 3 INSTANCESS BUT 2 ARE IN-SERVICE
+ANOTHER SERVER IN STANDBY-MODE
+
+
+MIN=1 DESIRE=3 MAX=5
+
+
+ASG1->  ->AP-SOUTH-1A-I1
+        ->AP-SOUTH-1A-I2,
+        ->AP-SOUTH-1B-I3,------STANDBYMODE
+NOW DESIR=2  INSTANCES=3 
+NOW IMBALNCED THEN SG DOING BALANCED
+
+ASG1->  ->AP-SOUTH-1A-I1
+        ->AP-SOUTH-1A-I2--REMOVE,
+        ->AP-SOUTH-1B-I2--ADD
+
+SO WHEN WE ARE LOOKING INTO SERVER-STANDBY MODE ONCE THINK
+
+FINALYY DESIRE NO.OF INSERVICE-INSTANCESS REBLANCING TO ASG 
+
+4) NO-CAPACITY MACHINESS NOT THEIR IN REGION IN FUTURE AVALIBLE IT WILL REBLANCING 
+
+AZ1---3
+AZ2---3
+AZ--0-DONT HAVE T2.MICRO
+INFUTURE AVALABILE IT WILL DO REBALNCING
+AZ1---2
+AZ2---2
+AZ--2
+==============================
+1) CREAT PRIVATE HOSTED ZONE FOR ABC.COM
+2) ATTACH ELB TO ABC.COM
+====================================================
+TASKS:
+1) CREATE VPC SING----10.0.0.0/16
+2) CREATE 3 PUBLIC-SUBNETS
+A) SN1(PUBLIC)---10.0.0.0/24
+B)SN2(PUBLIC)---10.0.1.0/24
+C) SN1(PUBLIC)---10.0.2.0/24
+D)SN1(PRIVATE+NAT)---10.0.3.0/24
+E) SN1(PRIVATE+NAT)---10.0.4.0/24
+F)SN1(PRIVATE+NAT)---10.0.5.0/24
+3) CREATE SG FOR ELB ALLOW BELOW RULES
+-----IB=80
+------OB-ALL TRAFIC
+4) CREATE SG TO ATTACH ASG INSTANCE ALLOW BELOW RULES
+IB--80
+OB-ALLTRAFIC
+5) CREATE CLASIC ELB IN PUBLIC SUBNETS
+6) CREATE LC
+  AMI---UBUNTU
+ INSTANCE--T2.SMALL
+ SG--STEP-5
+KP--ANY
+VOLUME-8GB
+USERDATA 
+#!/bin/bash
+apt update
+apt-get install apache2 -y
+cd /var/www/html
+echo this is $(hostname) > index.html
+7) create asg 
+ min=1  desire=1 max=5
+8) change asg instance to t2.micro
+9) change desire to 3 instance
+10) check application is acessble or not using elb
+=========================================
+shudle(planned)
+
+every -day morning 7am i want a 5 machiness and how much time you want that 5 machines
+we can create 2 shudle-time 1) starting time 2) stoping time
+we can tell at 7am how many machines then againe we shudle at 10 am how machines desired machines
+
+WE CAN CREAT WHEN TO WHEN THIS IS MAINTE HOW MANY DESIRE NO.OF INSTANCESS
+
+WE GIVE SHUDELED--WE CAN TELL TO ASG FOR WE WHAT EVER WE SHUDELED TIME FROM STARTING TO ENDING YOU WILL MANITA CETINE OF TIME THAT DESIRE ONLY
+WE CAN SHUDLED DESIRE FOR SOME TIME THEN ASG MAINT THAT TIME DESIRE  
+
+WHEN LUANCH USING ATTACHED LC
+WHEN TERMINATE THE RANDOMLY FROM INSTANCESS AND REBLANCING
+=============================================================
+WHEN WE ACESS FROM BROWSER USING ELB DNS NAME
+
+END-USER NOT REMEBER THAT DNS NAME SO THAT DNS NAME WE CAN ATTACHED TO DOMAIN NAME
+==========================================
+ONE-MACHINE WANT'S TO ANOTHER MACHINE CONNECTING PURPOSE WE REQUIRED IP:PORT
+END-USER DOENT REMBER IP-ADRESS SO IP WE MAPPED TO DOMAINE
+DAILY WE CONNECT WITH FLIPKART MACHINES AMAZON MACHINES
+===============================
+WE ARE GIVING IPADRESS FOR NAME
+==================================
+SERVER IS THERE IP64.32.25.25
+
+IN THAT SERVER MY AMAZON APP IS RUNNING ON PORT 80
+
+WHEN END-USER GIVE REQ TO AMAZON THAT REQ COMES TO 64.32.25.25
+
+1) SO I WANT TO BUY DOMAIN NAME AND ATTACHED TO THAT IP ARESS
+DOMAIN-NAMES ARE UNIQUE
+2) THEN MAPPED DOMAIN NAME WITH IP-ADRESS
+
+FIRST HOW DOMAIN NAME CONVERT TO IP-ADRESS
+
+WHEN 
+CLIENT SEND A REQ TO ABC.COM--> THAT IS NEW DOMAINE FOR CLIENT HE IS ASKING TO ---LOCAL DNS SERVER----NOT-THERE--GO TO 
+--STATELEVELOR COUNTRYLEBEL DNS SERVER--NOT THEIR----GO TO TLD SERVER--nottheir ---goto---nameserver---ip found in nameserver
+
+
+ABC.COM---ARE DIFFERNET 
+ABC.IN--ARE DIFFERNET 
+SO ABC.COM  ARE KEEP IN .COM TLD SERVER(top level domain)
+SO ABC.IN  ARE KEEP IN .IN TLD SERVER
+
+nameserver--in nameserver we can found domani ip adress
+nameserver give final result it doesnot send req to other(authority dns)
+nameserver tells therir are not
+in nameserevr also not their userd got error
+
+we can take ip from server and taken domain name from godaddy 
+then we keep it into aws nameserver.
+then name server details i need to give a tld server
+
+abc.com
+client----local dns server------statelevel dns server---tld server(.com)--nameserver---ip
+this process is called dns quary
+
+domain name converted into ip adress that process is called dns quary
+
+this is not a aws concept this is for all
+============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

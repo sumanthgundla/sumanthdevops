@@ -1,0 +1,192 @@
+privte ip: machine in the part of network it will get private ip this ip again repatable in 
+another network
+==============================================================
+public ip: public ips are unique across the world these are charageble
+aws are all publoic ip are bought there are maintaine the ip pool 
+when ever luanch a machine that machine get public ips are from ip pool
+when ever stop that instance that ip relized that machine go to ip pool
+lot of user acess my application when ever stop and start instance public ip change
+how to avoid that problem we can go for dedicated ip
+dedicated ip adress and static ip adress we can call it as eip
+eip and public are both are public ip's only if we are attached to the eip to 
+instance when we stop and start the instance  ip is same
+eip are chargeble.
+in realtime eip purchase and assign to the instance
+======================================================
+AMI: IT CONTAINS OS BY USING AMI INSTALL OS ON THE ACHINE
+VOLUME: STORAGE
+VOLUME BACKUP CALLED AS SNAPSHOT
+VOLUME ATTACHED TO INSTANCE THAT INSTANCE AND VOLUME BOTH MUST BE SAME AVALABILITY ZONE
+WE TAKE A BACKUP OF VOLUME AT 8 THAT BACK HAVING UPTO 8 CLOCK DATA AFTER 8 CLOCK NOT HAVING INTHAT BACKUP
+SNAPSHOT: WE ARE NOT POSSIBLE TO ATTACHING TO THE INSTANCE
+WHY WE NEED BACKUP: IF ANY PROBLEM HAVING SERVER HARD-DISK IS CRUPTED SO THAT DATA VERY IMPORTANT TO ME 
+SO BACK UP IS REQUIRED
+
+============================================================
+snapshot not possible to attach ec2-instance but using of snapshot
+we are creating a multiple volumes.
+here snapshot we can copied from one region to another region
+=============================================================
+volume  posible to attach ec2-instance.
+but volume and server must be in smae avalability zone
+===============================================================
+what is file system:how our data stored in hard-disk.
+all data files stored in hard-disk. 
+lines stores or modify  our data in hard disk differnt way . windows stores our data in hard-disk diff way.
+the reason is every oerating system are using differnt file systems.
+
+================================================================
+linux used file system called ext4/ext3/xfs.
+windows used file system called nfs.
+=======================================================================
+linux want to read the data write data or modified data from hard-disk fastest-way in linux using one  software 
+that software is called file-system.
+=================================================================
+our hard-disk want to connect with linx os that hard-disk need to support file-system.
+it is not to support to file-system our volume we need to make that volume support to that file system
+===================================================================
+how to check how many volumes are attached to that server
+using cmd   of  lsblk
+and where all harddisk are showing path /dev/
+==========================================
+what is mounting: physical device(hard-disk) we are mapping to operating system dir 
+we can call it as mounting
+we can physical in that mapping os dir means we are in hard-disk only
+=======================================================================
+hard-disk want to attach to linux server that on that hard-disk supoort file system 
+not supported we need to maka a that hd to file-system
+using cmd              mkfs -t ext4 /dev/xvdf
+==============================================================
+that hd supported to that file system that is comparable to the linux system.
+then only we can attached to the linux os dir.
+==================================================================
+that hard disk supported file-systm or not how to check 
+blkid /dev/xvdf
+it will give id then we understood that harddisk is allow to mount to os dir
+========================================================================
+rootvolume------------------/
+ v1---------------/home/d1
+ v2---------------/home/d2
+  v3---------------/home/d3
+
+when we stop and start instance how operating system knows volumes are mounted to particular host dir 
+
+that identification purpose we need to add entry to the /etc/fstab
+thre is no-entry on /etc/fstab when server started linux dont know that disk where we mounted so linux donot mount 
+disk to dir.  only it will show hard-disk and not showing mounting point
+
+when server start and stop the instance os is not showing that mounted point why
+because we are not ading entry in /etc/fstab
+============================================================
+you want to attach volume to server both must be in same avalabilityzone
+========================================================================
+i want to attach a volume to linux server and stores data in that disk.
+1) create volume in same avalability-zone
+2) attach to linux server
+3) check lsblk it attached or not if it showing
+4) that disk make a filesystem using mkfs -t ext4 /dev/xvdf
+5) now check that disk is supported file system or not   using   blkid
+6) then mount to that disk to linux os dir    using   mount /dev/xvdf /data
+7) then how to store the data in hard-disk ---- go to mounted dir then create a files that files are stored in the that-hard-disk
+
+all diskvaolumes information in /dev/ dir
+============================================================================
+root volume who created file system --- linux only at time os instance start
+root volume create a partion and that portion mount to (/)-------linux done that activity at time of creation of instance
+===========================================================
+we take volume then create a partions now we can create a file system in partions only
+============================================
+how you identified that files are stored in which device
+
+i want to check mount-point using of cmd lsblk then i identifies
+============================================================
+when hard-disk mounted to host dir we can unmount the hard-disk to dir
+yes
+but root user will do using cmd   umount /dev/xvdf
+
+that hard-disk having files when we mounted to any host-dit then we can see
+all files are stored in hd only in our machine
+=================================================
+ls -l /dev/xvdf   that is block device that device information
+============================================================
+xvdf is there we can divided into 2 partsion.
+xvdf1--we can store oracle app things in xvd1
+xvdf2---we can store mysql appication things in xvdf2
+====================================================
+root volume is one partion only the is mandatory
+========================
+when we stop instance detach the root volume and attach again that name will be changed
+now start machine it will check xvda of attached volumes not their it is not started machine
+so we manually change volume name to /dev/xvda then server will start
+server not check entire hard-disk it check xvda then trying to luanch
+===========================
+ home work: when we stop and start the server that server need to attached os dir.
+when ever start the instance that volume mounting information check in fstab 
+that fstab path is /etc/fstab
+=============
+lsblk---it will give information about atached device and device size
+mkfs-----make a file of hard-disk
+blkid-----it will give that hard-disk comparbale to linux or not
+mount--this cmd used for mounting hard-disk to os dir
+umount---just like eject 
+df -h -- means disk usage it will give disksize and how much storage avalabile and how is free and monued info
+df -Th--type
+df --give inside disk how is avalable and how much complted(device related things)
+du -- it will give in curent dir which dir using how much usage(dir related tings)
+h--means human readable form
+==========================================
+not posible to decress the volume size
+==========================================
+there not a daily work of incress disk volume size
+if we can get 80% above we can modify volume
+=================================================================
+
+
+tasks:
+1) create a ubuntu ec2-instance
+2) create 8 gb volume and attach to ec2-instance
+3) mount step2 volume /data dir
+4) check disk usage
+5) incress the size the volume to 12 gb
+6) check the volume size
+7) incres the size of the root volume to 12 gb
+13) then incres file systm on root volume 
+14) resize the editional volume file system
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

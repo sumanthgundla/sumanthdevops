@@ -1,0 +1,17 @@
+tasks:
+1) create 3 tg
+ a) tg1---8080
+  b) tg2---80
+  c) tg3--80
+2) create aelb make tg3 is as a default
+3) configure below rules
+-----path "aws"----tg1
+-----path is devops -tg2
+4) launch  ec2-instance install apache2,tomcat(name it as i1)
+5) launch one more ec2 install  nginx,tomcat (name it as i2)
+6) attach i1 & i2 to tg1
+7) atta h i1 and i2  to tg2
+8) attach i2 to tg3
+
+
+elb send req to healthy instancess only

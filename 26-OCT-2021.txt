@@ -1,0 +1,100 @@
+vpc1:
+sn1(puBLIC):I1 I2
+SN2(PRIVATE+NAT)------I3   I4
+
+VPC2:
+SN3(PUBLIC)----I5
+SN4(PRIVATE)---------I6
+
+
+LAPTOP------I1
+LAPTOP----------I3(NP)
+I1--------GOOGLE.COM
+I3----------> FACEBOOK.COM
+I3------I6(NP)---------I6 IS IN PRIVATE SN(VPC2)
+I3---I5
+I5-----I4(NP)------I4 IS IN PRIVATR SN (VPC1)
+I3-----I6(NP)------I IS IN PRIVATR SN (VPC1)
+I1----I6(NP)------I6 IN PRIVATE SUBNET(VPC2)
+I1----I6(NP)------I6 IN PRIVATE SUBNET(VPC2)
+==================================================
+
+I NEED TO MAKE A POSSIBLE---------USING VPC PEERING 
+=====================================================
+VPC PEERING: VPC PEERING ESTABLISH BETWEEN 2 VPC'S
+
+VPC1-----------VPC2
+
+FOR ESTABLISH THE VPC PEERING FOLLOWING 1 RULE
+1) THE 2 VPC'S ARE  HAVING DIFF VPC CIDR
+2) CREATE VPC PEERING AND ADD THE VPC PEERING CONN IN ROUTE TABLE'S
+3) USING VPC PEERING THERE ARE COMINATE WITH USING PRIVATE IP'S
+======================================================================
+TASKS:
+
+SING REGION:
+
+VPC1: 10.0.0.0/24
+SN1(PUBLIC): I1   I2
+SN2(PRIVATE+NAT): I3  I4
+
+
+
+
+
+VPC2: 192.168.0.0/24
+SN3(PUBLIC): I5
+SN4(PRIVATE): I6
+==================================================
+LAPTOP===I1(USING I1 PUBLIC IP)
+I1---I3(I3 PRIVATE IP)
+I3---GOGLE.COM(USING GOOGLE PUBLIC IP)
+I3-----I5( USING I5 PUBLIC IP POSSIBLE)
+I5----I6(POSSIBLE USING I6 PRIAVTE IP)
+
+==============================================
+I1----I6(POSSIBLE)
+I3----I6(P)
+I5-----I3(P)
+I6---I3/I4(P)
+I6------I1(P)
+
+
+
+SN1(VPC1----10.0.0.0/25)-------SN4(VPC2-----192.168.0.0/25
+
+SN1RT1
+10.0.0.0/24   LOCAL                         SN4RT 
+0.0.0.0/0-------IGW                       192.168.0.0/24 LOCAL
+192.168.0.128/25     PCX                  10.0.0.0/25------PCX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

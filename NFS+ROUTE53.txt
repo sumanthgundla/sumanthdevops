@@ -1,0 +1,220 @@
+route-53
+
+diff between efs/ebs/s3
+======================================
+EFS: ELASTIC FILE SYSTEM JUST LIKE NFS
+
+NFS: WITH IN NETWORK WE HAVE 50 MAVHINES I WANT TO SHARE MY FILES TO THAT 50 MACHINES WITH IN NETWORK
+USING NFS
+
+STEPS FOR SHARING FOLDER TO ALL MACHINES OR PARTICULAR MACHINES
+STEP1:
+SERVER1----IN SERVER WE INSTALL NFS-SERVER SOFTWRE
+STEP2: IN SERVER1 WE HAVE CONFIG FILE OF NFS IN THAT FILE WE MENTION WHICH DIR I WANT TO SHARE WICH MACHINES
+
+SERVER1 MAINTAINE ADMIN IF SERVER1 FAILURE THAT DIR NOT SHARING TO ALL OTHERE MACHINES
+
+
+SO THAT SHARING PART FULLY MANAGED BY AWS ONLY NO NEED TO WORRY ABOUT THAT SHARED DIR THAT THING WE CAN CALL EFS
+
+
+WHAT IS EFS: ELASTIC FILE SYSTEM THIS ONE TYPE OF STORAGE IT IS FULLY MANAGED BY AWS ONLY THAT FILE SYSTEM WE CAN MOUNT AND USE
+IT'S JUST LIKE NFS BUT IN NFS NFS SEVER WE CREATE AND MOUNT THAT DIR TO ALL SERVERS BUT IF THAT SERVER FAILD THAT SHARED DIR GONE
+THAT'S Y AWS PROVIDING EFS.
+
+
+WE CAN CREATE EFS FOR STEPS
+1) 
+
+EFS ALSO INSIDE AWS SEVER ONLY
+WE CAN CREATE IN EFS WITHIN VPC AND SUBNETS
+
+==========================================================
+EFS I CREATED IN VPC1  SN1  SN2
+ IN VPC1 HAVING SN1 SN2 SN3
+
+I1 I2 I3 CREATED IN SN1 SN2 SN3
+
+I WANT TO MOUNT EFS TO SN1 AND SN2 SERVERS ONLY 
+I AM NOT ABLE TO CONNECT EFS TO SN3 MACHINES 
+BECAUSE THE EFS SCOPE IN SN1 SN2
+
+WHEN WE CREATE EFS IN 2 SUBNTES EFS HAVING 2 IP'S FOR SN1 FOR ONE IP SN2 FOR SECOND IP
+EFS HAVING IT'S OWN SG AND THAT EFS RUNNS ON 2049 
+
+============================================
+tasks:
+sing: 
+1) create efs in vpc11
+2) select sn1(az1),sn2(az2)  
+3) luanch ubuntu ec2-instance 
+4) login into ec2-instance
+5) install nfs-common software
+6) mount instance dir to efs
+
+efs creation and attach to server's 
+step1) create efs in vpc in subnets
+step2) create ubuntu machine in subnets same as efs
+step3) login and instance install nfs-common software
+step4) in efs server sg inbound-2049 open
+step5) in instance sg out-bound rule open 2049
+step6) go to efs ----attach from that take that code and excute in instance 
+
+before that create mount dir ---it sucess 
+
+efs is storage one filesystem we store and mount to any stsem we can use
+
+
+mount | grep efs
+which dir mounted to efs 
+
+======================================================
+route53:
+
+how domain name converting into ip  that process is called dns query
+
+
+first req from client goto ----localdns----state level dns------tld----ns----ip
+
+finally in nameserver ip will got of new domaine name
+
+i bought domain name from godaddy
+
+i want to host my-domain in aws 
+i taken server in aws in that server i install apache2 
+now i want to acess that apache2 app using public ip
+now that public ip and connect with my domain name
+
+http//90.98.78.67/
+http/smaranit/
+
+first we need to create name-servers
+so we create hosted zones 
+hosted zones is a part of route53
+toute53 is global service
+
+hostedzones will give nameservers
+
+upto now we have name servers and ip adress
+ns-1881.awsdns-43.co.uk.
+ns-1226.awsdns-25.org.
+ns-680.awsdns-21.net.
+ns-20.awsdns-02.com.
+
+that ip adress i want keep it into name-servers
+create record in that keep it ip that means ip we keep it into name-servers
+
+when client type samaranit.com---req comes to ---nameserver--ok
+but how req comes to this name servers
+
+that name servers details i want to put into tld server
+
+but aws not authority on tld(autority) servers 
+so 
+who will upload that name server into tld .com server's 
+ans: domaind maintainer 
+ex: godaddy
+
+this name server's detailes i want to give to godaddy
+why i am giving nameserver's  godaddy 
+i taken my domain from godaddy only
+
+this name server's detailes i want to give to godaddy 
+godaddy peoples will uploaded my name server's into tld .com server's
+
+in aws name-servers having  my ip adress
+
+how to give my name-servers into godaddy
+
+1) login with our credians
+2) go to our-domain page
+3) from we give all our name server
+now godaddy will upload my name-server's and my domain-detals  into tld servers
+   
+so client send req to ---dns low level(not-their)------statelebveldns(not-their)---tld(in tldhaving
+information of domain and nameserver's details not ip details)
+from tld------it will send to req to---name servers(here details having ip adress)----ip found
+--now send req to our application maintaine server's(it might be elb or servers it depends on what we configure)
+
+
+world-wide caches's will update it will take 24 hours
+
+here ip allready found from  loacl server it will output come fastly
+directl req goto dns. means req got o directly to that server
+
+when ever we are change nameserver's it take some time for output
+
+
+===================================================================
+myapplication want high avalabity so for i created asg+elb
+
+now in route53 modify the record in the record i modified ip to elb dns name
+
+when ever req come req got o elb elb having multiple servers 
+so every one give req to elb elb send req to health instancess
+
+
+in route53 hosted zone having multiple record's
+===========================================================================
+1) hosted zone means: hosted zone creation for our domain give acess to public or private and created nameservers
+
+2) record set creation: record creation means our ip adress keep it into aws name-servers
+
+3) aws - name server's we can give to domain manger's that domain managers 
+our domainname+nameserver's keep it into tdl dns server
+
+4) domain manger keep it into our name-server's in tld serve's means: who are giving req to our doaine 
+that tld server tell to that req go to that name server's that name server give appopriate ip
+
+
+once domain ip found next not going to name-server's
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

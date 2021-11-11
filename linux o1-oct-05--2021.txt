@@ -2631,14 +2631,6 @@ processer started by one user.
 who started processer that user only kill that process
 and root user will kill tha any user processer.
 kill -9 pid ---forcebully deleted .
-
-
-
-
-
-
-
-
 =================================================================================================
 
 

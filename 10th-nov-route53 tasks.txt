@@ -1,0 +1,25 @@
+sing:
+1) create vpc(enable dns hostname,dns resoultion)
+2) create public and private sn in each az
+3) public sn's is acess application which which inside private subnet with application lb
+4) create baston host in public sn
+5) creta ubuntu in pub sn
+6) login into step 5 instance install apache2 and create custom ami for that instance
+7) delete ubuntu instance
+8) create lc (use custom ami)
+9) create application elb
+10) create asg min=1 desi=2 max=3 attach alb
+11) create private hosted zone in step1 vap for abc.com
+12) attach app elb to route53
+hosted zone creation means:  hosted zone creation for our domain give acess to public or private and created nameservers
+
+recors creation means: our application ip keep it into name-servers
+we give our name server's tdl server's
+
+any one can came to tdl with domain name----tdl send req to name-server's --in that name-server's ---ip found
+
+
+client---abc.com----tdl(abc.com----nameserver's they configure)------send req to name-server's--in nameserver's ---ip will be there--found-req send to that ip---application acess
+
+domain name converting into ip adress that is process called domain query
+

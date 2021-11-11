@@ -1,0 +1,212 @@
+vpc
+instancs
+storge
+application: means our business promte to users
+bydefault app will acess friom browser
+=============================
+myapp wants to expose outside i want server and install os and 
+that server make a web-server
+======================================
+in realtime ip adress want's to mapped to the domine name
+====================================
+from laptop------80/443==============instance1
+================================================
+some thing happen my instance1 is failed
+some thing is happen site is failure
+some thing happen that one-instance high load 
+customers are complining so how to improve the applicaton or server performance
+so same type of servers i want to maintaine a multiple servers
+because of if possiblity to 1)site failure 2) highload 3) application failure 4) instance failure
+so we want to distubuted my server's into multiple avalabilityzones.
+===================================================================================
+
+from laptop------80/443==============instance1--this machine in az1
+                                     i2--az2
+				     i3---az3
+				     i4---az4
+in i1,i2,i3,i4----in all servers having maintaine same application
+i want to distubted load between the 4 machines how it possible
+========================================
+amazon.com--having one machine that have no problem req goes to directly one-machine 
+but that one machine failed our application business failed 
+1) server failed
+2) site failed
+3) app failed
+4) high load
+this 4 problem will come we maintaine oneserver for big application so we maintaine the multiple server's
+it is possible only one server ip connect to domain name but we have multiple servers 
+so we take for lb that lb dns connect with domaine name when ever user give req to dns that req come elb
+elb distubted the load between the multiple servers.
+ 
+==========================
+LOADBALANCER WORK : WHAT EVER REQ COMES TO ELB THAT IS SEND RO THE REQ TO EC2-INSTANCES .
+===========================================
+APPLICATION NOT AVALANBLE IN NOT IN ELB APP RUNS ON ELB 
+======================================================
+
+
+USERREQ-----------ELB--------------instance1--this machine in az1
+                                    i2--az2
+				    i3---az3
+				    i4---az4
+
+
+=============================================================
+
+AMAZON.COM----------------ROUTE53---------------------I1----THIS IS FLOW
+BUT WE HAVE MULTIPLE INSTANCESS
+
+WE CREATE ELB THAT ELB SENDING REQ TO ALL SERVERS
+
+
+AMAZON.COM----------------ROUTE53------ELB---------------instance1--this machine in az1
+                                                          i2--az2
+				                         i3---az3
+				                         i4---az4
+
+
+ELB WORK IS : DISTUBUTED THE LOAD MULTIPLE SERVERS
+==========================================================
+OUT-SIDE NETWORK PERSONS WANT'S TO COMNICATE WITH OUR NETWORK ELB THAT ELB CALLED NETWORK ELB,ELB FORWARD TO INSTANCESS
+============================================================
+1)INTERNET ELB: OUT-SIDE NETWORK PERSONS WANT'S TO COMNICATE WITH OUR NETWORK ELB THAT ELB CALLED NETWORK ELB,ELB FORWARD TO INSTANCESS
+
+2)INTERNEL ELB: INSIDE NETWORK SERVER'S COMNICATE WITH ELB THAT IS CALLED INTERNAL ELB
+==========================================================
+THERE ARE 4 TYPES ELB'S
+
+1) CLASIC ELB
+2) APPLICATION ELB
+3) NETWORK ELB
+4) GATEWAY ELB
+========================
+
+WHEN EVER WE CREATING ELB WE CAN MENTION
+1) THAT IS INTERNETELB,INTERNAL ELB
+2) IF IT IS INTERNAT ELB WE WANT TO CREATE THAT ELB IN PUBLIC SUBNETS IN WITH IN VPC
+3) IF IT IS PRIVATE ELB we can create private subnet in with in vpc
+4) internally is a elb is ec2-instance
+5) server have ip adress like that elb having ip adress but that not visible visible only dns name
+6) how many ip's it containes elb we selected 3 subnets it will get 3 ips 4 it will get 4 ip's
+ but not visible
+7) elb's are specific to one region elb is distubted the load one region server's only
+8)elb not distubuted the load between the mutilple regions servers
+where elb is created the vpc region only servers it will distubuted the load
+9) region means same vpc machine only we can attache
+================================================================
+1) i created 3 subnet's in 3 az's
+          sn1----az1
+          sn2----az2
+          sn3----az3
+but i am creeated elb in az1 only elb distubuted load to (az1 only)
+but i am creeated elb in az1,az2 only elb distubuted load to (az1,az2 only)
+
+but i am creeated elb in az1,az2,az3 only elb distubuted load to (az1,az2,az3 only)
+elb distubuted load's to where elb created that server's only it will send's req
+all subnet's in with in vpc
+===========================================================================
+if want to implement elb they are creating in every az 1-public subnet and 1-private subnet
+
+ region
+        sn1(public)----az1
+          sn2(public)----az2
+          sn3(public)----az3
+
+
+
+         sn1(private)----az1
+          sn2(private)----az2
+          sn3(private)----az3
+
+we are creating internet facing elb we created in public subnet's and instancess we creating in the private subnet
+private sunet we having our application
+==========================================================================
+
+on which port number send req user 
+(ip+port)
+that port number we can call as loadbalancer port(listing port of the elb)--elb---forward that req to instance port
+on which port number our app is running that port number we can call instance port elb send req to the that port number only
+===============================
+elb having it's own security group
+==================================
+we can attache sg saparate for elb and instancess
+===============================================
+my app runs on 8080 and users send req to 80 port 
+elb req taking on 80 port number then forwared to the 8080 port on ec2-instance
+==============================================================
+
+elb-sg   ib---80(open)---ob--8080
+i1-sg   ib-8080(open)-----ob(statefull not requred open ob rules
+===================================================================)
+elb req send's to instance when instance is health that means on port number service is ruunin stage 
+other wise elb not send's to the that ec2-instance
+elb-send req to healthy ec2-instancess
+
+================
+healthy ec2-instancess means
+1) app is need to running condition
+2) ec2 also be a running condition
+==================================
+how elb knows the our ec2-intance are heaty or not
+elb is contonuosly chicking health to the ec2-instance
+=============
+our app run;s on the private subnets
+======================
+our instances are avalabile in the multiple avalabilty zones of private subnets 
+elb distubuted loads to the instancess elb created in az's of public subnets
+
+==============================================
+sing
+1) create vpc-10.0.0.0/16
+
+2) create 3 public subnet's
+10.0.0.0/24
+10.0.1.0/24 
+10.0.2.0/24
+ 
+
+3) 3 private subnets
+
+10.0.3.0/24
+10.0.4.0/24
+10.0.5.0/24
+
+4) create nat and attach private subnets
+5) luanch ubuntu ec2-instance in each private subnet and install apache2 (using userdata)
+6) create sg for instance---allow below ib rules
+     ib---80
+7) remove existing sg from instance attach step 6 sg
+8)create sg from elb allow rules
+               ib----80
+9) create clasic elb in public subnets , attache step 8 sg
+10) attach all ec2-instances to elb
+  11) try to acess app using elb dns name
+
+12) create internal facing elb select sn4and sn5
+13) attache step5 instance to internal elb
+14) install tomcat sn1 & sn3(sn4& sn6) instance
+15) acess tomcat app from internalface elb
+
+=============================================
+userdata:
+#!/bin/bash
+sudo apt-get update 
+sudo apt install apache2 -y 
+echo this app serv > index.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

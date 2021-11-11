@@ -1,0 +1,144 @@
+nat
+peering
+igw
+=====================================
+NACL: EACH AND EVERY SUBNET ASSOCIATED WITH NACL
+IT IS ACT AS A WIREWALL TO SUBNET
+WHEN REQ COMES TO INSTANCE1 FIRST TAKES REQ NACL1 THEN SG1 THEN REQ GO TO INSTANCE1
+FROM I1 TO SEND RESPONCE TO OUT-SIDE THROUGH SG1----NACL1----OUT-SIDE
+
+
+LAPTOP--------NACL1------SG1-------I1--REQ
+I1----SG1-------NACL1-------------LAPTOP-----RESPONSE
+========================================================
+IN SECURITY GROUP ONLY ALLOW THE RULES NOT POSSIBLE TO DENY THE RULES
+IT IS NOT POSIBLE TO DENT THE RULES IN SECURITY GROUP
+===============================================================
+IN NACL ALLOW AND DENY THE RULES.
+============================================
+SECURITY GROUP STATEFULL WE CAN CALL
+NACL WE CAN CALL AS STATELESS
+=============================================
+I SEND A REQ TO SERVER 22 PORT NUMBER THEN SERVER SEND RESPONSE 
+NOT IN SAME NUMBER IT WILL SEND RESPONSE THE SERVER BETWEEN 1024-65535
+ONLY
+====================================================================
+LAPTOP GIVE REQ TO SERVER LISTING PORT
+AND SERVER SEND RES TO >1023 
+1024-65535 E CAN CALL IT AS EFRMAL PORTS
+
+An ephemeral port is a communications endpoint of a transport layer protocol of the 
+Internet Protocol Suite that is used for only a 
+short period of time for the duration of a communication session.
+============================================
+laptop------22----i1
+1) nacl1 ib 22
+2) sg1 ib 22
+3) req will be landed on i1 port 22
+4) i1 server will assign > 1023 ---6734
+5) nacl1 ob 6734
+
+we dont know exact response port
+========================================
+
+i1--80---i2
+1) sg1 ob 80
+2) sg2 --ib -80
+
+===============================
+i1----443----i3
+i1--ob---443
+nacl1----443----ob
+nacl2---ib---443
+sg2---ib ---443
+nacl2----ob---1024----65535
+nacl1--ib--1024---65535
+res land on i1
+===========================================
+sing region:
+
+vpc:10.0.0.0/24
+
+sn1(public)-----nacl1:  i1(sg1) i2(sg2)
+sn2(private+nat)------nacl2: i3(sg3)
+===========================================
+
+i1------80-----google.com
+
+sg1---ob--80-----nacl1----ob--80--google.com
+google.com----nacl1--ib---1024-65535----i1
+sucessful
+==============================================
+i1-----ping google.com
+
+i1--sg1---ob--allicmp4---nacl1--all icmp4----google(req)
+google.com----nacl1--ib--1024--65535-----i1(respose)
+        sucessful
+=========================================================
+
+myvpc:
+
+sn1(public)  nacl1    : i1(sg1) i2(sg2)
+sn2(private+nat) nacl2 : i3(sg3)
+
+
+laptop  (22)-----> i1
+laptop---nacl1-ib--22--sg1---ib--22--i1(req)
+i1---sg1--ob--statefull--nacl1---1024---65535---laptop(respons)
+
+==========================================================
+i1(22)-----i3(private+nat)
+
+i1---sg1---OB---22----NAT-----NACL1---OB--22----NACL2---IB--22--SG3---IB--22----I3(REQ LAND ON I3)
+I3---NACL2--OB--1024-65535----NACL1----IB--1024--65535--NAT------I1
+================================================================
+when we are go to with private key dont want to 400 permsion with in vpc
+==============================================
+
+i3----wget google.com
+
+i3--sg3--ob--80---nacl2--ob----80-----nacl1----ib--80----nat----nacl1---ob--80---google.com
+google.com-----nacl1--ib--1024-65535--nat---nacl1---ob-1024-65535----nacl2--ib--1024-65535--i3
+
+req   sending     req taking  both are diff
+laptop to i1
+
+
+i3----80 google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
