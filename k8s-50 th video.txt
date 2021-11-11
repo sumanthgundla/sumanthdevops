@@ -1,0 +1,1204 @@
+Daemon Sets
+Deployments
+Jobs
+Pods
+Replica Sets
+Replication Controllers
+Stateful Sets
+Services
+
+
+
+1) master
+2) 3 worker nodes
+
+
+====================================================
+each and every software 
+1) docker--runtime envornment
+2) kubelet---
+3) kubectl----The kubectl command line tool lets you control Kubernetes clusters. For configuration, kubectl looks for a file named config in the $HOME/.kube directory.
+ You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag
+using of kubectl softeare only we can connect with cluster.we allways work with kubectl only for info of our cluster
+4) kubdaem--for creating using this software and cmds cluster 
+=======================================
+we are using kubeadm cluster
+================================
+every pods having unique ip adress
+================================
+we want to create network
+
+using clacio.yml  creating network means pod assign the ip adress
+Calico provides network and network security solutions for containers.
+
+when we run that calico.yml from master tokern will come that token we excute ti the worker nodes
+then master with worker nodes establish the connection or network
+==============================================
+2 gb    2 cpus 
+=================================
+each and every machine want above 4 softwares so i am creating the instance and install 4 software 
+and i am creating the ami from ami i want to luanch the machines.
+====================================================
+1) swapoff -a
+2) sudo modprobe overlay
+3) sudo modprobe br_netfilter
+4) install container run time(DOCKER)
+https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+
+GO TO DOCKER.IO INSTALL DOCKER SOFTWARE for ubuntu
+5) configure the docker dameon , 
+
+ sudo mkdir /etc/docker
+
+ cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+
+sudo systemctl enable docker: enable means when ever stop and start the srver it will automatically
+start the docker softwre
+
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl status docker
+
+upto here container software install
+
+
+
+===============================================================================
+part--2
+install kubectl kubeadm kubelet
+
+kubeadm: why we install kubeadm using kubeadm we are creating k8s cluster
+kubectl: why we install for kubectl for intracting for k8s kubectl is the client softwsre
+kubelet : it is run on each and every machine because all info about that node given to shudelar 
+
+ref:https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+
+1) sudo apt-get update
+2)sudo apt-get install -y apt-transport-https ca-certificates curl
+3)sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+4) echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+check version
+sudo apt-cache policy kubelet | more
+
+sudo apt-get install -y kubelet=1.20.1-00 kubeadm=1.20.1-00 kubectl=1.20.1-00
+sudo apt-mark hold kubelet kubeadm kubectl docker
+
+
+7) systemctl status kubelet.service-----it is not active when network install 
+then only it activated
+8) systemctl status containerd.service
+9)systemctl enable kubelet.service
+ 10)systemctl enable containerd.service--it is active
+
+==================this is software are install to all server's------------------------------------
+==========================================
+third part
+create ami------
+=======================================================
+4th part
+
+1) kubedem --cluster k8s setup(only on master)
+
+
+
+1) luanch ec2-instance from custom ami
+2) login into the machine 
+3) create abc.yml and paste the below lines
+
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+
+
+
+4) create cluster  config file
+kubeadm config print init-defaults | tee ClusterConfiguration.yaml(root user)
+docker need to be running condition
+kubectl need to be installed
+5)advertiseAddress: 172.31.20.25
+6) kubernetesVersion: v1.20.1
+based on this clusterconfiguration.yml file we create a cluster
+7) run kubeadm cmd
+if run below cmd once update
+kubeadm init --config-clusterconfiguration.yml
+8) copy kubeadm join cmd from step7output notedown in notepad
+
+kubeadm join 172.31.27.52:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:5e0f56524409d23c63b1646d4a90f8a19508c5edd111d5d50e457f24acd7ce79
+=======here master complete================
+
+ 9) exit from root user run below cmd===ubuntu excute kubelet cmd's so exst from root user
+you want to working with kubelet user home dir want configfile
+
+mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+10) kubelet get nodes we have only one nodes that is also not ready state
+so we want to create network 
+systemctl status kubelet.service
+11) curl https://docs.projectcalico.org/manifests/calico.yaml -O
+download the calico.yaml from that site
+
+12) kubectl apply -f calico.yaml--this cmd kubeproxy implemented
+
+upto now master setup completed
+
+13) check using cmd
+kubectl get nodes
+
+====================================
+
+============================================================================================
+-------------------------------------worker node-setup
+
+1) launch ec2-instance from ami(do+kubadm+kublet+kubectl)
+2) login into worker nodes and excute kubedm joincmd from (((root)))
+kubeadm join 172.31.27.52:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:5e0f56524409d23c63b1646d4a90f8a19508c5edd111d5d50e457f24acd7ce79
+
+and check it kubectl get nodes -----in master  from ubuntu user because config file is in ubuntu home dir
+
+output---master+3 worker nodes ready state 
+kubectl get nodes
+NAME               STATUS     ROLES                  AGE     VERSION
+ip-172-31-20-25    Ready      control-plane,master   45m     v1.20.1
+ip-172-31-26-192   Ready      <none>                 102s    v1.20.1
+ip-172-31-27-8     NotReady   <none>                 1s      v1.20.1
+w1                 Ready      <none> 
+
+worker nodes also ready
+
+
+
+upto here master ready 3 worker nodes ready
+
+================================================
+
+all k8s starts with kubectl this is client softwwre
+
+cmd's:
+=======
+1) kubectl get nodes
+this cmd excuted by user only because in userhome dir having .kube dir 
+
+===================================================================================
+in master server
+
+1) api server
+2) etcd
+3) schudular
+4) controlles
+============================================================
+in workernode
+1) kubelet
+2) kubeproxy
+
+==========================================================
+in all server's must having
+1) kubedm
+2) kubelet
+3) kubectl
+4) docker(run-time)
+==============================
+when ever we are creating cluster namespace created
+namespacess means virtua-c;luster one namespaces not vicible to other namespace
+kubectl get namespacess
+NAME              STATUS   AGE
+default           Active   168m
+kube-node-lease   Active   168m
+kube-public       Active   168m
+kube-system       Active   168m
+
+by default all pods runs in default namaspacess
+
+===========================================================
+how to get pod
+kubectl get pods
+=======================================
+i want to run a pods in spccific namespace
+=============================================
+k8s keywords
+1) namespacess--create virtual cluster
+2)nodes---means how many machines master and worker nods
+3) pods----means runtime envornmet for container inside pod container avliable inside con app is running
+each and evry pod will have unique ip adress how assign kubeproxy
+4) deployment
+5) replicaset
+6) services
+=====================================================
+i am creating the pod 
+kubectl run xyz(podname) --image=nginx
+bydefault defult pod will created in namespace
+pod is running in physically in w1 node 
+
+1/1 means i am trying to create 1 con it running state
+1/4 ----i created 4 con in pod 1 is running stste
+when con having multiple con that multiple con running state only then pod will running state
+-===============================================
+i want to delete a pod
+kubectl delete pod podname(xyz)
+============================================
+kubectl get pods -o wide
+it will give info about pod which workernode created information come and machine ip pod ip adress a
+
+====================================
+pod are efermal when pod is die never it comeback so my app runs on the pod what about my app
+so again pod will create manuvally so in real-time we are not create pod manuvally
+=========================================================================
+deployment: depolyment work is create a pods 
+====================================================
+kubectl get deployements--it will give deployments objects in cluster from default namespaces
+===============================
+create a deployment 
+kubectl create deployment dep1 --image=nginx
+============================================= 
+
+what is diff between pod and deployement
+ iam deleteing pod called xyz tha is manuvally created by me not part of deployment
+now i am deleting pod byusing created deployment
+=======================================
+pod will be deleted some reason pod will be recreted by deployment
+customer will acess our app
+==================================
+kubectl get deployments
+dep1   1/1     1            1           8m20s   nginx        nginx    app=dep1
+        we are creating pod that is ready state deployment is created we identified using pod name
+========================================
+kubectl run xyz1 --image=nginx---this cmd also create pod and created inside nginx cone
+kubectl create deployment dep1 --image=nginx---it is also created a  pod and inside created nginx container
+but
+kubectl run xyz1 --image=nginx--created manually
+kubectl create deployment dep1 --image=nginx----created by depolyment only
+when manually created in future pod died againe automatically pod never created in place of died pod
+but
+when we are using creted pod using deployemnt when pod died it will new pod automatically creted by deployment in plce of died pod ip will change
+
+kubectl  create deployment dep2 --image=nginx123 --replicas=3
+k8s doidnot pull the image because of there dont have images:now image status pullbackup
+--replicas=3 means 3 pods created by repicaset deployment created repicaset
+====================================================
+when pod is created 3 thing important
+1-image pull
+2-image runn
+3-pod cre
+4-cont wii start
+====================================================
+kubectl describe pod podid
+================================
+kubectl ----------------apiserver(6443)---------------get the information 
+kubectl connect to apiserver so sg we ant to open ob 6443
+etcd
+shudelar
+controller
+======================================================
+when pod created by using deployment when pod deleted againe pod will created in the place of deleted pod 
+customer acess our app
+===========================================================
+pod will containe multiple containers
+===========================================================================
+when we crate pod 1sr req goto api server api server save that req in etcd then shudeular shudel where pod will create contoller will created pod
+=======================================
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  19m   default-scheduler  Successfully assigned default/dep1-555947d676-5pcx2 to ip-172-31-24-120
+shudeler shudel where i want to create the pod deside  
+  Normal  Pulling    19m   kubelet            Pulling image "nginx"
+then images pulled on desided node
+  Normal  Pulled     19m   kubelet            Successfully pulled image "nginx" in 312.17887ms
+
+pulled on desided node
+
+  Normal  Created    19m   kubelet            Created container nginx
+container created and pod also created
+
+
+  Normal  Started    19m   kubelet            Started container nginx
+
+start the container
+=================================
+depoyment will create repicaset repilcaset will create pod
+kubectl get repicasets
+
+kubectl scale --help
+kubectl scale deployment/dep1 --replicas=3 
+i scale up pod 3 total
+=====================================
+
+kubectl get deployments
+kubectl scale deployment/dep1 --replicas=2(scale down)
+
+===============================================================
+namespace: namespace is called virtual cluster
+pod: runtime env for container
+every pod have unique ip adress with in pod we have multiple containers
+3) kubectl get pods -o wide: we get pod ip and where pod created
+4) deployment
+5) nodes
+6) SERVICE
+====================================================
+cmd's
+
+
+1)kubectl get nodes
+2)kubectl get pods -o wide
+3)kubectl get namespacess(4)
+a)default
+b)kube-public
+c)kube-system
+d)kube-node-lease
+
+pods,deployment,repicaset,service is belongs to namespacess
+node not in name space , name space in node
+4) kubectl get pods
+5) kubectl get pods -o wide -n kube-system----get pods from kube-system
+6) kubectl get deployments
+7) kubectl get replicasts it come from default namespacess
+8) kubectl get replicasets -n kube-system
+9)kubectl run podname --image =nginx(image is mandotary)
+10)kubectl run podname --image =nginx -n sheshi(create pod in sheshi namespace)
+11) kubectl describe pod podname
+12) kubectl describe deployment deploymentname
+13) kubectl create deployment dep1 --image=nginx
+14) kubectl create deployment dep1 --image=nginx --replicas=3
+15) kubectl create deployment dep1 --image=nginx --replicas=3 -n sheshi
+16) kubectl scale deployment/dep1 --replicas=4
+17) kubectl delete pod mypod(it look in default name space)
+18) kubectl delete pod mypod -n kube-system(it look in  name space)
+================================================================
+running pod we will go 
+
+kubectl exec -it podname bash
+kubectl exec - podname ls  - i am excuting ls command inside pod
+=========================================
+
+instead of container we are go to the pod
+
+====================================================
+creating service object it act as a load balancer
+kubectl expose deployment/dep1 --port:8080(sercvice port) --target-port=80
+curl://http:service clusterip:8080---it will send the req to deployment connecting pods load balanching pod runs on diff nodes but internally
+that pods are attachinh to the deployment only
+==========================================================================
+we can go to pod means we are going to pod only
+===============================================
+
+we are sending to clusterip that cluster ip created by service only.
+=====================================================================
+service act as a load balancing to pods inside pod container
+
+===================================================================================================================================================================
+we can use short forms
+we can check in kubectl get-resourcess : you will get short forms
+1) name spacess: means virtual cluster dividing into cluster into multiple virtual-cluster
+4 name spcess will create by default
+1) default
+2) kube-system
+3) kube-node
+4) kube-public
+2) kubectl create pod1 --image=nginx(while creating pod image is mandatory)
+3) kubectl create deployment dep1 --image=nginx(image is mandatory)
+4)kubectl get nodes
+5) kubectl get namespacess
+============================================================================================================
+6) what is deployment: deployment ensure no of pods running condition it is easy to scale-up and scale-down 
+deployment creates repicaset . replicaset creates pods inside pod container in container our application running
+===================================
+7) what is service : to acess pod application we can use service. in pod application want's to acess we need to create serevice object
+we have 3 types of servicess:
+1) clusterip(virtual ip it will created )
+2) nodeport
+3) load balancer
+how to create service: using expose
+kubectl expose 
+===================================================================
+create pod
+kubectl run pod1 --image=nginx(image is mandatory)
+now we create pod then in pod our aoplication is running so we want to acess our application
+we want to create service objevt
+=========================
+kubectl get services
+
+kubectl expose -h | more
+
+kubectl expose pod pod1 --target-port=8080 --port=80(service object created)
+
+curl 10.103.75.65:901
+<html><body><h1>It works!</h1></body></html>
+ kubectl get services
+
+ kubectl expose pod pod3 --target-port=80(in pod application runs) --port=901(clusterip port)
+
+kubectl delete service pod1
+
+
+================================================================
+
+how to identified service endpoints
+
+kubectl describe service dep1
+
+kubectl describe service pod1
+
+how to check pods where created:kubectl get pods -o wide
+
+service type clusterip we can use within cluster only 
+we want to use clisterip outside doenot work it
+
+i want to acess our application out-side the cluster using nodeport
+
+pod ip unique entire cluster
+====================================
+kubectl create deployment dep1 --image=nginx
+
+dep1
+rs
+onepod
+for checking
+kubectl get deploy
+kubectl gtet replicaset
+kubectl get pods
+======================
+
+kubectl expose pod pod4 --target-port=80 --port=80 --type=NodePort
+
+sg--31157----w2--
+
+we can acess our application from out-side we want to create NodePort 
+
+using of node port we can acess our application in pod
+===================================
+service : we can using for acess our application from internal(cluster ip) from outside(nodeport)
+
+service1: type----clisterip: using cluster ip we can acess app in cluster
+service2: 
+
+
+ kubectl describe service pod5
+
+in cluster we can go and check tha service clusterip:port it will give the req to pod 
+becauser all are cluster and in cluster service cluster ip unique>
+==============================================================
+ip's in cluster
+1) server ip of master
+2) service clusterip
+3) pod ip
+therse 3 are unique
+========================
+nodeport: application acess from out-side
+
+when ever we send a req to masterip:nodeport--it will send a req to clusterip:port then-----------it go to pod in running application in container
+
+25.36.25.45:30616=======>clusterip(10.0.3.0:80)===========>podip(pod ip:80)
+
+====================
+why service: we want to acess our application to use service and service do load balancing activity
+req send to service service send req to multuple pods like a load balancer
+1) service do loadbalancer activity
+2) service used for our application acess using service object only
+===========================================
+in-realtime we cannot create pod indepntly because pod fmral means pod die any-time once pod is die that canot return back
+we are creating deployment deployment creates replicaset and replicaset create no.of pods
+
+service objevt runs on 80:30656 when ever give req to cluster:30656 that cluster send req to service based on port then service send do loadbalancing
+multiple pods based on we attached to that service pods
+
+service is the just like loadbalancer it is distubuted load to pods
+
+==============================================================================================
+when ever we creating pod using deployment it might be pod will be delete automatically 
+deployment will again create pod with nre ip automatically attached to service objevt
+==================================================
+ kubectl create deployment dep6 --image=nginx --replicas=3
+ kubectl expose deployment/dep6 --target-port=80  --port=80
+when ever we delete pod depolyment created again and automatically assign to service object then service object having 3 endpoins means 3 pods
+===================================================================
+interview question:
+1) in my cluster 1000 pods are there then how to identified that pods are of deployment and that pods are part of that service
+how we know that pod getting from spscific service
+
+how do you know this pod is part of which service
+
+1) we can identified pod using service
+2) how we can identified service using pod : using labels
+=================================
+labels:
+
+using of lables we can identofed api resourcess 
+resourcess means pod is api resource,deployment api resource,service is api resoure ,
+ namespace is api resource in cluster we can call as every objct api resourcess only
+
+internally we can use how to identifies api resourcess relation we can use the labels
+==========================================
+how to display labels:
+ kubectl get pods --show-labels
+ kubectl get deployments --show-labels
+
+pods having lable and deployment also same lable now k8s understand that pod is as part of my deployment 
+
+once pod is died how k8s understand that pod is belongs to that deployment because of label
+
+using of label k8s will understand that pod is as part of deployment
+
+now we trying to change name of that pod 
+
+deployment understand that pod is not my pod so deployment desire 3 so again deployment will create new one
+==========================================================
+
+kubectl get services --show-labels
+
+app=dep1 service having ---that app=dep1 having pod's lable that pod are of service end-points
+
+service having same lable and pod also having same lable now we will understod that pod's are service end-point 
+
+============================================================
+lable's are very important for debugging
+=================
+there is way to we can add the lable's for deployment services,pod and any api resources
+
+====================================================================
+add lables for pod
+
+kubectl label pod pod1 env=dep3   run=pod9
+
+kubectl label pod pod9 run=pod9  --overwrite -n testns
+
+
+kubectl label pod dep1-555947d676-5pcx2 app-    ---for ewmove labels
+
+kubectl label pod dep1-555947d676-7jhcd app=dep11 --overwrite
+
+when ever we are trying to change pod lables deployment will understand using lable this not my part of me 
+
+so it will luanch net pod
+
+===========================================================
+deployment ensure that desire no.of running condition
+how to deployment how to identified out of 100 this 4 are belongs to me based on lables
+===================================================
+
+service act as a loadbalncer activty for pods
+
+deloyments for act as autoscalling activity
+
+==========================================
+tasks:
+
+commands:
+
+1)kubectl get namespaces
+2) kubectl create namespace testns
+3)kubectl run pod1 --image=nginx -n testns
+4) kubectl get pods -n testns
+5) kubectl get services  -n testns
+6)kubectl expose pod pod1 --target-port=80 --port=8080 --type=ClusterIp -n testns
+7)  curl 10.99.166.212:8080
+8)  kubectl describe service pod1 -n testns
+9)  get pods --show-labels -n testns
+10)  kubectl get services --show-labels -n testns
+11) kubectl delete all --all --delete all namespacess at a time content in all 4 namespacess
+12) kubectl label pod pod2 -n testns run=pod1 --overwrite
+13) service will identified their pods based on labels
+=============================================================
+we want to cominaicate with k8s cluster using kubectl only
+we can luanch ubuntu kubctl machine indipently
+kubectl commnicate with k8s cluster we want that user home dir having k8s cofig file
+===========================================================================
+
+install kubectl
+
+1) curl -LO https://dl.k8s.io/release/v1.22.0/bin/linux/amd64/kubectl
+
+ curl -LO https://dl.k8s.io/release/v1.20.1-00/bin/linux/amd64/kubectl
+chmod +x kubectl
+
+kubectl version--output not come because system doenot know the that kubectl path it will look for /usr/bin we are manuvally add
+java phython tomcat kubectl we are manuvally add in path 
+
+cp kubectl /usr/bin
+
+kubectl version----now it will come
+we have to add kubctl in path /usr/lib
+echo $PATH----env variable
+ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+==============================================================================
+for copying file we have read permiosin sufficent
+
+ scp -i i1s1.pem ubuntu@172.31.27.52:/etc/kubernetes/admin.conf .
+copying from master to kubectl we have ubuntu having read permison on that file destion having write permsion.
+
+we want to go manuvally go to master change permsion on admin.config
+chmod +r  /etc/kubernetes/admin.conf
+===========================================================
+install  kubectl 
+
+
+1) sudo apt-get update
+2)sudo apt-get install -y apt-transport-https ca-certificates curl
+3)sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+4) echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+check version
+sudo apt-cache policy kubelet | more
+
+sudo apt-get install -y kubelet=1.20.1-00 kubeadm=1.20.1-00 kubectl=1.20.1-00
+
+kubect version
+
+using of kubect server we can connect with cluster api server we get all info about cluster based on config file in user home dir 
+
+config havinh k8s cluister related data means which server will connect and ask for info about api server 
+we can connect with only api server in cluster
+
+
+in-realtime we have multiple cluster but we want to connect with cluster we have that cluster config file in our home dir
+we we connect with from kubect machine to cluster using of cluster config file in home user dir
+
+=======================================================
+kubectl is client software using kubectl conncet with k8s cluster
+
+==========================================
+when we install kubcet runneble file that file path dontknow system 
+it will check path only
+
+so we manually add the runnbel file into path like /usr/local/bin or usr/lib etc.....
+
+but we install kubectl software it will automatically install or added into that path
+
+==========================================================================================
+
+tasks:
+
+1) login into k8s cluster
+2) display  list of namespaces
+kubectl get namespaces
+3) create namespace "testns"
+
+kubectl create namespace testns
+
+4) create pod in testns namespace use nginx image
+kubectl run pod1 --image=nginx -n testns
+
+5) display sterp4 pod labels
+
+kubectl get nodes
+kubectl get pods -n testns
+kubectl get pods -n testns -n testns --show-labels
+
+6) login step1 pod
+kubectl exec -it pod1 -n testns bash
+
+7) create cluster ip service to acess pod applicatio
+ kubectl expose pod pod1 --target-port=80 --port=8080 --type=CllusterIp -n testns
+8) check step 7 service labels
+
+kubectl get servicess 
+kubectl get services -n testns
+kubectl get service -n testns --show-labels
+
+10) chwvk step 7 service enpoints
+
+kubectl describe service pod1 -n testns
+
+11) create new pod use httpd image
+
+kubectl run pod2 --image=httpd -n testns
+
+12) add labe; (step4 service labels ) to step 11 pod
+
+kubectl lable pod pod2 -n testns run=pod1 --overwrite
+
+13) check service endpoints
+
+kubectl describe srvice pod -n testns
+
+14) try to acess pod application
+curl clusterip:80--it will send podip:80
+===============================================
+15) launch ec2 instance (t2.micro) in vpc
+16) login into thae instance
+
+17) install kubectl version "1.20.1-00"
+
+1) sudo apt-get update
+2)sudo apt-get install -y apt-transport-https ca-certificates curl
+3)sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+4) echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+check version
+sudo apt-cache policy kubelet | more
+
+sudo apt-get install -y kubelet=1.20.1-00 kubeadm=1.20.1-00 kubectl=1.20.1-00
+
+kubect version
+
+18) create ".kube" inside curent user home dir
+    mkdir .kube 
+
+19) copy "/etc/kubernetes/admin.conf" file from k8 master
+to step1 instance step 18 location 
+ scp -i .pem ubuntu@mstareip:/etc/kubernetes/admin.conf .
+
+but in master ubunt not having permsion to read permision so we can go manuvally master change persmions 
+
+
+chmod +r /etc/kubernetes/admin.conf 
+
+then run above cmd
+
+scp -i .pem ubuntu@mstareip:/etc/kubernetes/admin.conf .
+we are in /home/ubuntu/
+
+ubuntu having persmisons on .kube/config file 
+
+in config file hacvinh k8s apiserver information
+
+ubuntu working with excuting kubectl commands ubuntu home dir having .kube/config file   
+=======================================================================================
+
+we are working with kubectl software
+user excuting commands kubuctl cmd's kubectl will see cmd excuting user home dir   .kube dir inthat config file then k8s 
+connct with cluster
+that user dont having .kube/config file kubectl dontknow about k8s which cluster i want to connect to throes error
+=========================================================== 
+i am creating .kube dir in root home dir
+so
+congig file i kept that /root/.kube/config file
+noe root user excuting commnds then kubectl softewter see config file in user home dir .kube dir 
+
+
+root@ip-172-31-30-202:~/.kube# cp /home/ubuntu/.kube/config .
+-==================================================================================
+yaml 
+1) variable
+varibake having only one -value
+
+2) object
+object having multiple values
+
+3) list-object
+  in listobject we have multiple variable s
+ from variables we have multiple values that variabel we cal as a object
+ 
+
+
+4) variable object
+
+variable object means same type of values it is having
+==========================================================================================================================
+53:
+
+---
+apiversion:1.2.0
+
+---
+apiversion:1.2.30
+
+both are new yaml scriptes in same name
+================================================================
+yaml files we can call as a manifeast-files
+comds we can call 
+===================================================
+what ever we done manuvally in k8s like create pod deployment services all those we done manuvally upto now
+
+now we can write manifeast files
+
+we are depending on documentaions otherwise depends on kubectl explain command
+==============================================================
+namespace: means virtual cluster
+cluster divided into mutiple virtual cluster
+
+pod: run-time environevt for containers
+
+service: means pod application acess through service only 
+service send req to multiple pod's 
+clusterip---means we can acess our application with in cluster using with cip
+nodeport---means we can acess our application from outside using with nodeport
+when we create type=nodeport also it will service create cip but we acessing purpose
+give nodeport range=30000-32700 
+from outside(publicip+nodeport)-------clusterip+port---------podip+incontainers application running 
+load balancer
+
+service-end-points: pod
+
+deployment: it ensure that maintaine desire number of pods
+deployment create replicaset
+kubectl create deployment dep1 --image=nginx
+===============================================
+
+yaml starts from ---(this is optional)
+
+we can diffentiate 2 yaml codes in one file using ---
+
+when --- 2 are there they both are 2 yaml with one name
+
+what ever we done manuvally in k8s like create pod deployment services all those we done manuvally upto now
+
+now we can write manifeast files
+mainfieast files means k8s yaml files we can called
+k8s commands we can call as a imperative cmnd
+
+we are depending on documentaions otherwise depends on kubectl explain command
+
+in every k8s manifesat files we have 3 or 4 cmnd comman or mandatory we wrote
+
+alpha: k8s checking in alpha not sure perfect they will processing
+when alpha done then converted to beta 
+beta: now 99% code runs as acpted
+then that code converted to v1
+v1: 100% code runs as acepted this good for product
+===================================================================
+in yaml we have 3 to 4 models only
+
+1) variable--means variable containes 1 value
+key: value
+2)object=list object: that means one variable containes mulipue variables and values
+key:
+ key: value
+ key: value
+ key:
+  key: value
+
+3) variable object 
+
+key=[abc,bbc]
+
+key:
+- abc
+- bbc
+
+key=[
+{
+   {     "a":"b"
+
+          "c":"1"
+
+{     "a":"b"
+
+          "c":"1"
+           
+}
+}
+]
+
+key:
+-a: b
+ c: 1
+
+-a: b
+ c: 1
+
+
+key=[a=1,a=2,b=1,b=2]
+
+key:
+- a: 1
+     2  
+
+===================================================
+task1: using manifeast files i want to create po
+
+manual:
+kubectl run pod pod1 --image=nginx
+for pod creation we want 
+pod required container
+1) container
+2) image
+3) containername
+4) podname
+5) labels
+===================
+in any yaml in k8s these 4 are must
+
+apiVersion
+kind :means which type of api resource your are creating
+metadata: means we can give names or lables to api servicess
+spec: this is doing work
+
+========================================
+kubectl api-resources | more --this for check version for api resourcess
+
+apiVersion: v1
+kind: pod
+metadata:
+  name: pod1
+spec:
+  containers:  -----container object because pod will containe multiple object
+  - image: nginx
+    name: c1
+
+kubectl apply f .yaml  
+  ===============================
+task2: crwate deployment using yaml k8s
+
+kubectl create deployment dep1 --image=nginx
+
+apiVersion: apps/v1
+kind: deployment
+metadata:
+  name: dep1  
+spec:
+=============================================================================
+1) create a pod add two labels use nginx image
+kubectl explain pod  using this command create
+
+ a) env-dev
+ b) app-web 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2------------name is mandatory
+  labels:
+    env: dev
+    app: web
+spec:       ---------in spec must contain container
+  containers:
+  - image: nginx-------------mandotory image
+    name: c1
+===============================================
+labels--mapstring---so we can write anthing.
+
+==============================================
+task3: 
+1) create a namespace (testns)
+2) create a pod inside testns namespace
+
+
+kubectl create namespace napspacename
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testns
+
+kubectl create -f 3.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  namespace: testns
+spec:
+  containers:
+  - image:
+    name: c1-1
+========================================================================================
+  
+task3:
+1) create a namespace (testns)
+2) create a pod inside testns
+3) create cluster ip service to acess pod application
+
+kubectl expose pod pod1 --target-port=80 --port=8080
+
+apiVersion: v1
+kind:  Service
+metadata:
+  name: service1
+spec:
+  ports:
+  - port: 80
+    targetport: 8080
+
+
+
+when we want to attach service to pod pod must have labels
+that pod labels we give to service object
+when ever pod attached to service service having same lable of pod
+finally service object labels and pod labels must same
+-============================
+when we create pod 
+req:
+2) image(must)
+3) container-name(must) 
+4) labels(must)
+
+==============================================
+create service and connect to pod label:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ser1
+  namespace: testns
+  labels:
+    app: webapp
+    env: dev  
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: webapp
+    env: dev
+===================================
+task4
+1) create a deployment with 2 replicas
+kubectl create deployment dep1 --image=nginx --replicas=3
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  namespace: testns
+  lables:
+    app: webapp
+    env: dev
+spec:
+  containers:
+  - image:
+    name: c1-1
+
+apiVersion:  apps/v1 
+kind: Deployment
+metadata:
+  name: dep1
+  labels:
+    app: web
+    env: dev
+spec:
+  replicas: 2
+  selector:
+    app: webapp
+    env: dev
+   
+=============================================  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+2) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
