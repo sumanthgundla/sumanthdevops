@@ -1,0 +1,563 @@
+usig of terraform install in your machine for excute terraform script's
+terraform worked with all cloud's
+terraform --version
+cloud related plugin want to domload. for checking provider.tf 
+by default all .tf file's reads in that directory
+terraform want acces key,scerete key,cloud
+aws is dedicated to region only
+state.tf file. 
+state file in json 
+terraform stored what he did in tfstate filre
+terrafor init it will download plugins in .terraform 
+terraform.io
+each and every service in terraform.io having 2 section.
+====================
+if resouser is list we can use []
+if resource is map we can use---- {}
+single value =""
+==========================================
+terraform --version
+terraform init 
+if reserved word no need to give double quote's
+if not reserved word need give in double quote's
+in terraform.io section we have 2 section's resourse nd data source.
+if resource having list keyword we can give []
+if resource is map we can give {}
+if resource is key and value format e can give double guote's
+ami is reconized word for terraform.
+ami identified by ami id.
+terraform apply
+terraform destroy
+terraform plan
+terraform validate.
+machine will ceate in subnet
+resource attribute value i want
+
+==========================================
+section --01
+
+create vpc
+attache igw
+create 2public subnet + 2private subnet
+create a public route table+ private route table
+create a nat gateway attached to private subnet 
+nate gate way created in public subnet atached to private subnet route table
+create sg group's an aattched to pubsubnet server's and private subnet server's
+create a key pair attached to all ec2 instance's
+upload your public key into aws
+create ec2 in sn1 and attach sg and keypair.
+enable public ip auto assign ip in public subnet
+=========================
+first identify the resource name
+if vpc created 
+1.nacl created--it act as a security group for subnet it is a state less.
+2.security group--it act as a security for ec2 it is state full
+3.route tabel
+subnet attached  route table having igw that subnet we can call it as public subnet
+subnet having route table not having igw that subnet is private subnnet.
+ 
+=============================
+create vpc using tag's Name="vpc1"
+create subnet's also give Name="sn1-vpc1" like that 
+============================================
+i want to make sn1 & sn2 as a public.
+subnet associated route table having ineternet gateay that subnet is public subnet
+tag's for identification
+first identified the route
+ingress-inbound rule
+egress-outbound rule
+security group having in,out bound rule's
+security group act firewall to ec2instance.
+public allways with aws
+private key allways with us
+first identifiy the resource
+auto assign public ip we have to do subnet level
+map_public_ip_launch is bydefaulr false we have to make it as true.then what we are launchingserver's in that subnet assignpublic ip.
+load balancer's in public subnet's
+server in private subnet's
+we are attaching load balancer's with private subnet's server's
+on which port number send req user 
+(ip+port)
+elb port,instance port
+elb having own sg.
+we can attache sg saparate for elb and instancess
+elb req send's to instance when instance is health that means on port number service is ruunin stage
+elb send's req to health server's only.
+beside resource name is logical name for resource.
+│ Error: Error creating ELB: InvalidConfigurationRequest: ELB cannot be attached to multiple subnets in the same AZ.
+valu's are not hardcodess
+1 az 1 subnet
+server in one subnet
+for write in ec2 we can use file fuction,<<EOF 
+OYHER WISE WE CAN USE function methode.
+
+===============================================
+we can create using launch template with multiple
+we can't with launch configuration
+
+autoscalling group machine's are automatically registyerd with elb's
+elb i allreday attached to route 53
+autoscalling and sns both must be in same region
+
+=================================================
+sns i want to attach auto scalling group's
+in autoscalling activity we havw to create and attcahed to the our sns topic to them.
+when if launch instance,terminate, etc.. it ill give to us notification
+============================================
+pending
+
+vpc endpoint's
+rds
+s3
+secrete manager
+=================================================
+
+requirement must be clear 
+when ever instance launch in public subnet we have to eneble the that option
+dont do 100 lines code excution
+one by one you have to do
+any programing having some reserved word's
+reserved ord no need to put in double quote's
+unreserved word key word's [ut i it into doublequote's
+some values are constant 
+some values are dynamic
+dynamic values no need to put ith in double quote's
+e have to give vpcid hardcode means you can go to aws select and take it from console
+if list--[]
+if map---{}
+if list of objet's----{}
+route i created 2 type's plz check
+client------route5-------elb
+--------targetgroup------vpc---ig----nacl----sg----ec2---
+--ebserver----application path----my file
+=======================================================================================
+we have 4 type's varible
+list
+map
+object
+key
+
+we are declare in terraform variable 
+
+variable "v_sz"{
+	default=20
+}
+===========================
+count we can call as meta-varibale
+each and evry resource section it have a mate-parameter's
+each and evry resource section count having and that count value is 1
+count=1 by default so that resource will excute  1 time only 
+
+if count=2 that resource section will be excute 2time
+s
+by default not visible 
+
+if count=0 means that resource section not excuted
+leanth function
+
+/*
+
+count.index------>1--->2--->
+
+leanth fuction it will print length of the variable 
+array start with 0
+*/
+
+count ill e use in resource section only e are not use in output 
+
+=============================================
+if you have any value crete variable
+create varibale then place that variable into resource section 
+variable we can create in saparate file for clarity
+where where multiple you have to create we need to create variable use that thing
+we have to joinn the value's we can use join function
+join function argument 2 1 is string 2 nd is list s
+
+join("-",["vpc",[var.var_tags])
+join(separator, list)
+
+list1starugumrnt+saparator
+list2nd argument+saparator
+
+join("gundla",["sumanth","dinesh"])
+sumanthgundladinesh
+
+join(",",["sumanth","dinesh"])
+sumanth,dinesh
+
+in loist section you can give any number of string
+
+web-vpc
+
+variable "tags"{
+	default="live"
+
+}
+
+value=join(","[var.tags,"vpc"])
+
+
+================================================
+if you want to check anything resource in aws pick vpcid 
+then use that id you can found any resource releted to the that vpc
+static values put it into resource section
+dynamic values put it in it variable section.
+dont hard code the values
+if you want to use in future you can do
+=================================
+variable e can call variable var.variable name
+leangth fuction give a no of element from that varaible
+count default value is 1 
+join fuction add the inputes
+count.index means we can keep where it is that no is zero then itration done
+then go to 1
+
+count default value is 1
+========================================= 
+
+Dinnu91827-----hitachi passd
+
+==================================================
+variable's
+how to refer varaible=var.variblename
+length 
+count=1 how many values  we give that  much times it will excute
+count.index=0   default value zero if itaration will incress
+join
+there are lot f function avalable in the terraform 
+substring
+trace
+
+================================= 
+conditions
+
+condition always give result true/false
+
+comparision operator's
+>
+<
+<=
+>=
+== both are equal are not
+!=
+there all are comparison opreator's
+it ill do compare then give true/false
+we want to values per comparision
+
+how to write a condition
+
+synatx:
+condition ? value1 : value2
+condition ? shahsi : harsha
+a>b?"sheshi":"harsha"
+
+a=10
+b=40
+10>40:false so it ill print right hand side value
+
+if prod eip will create then attacheded to instance
+
+count=env=var.env?"0":"1"
+
+===========================
+what is your terraform architecture
+
+all variables we can put it into one file
+all resourcess e will put into another file
+
+=====================================================
+FROM tomcat
+WorkDir /app
+RUN apt-get update 
+RUN apt install net-tools
+RUN apt-get install git
+cmd [git --version]
+Expose 90
+MKDIR /usr/local/tomcat/webapps
+COPY ./index.html /usr/local/tomcat/webapps
+
+
+
+docker build -t imahe1:v1 .
+======================================
+variable aws:we can give which infrasture will automate
+resource:to creat a resource
+varibale" to create varibale we can give
+output; print the resource value
+========================
+count: how many times that resource sectiuon excute
+count.index: default=0
+lenagth: to know length of give no of element in that list resource
+file:read the data from file
+element:which index value you want index starts from 0.
+join : join 2 thing's
+===========================================
+how to do multiregion provisioning:
+provisioning means : we can creating the resource
+infrasture privisionfg
+i want to crrte mutile region i want to create multiple regions
+load balancer only send req to one region server's only.
+cat *.tf
+terraform validate ----it will check synatax
+terraform plan : it will shown only which thng are creating
+====================
+we are giving avalabilyity zone us-east-1a
+erraform what we mention in provider.tf then go to the mumbai 
+then check the avalabiltiy zone
+=========================================
+inbuilt meta parameter 
+parameter name is provider
+we can give synta x
+provider="aws.sing"
+e can define multiple provider's in other provider we can metion alias name
+then we can metion in resource section meta parameter provider 
+in resource section we need to metion in resource section 
+it applicable for all resourcess
+==========================
+in provider .tf file e are do the hardcode code
+======================
+provisioners 4 to 5 provisioners are there
+a) connect
+b) file
+c) remote-exec
+d) local-exec
+
+what is the functinality of the provisioner's
+the main functnality is provisioner's will excute at the time of resource creation 
+not modified time of resource
+
+connect provisioning: when resource created then i want to connect the resource using of connect provision
+file provisiong: file we can copy to aws ec2 instance from terraform machine using file provising 
+remote-exec provisiong: when resource created then it will go to aws ec2 instance 
+it will excute scrpts
+it will excute some commnad terraform will excute aws ec2 instance
+
+local-exec: it will scripts excute in terraform machine
+=======================================================================
+
+how terraform knows this is windows server or linux server terraform dont know any thinfg
+it linux machine it will use ssh coonection
+it windows machine it will ise the rdt connection
+
+if linux: username,passwd,username,ssh port.
+how terraform knows which user want to excute scrpts : we have to give 
+if linux : wiyh passwdord,it is with private key 
+if any provising i can use connect provising foe connection
+terraform will connect to ec2 instance ec2 security group ib rule open terraform ip
+or open all traffic port is 22 port
+==============================================
+i wanto to crearte instance then i want to copy file from local machine to aws instance
+provisioner section will excute at the time of resource creation
+if modified that resource proviing not create
+
+
+provisioner section will excute one time
+==============
+i want to excute command in the aws from terraform machine 
+you can use inline
+in i th tken input list
+inline=["cat f1",cat f2]....
+inline also excute only one time at the time of resource creation
+this is called remoe excution
+syntax ss taken
+====================================================
+null_resource: it will excute purpose we have some plugin's also 
+so we can add in .tf script then run terraform init 
+when ever terraform apply null_resource section first destory then create again
+so we can metion in that resource provisioners
+
+nullresoursesimply we can use for the provisioners
+if any chages done in nll resource it will destroy thencreate again
+when ever tf script will excute file will be excute
+we are using provisioner's in resource section
+while resource is ecuted provising will excute
+================
+if any dependency is there 1st ill excute that thing then excute depency thing
+if no dependency it resorcess will excute parelly
+==========================================
+if any dependdent is there we can use dependent_on
+i want to create volume then i ant to attache to instance
+if volume not created then instance also not created
+depends_on=[aws_instance.i1,aws_vpc.vpc01]----it is list 
+when that input will create then only this resource will create 
+by default terraform will create resourcessparrell
+============================================
+localsection in terraform
+dynamic section in terraform
+data source : data source will reads the resource infomaration
+resource: in aws any thing is resource
+==================================
+all data source's will start with "data"
+
+==============================================
+TERRAFORM WANT'S TO READ ALL VARIABLE DATA FROM FILE
+THAT FILE IS .TFVARS
+TERRAFORM -HELP
+terraform apply -help
+terraform apply -vat-file=test1.tfvars -auto-approve
+you want to excute particular section in .tf file 
+terraform apply -target=aws_vpc.vpc1
+terraform destory -target=aws_vpc.vpc1
+==================================================
+each subnet create public subnet,private subnet
+check local
+dynamic
+check local-exec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
